@@ -15,7 +15,7 @@ Add software specs and Software Application microdata to your downloads when usi
 
 This is an extension for [Easy Digital Downloads](http://wordpress.org/extend/plugins/easy-digital-downloads/) that automatically does several things: 
 
-1. It adds a Specs table below your single download content. The Specs table displays these: 
+*It adds a Specs table below your single download content. The Specs table displays these:*
 
 - Release date
 - Last updated date
@@ -28,13 +28,13 @@ This is an extension for [Easy Digital Downloads](http://wordpress.org/extend/pl
 - Currency code
 
 
-2. It replaces EDD's default microdata itemptype `Product` with `SoftwareApplication`.
+* It replaces EDD's default microdata itemptype `Product` with `SoftwareApplication`. *
 
-3. It moves the microdata itemtype declaration up to the body element so as to nest the `name` property within the itemscope.
+* It moves the microdata itemtype declaration up to the body element so as to nest the `name` property within the itemscope. *
 
-4. It adds `offers`, `price`, and `currency` microdata in order to generate Google rich snippets for Software Applications.
+* It adds `offers`, `price`, and `currency` microdata in order to generate Google rich snippets for Software Applications. *
 
-5. In addition, it adds these microdata properties of `SoftwareApplication`:
+* In addition, it adds these microdata properties of `SoftwareApplication`:*
 
 * `description`
 * `softwareapplicationcategory`
@@ -46,9 +46,11 @@ This is an extension for [Easy Digital Downloads](http://wordpress.org/extend/pl
 * `filesize`
 * `requirements`
 
-6. If you DON'T have [EDD Versions plugin](http://wordpress.org/extend/plugins/edd-versions/) plugin active, then EDD Software Specs will add a "Current Version" column in the table that is outputted by the `download_history` shortcode.
 
 = Compatible with EDD Versions plugin  =
+
+If you DON'T have [EDD Versions plugin](http://wordpress.org/extend/plugins/edd-versions/) plugin active, then EDD Software Specs will add a "Current Version" column in the table that is outputted by EDD's `download_history` shortcode.
+
 If you do have EDD Versions active, the version meta field from that plugin will take precedence. Nothing extra is added to the `download_history` table.
 
 For more info, go to [Easy Digital Downloads - Software Specs](http://isabelcastillo.com/easy-digital-downloads-software-specs/)
@@ -78,7 +80,7 @@ For more info, go to [Easy Digital Downloads - Software Specs](http://isabelcast
 
 = Why am I not getting rich snippets in Google's Structured Data Testing Tool? =
 
-You have to select a Software Application Type for the download. "OtherApplication" doesn't qualify for rich snippets, unless, outside of this plugin, you've added either "aggregateRating" or "operatingSystems" for the particular download. Go to the download's Specs Metabox to select the Software Application Type.
+You have to select a Software Application Type for the download. "OtherApplication" doesn't qualify for rich snippets, unless, outside of this plugin, you've added either "aggregateRating" or "operatingSystems" for the particular download. Go to the download's Specs meta box to select the Software Application Type.
 == Screenshots ==
 
 1. Front-end: Specs table as shown on single download page
