@@ -15,36 +15,36 @@ Add software specs and Software Application microdata to your downloads when usi
 
 This is an extension for [Easy Digital Downloads](http://wordpress.org/extend/plugins/easy-digital-downloads/) that automatically does several things: 
 
-*It adds a Specs table below your single download content. The Specs table displays these:*
+It adds a Specs table below your single download content. The Specs table displays these:
 
-- Release date
-- Last updated date
-- Current version
-- Software application type
-- File format
-- File size
-- Requirements
-- Price
-- Currency code
+	- Release date
+	- Last updated date
+	- Current version
+	- Software application type
+	- File format
+	- File size
+	- Requirements
+	- Price
+	- Currency code
 
 
-* It replaces EDD's default microdata itemptype `Product` with `SoftwareApplication`. *
+It replaces EDD's default microdata itemptype `Product` with `SoftwareApplication`.
 
-* It moves the microdata itemtype declaration up to the body element so as to nest the `name` property within the itemscope. *
+It moves the microdata itemtype declaration up to the body element so as to nest the `name` property within the itemscope. *
 
-* It adds `offers`, `price`, and `currency` microdata in order to generate Google rich snippets for Software Applications. *
+It adds `offers`, `price`, and `currency` microdata in order to generate Google rich snippets for Software Applications.
 
-* In addition, it adds these microdata properties of `SoftwareApplication`:*
+In addition, it adds these microdata properties of `SoftwareApplication`:
 
-* `description`
-* `softwareapplicationcategory`
-* `datepublished`
-* `datemodified`
-* `softwareversion`
-* `applicationcategory`
-* `fileformat`
-* `filesize`
-* `requirements`
+	* `description`
+	* `softwareapplicationcategory`
+	* `datepublished`
+	* `datemodified`
+	* `softwareversion`
+	* `applicationcategory`
+	* `fileformat`
+	* `filesize`
+	* `requirements`
 
 
 = Compatible with EDD Versions plugin  =
