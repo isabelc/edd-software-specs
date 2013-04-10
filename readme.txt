@@ -36,15 +36,15 @@ It adds `offers`, `price`, and `currency` microdata in order to generate Google 
 
 In addition, it adds these microdata properties of `SoftwareApplication`:
 
-	* `description`
-	* `softwareapplicationcategory`
-	* `datepublished`
-	* `datemodified`
-	* `softwareversion`
-	* `applicationcategory`
-	* `fileformat`
-	* `filesize`
-	* `requirements`
+	- description
+	- softwareapplicationcategory
+	- datepublished
+	- datemodified
+	- softwareversion
+	- applicationcategory
+	- fileformat
+	- filesize
+	- requirements
 
 
 = Compatible with EDD Versions plugin  =
