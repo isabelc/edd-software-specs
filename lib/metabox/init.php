@@ -32,10 +32,10 @@ Version: 		0.9
 		You should not edit the code below or things might explode!
 *************************************************************************/
 
-$meta_boxes = array();
-$meta_boxes = apply_filters ( 'cmb_meta_boxes' , $meta_boxes );
-foreach ( $meta_boxes as $meta_box ) {
-	$my_box = new cmb_Meta_Box( $meta_box );
+$ic_meta_boxes = array();
+$ic_meta_boxes = apply_filters ( 'isa_meta_boxes' , $ic_meta_boxes );
+foreach ( $ic_meta_boxes as $ic_meta_box ) {
+	$my_box = new isabelc_Meta_Box( $ic_meta_box );
 }
 
 /**
@@ -43,7 +43,7 @@ foreach ( $meta_boxes as $meta_box ) {
  * Define ALL validation methods inside this class and use the names of these 
  * methods in the definition of meta boxes (key 'validate_func' of each field)
  */
-class cmb_Meta_Box_Validate {
+class isabelc_Meta_Box_Validate {
 	function check_text( $text ) {
 		if ($text != 'hello') {
 			return false;
@@ -57,21 +57,21 @@ class cmb_Meta_Box_Validate {
  * This may need to be filtered for local Window installations.
  * If resources do not load, please check the wiki for details.
  */
-define( 'CMB_META_BOX_URL', apply_filters( 'cmb_meta_box_url', trailingslashit( str_replace( WP_CONTENT_DIR, WP_CONTENT_URL, dirname( __FILE__ ) ) ) ) );
+define( 'ISAC_META_BOX_URL', apply_filters( 'isac_meta_box_url', trailingslashit( str_replace( WP_CONTENT_DIR, WP_CONTENT_URL, dirname( __FILE__ ) ) ) ) );
 
 /**
  * Create meta boxes
  */
-class cmb_Meta_Box {
+class isabelc_Meta_Box {
 	protected $_meta_box;
 
-	function __construct( $meta_box ) {
+	function __construct( $ic_meta_box ) {
 		if ( !is_admin() ) return;
 
-		$this->_meta_box = $meta_box;
+		$this->_meta_box = $ic_meta_box;
 
 		$upload = false;
-		foreach ( $meta_box['fields'] as $field ) {
+		foreach ( $ic_meta_box['fields'] as $field ) {
 			if ( $field['type'] == 'file' || $field['type'] == 'file_list' ) {
 				$upload = true;
 				break;
@@ -86,8 +86,8 @@ class cmb_Meta_Box {
 		add_action( 'admin_menu', array( &$this, 'add' ) );
 		add_action( 'save_post', array( &$this, 'save' ) );
 
-		add_filter( 'cmb_show_on', array( &$this, 'add_for_id' ), 10, 2 );
-		add_filter( 'cmb_show_on', array( &$this, 'add_for_page_template' ), 10, 2 );
+		add_filter( 'isamb_show_on', array( &$this, 'add_for_id' ), 10, 2 );
+		add_filter( 'isamb_show_on', array( &$this, 'add_for_page_template' ), 10, 2 );
 	}
 
 	function add_post_enctype() {
@@ -107,20 +107,20 @@ class cmb_Meta_Box {
 		$this->_meta_box['show_on'] = empty( $this->_meta_box['show_on'] ) ? array('key' => false, 'value' => false) : $this->_meta_box['show_on'];
 		
 		foreach ( $this->_meta_box['pages'] as $page ) {
-			if( apply_filters( 'cmb_show_on', true, $this->_meta_box ) )
+			if( apply_filters( 'isamb_show_on', true, $this->_meta_box ) )
 				add_meta_box( $this->_meta_box['id'], $this->_meta_box['title'], array(&$this, 'show'), $page, $this->_meta_box['context'], $this->_meta_box['priority']) ;
 		}
 	}
 	
 	/**
 	 * Show On Filters
-	 * Use the 'cmb_show_on' filter to further refine the conditions under which a metabox is displayed.
+	 * Use the 'isamb_show_on' filter to further refine the conditions under which a metabox is displayed.
 	 * Below you can limit it by ID and page template
 	 */
 	 
 	// Add for ID 
-	function add_for_id( $display, $meta_box ) {
-		if ( 'id' !== $meta_box['show_on']['key'] )
+	function add_for_id( $display, $ic_meta_box ) {
+		if ( 'id' !== $ic_meta_box['show_on']['key'] )
 			return $display;
 
 		// If we're showing it based on ID, get the current ID					
@@ -130,19 +130,19 @@ class cmb_Meta_Box {
 			return false;
 		
 		// If value isn't an array, turn it into one	
-		$meta_box['show_on']['value'] = !is_array( $meta_box['show_on']['value'] ) ? array( $meta_box['show_on']['value'] ) : $meta_box['show_on']['value'];
+		$ic_meta_box['show_on']['value'] = !is_array( $ic_meta_box['show_on']['value'] ) ? array( $ic_meta_box['show_on']['value'] ) : $ic_meta_box['show_on']['value'];
 		
 		// If current page id is in the included array, display the metabox
 
-		if ( in_array( $post_id, $meta_box['show_on']['value'] ) )
+		if ( in_array( $post_id, $ic_meta_box['show_on']['value'] ) )
 			return true;
 		else
 			return false;
 	}
 	
 	// Add for Page Template
-	function add_for_page_template( $display, $meta_box ) {
-		if( 'page-template' !== $meta_box['show_on']['key'] )
+	function add_for_page_template( $display, $ic_meta_box ) {
+		if( 'page-template' !== $ic_meta_box['show_on']['key'] )
 			return $display;
 			
 		// Get the current ID
@@ -154,10 +154,10 @@ class cmb_Meta_Box {
 		$current_template = get_post_meta( $post_id, '_wp_page_template', true );
 		
 		// If value isn't an array, turn it into one	
-		$meta_box['show_on']['value'] = !is_array( $meta_box['show_on']['value'] ) ? array( $meta_box['show_on']['value'] ) : $meta_box['show_on']['value'];
+		$ic_meta_box['show_on']['value'] = !is_array( $ic_meta_box['show_on']['value'] ) ? array( $ic_meta_box['show_on']['value'] ) : $ic_meta_box['show_on']['value'];
 
 		// See if there's a match
-		if( in_array( $current_template, $meta_box['show_on']['value'] ) )
+		if( in_array( $current_template, $ic_meta_box['show_on']['value'] ) )
 			return true;
 		else
 			return false;
@@ -206,24 +206,24 @@ class cmb_Meta_Box {
 					echo '<input class="cmb_text_medium" type="text" name="', $field['id'], '" id="', $field['id'], '" value="', '' !== $meta ? $meta : $field['std'], '" /><span class="cmb_metabox_description">', $field['desc'], '</span>';
 					break;
 				case 'text_date':
-					echo '<input class="cmb_text_small cmb_datepicker" type="text" name="', $field['id'], '" id="', $field['id'], '" value="', '' !== $meta ? $meta : $field['std'], '" /><span class="cmb_metabox_description">', $field['desc'], '</span>';
+					echo '<input class="cmb_text_small isamb_datepicker" type="text" name="', $field['id'], '" id="', $field['id'], '" value="', '' !== $meta ? $meta : $field['std'], '" /><span class="cmb_metabox_description">', $field['desc'], '</span>';
 					break;
 				case 'text_date_timestamp':
-					echo '<input class="cmb_text_small cmb_datepicker" type="text" name="', $field['id'], '" id="', $field['id'], '" value="', '' !== $meta ? date( 'm\/d\/Y', $meta ) : $field['std'], '" /><span class="cmb_metabox_description">', $field['desc'], '</span>';
+					echo '<input class="cmb_text_small isamb_datepicker" type="text" name="', $field['id'], '" id="', $field['id'], '" value="', '' !== $meta ? date( 'm\/d\/Y', $meta ) : $field['std'], '" /><span class="cmb_metabox_description">', $field['desc'], '</span>';
 					break;
 
 				case 'text_datetime_timestamp':
-					echo '<input class="cmb_text_small cmb_datepicker" type="text" name="', $field['id'], '[date]" id="', $field['id'], '_date" value="', '' !== $meta ? date( 'm\/d\/Y', $meta ) : $field['std'], '" />';
-					echo '<input class="cmb_timepicker text_time" type="text" name="', $field['id'], '[time]" id="', $field['id'], '_time" value="', '' !== $meta ? date( 'h:i A', $meta ) : $field['std'], '" /><span class="cmb_metabox_description" >', $field['desc'], '</span>';
+					echo '<input class="cmb_text_small isamb_datepicker" type="text" name="', $field['id'], '[date]" id="', $field['id'], '_date" value="', '' !== $meta ? date( 'm\/d\/Y', $meta ) : $field['std'], '" />';
+					echo '<input class="isamb_timepicker text_time" type="text" name="', $field['id'], '[time]" id="', $field['id'], '_time" value="', '' !== $meta ? date( 'h:i A', $meta ) : $field['std'], '" /><span class="cmb_metabox_description" >', $field['desc'], '</span>';
 					break;
 				case 'text_time':
-					echo '<input class="cmb_timepicker text_time" type="text" name="', $field['id'], '" id="', $field['id'], '" value="', '' !== $meta ? $meta : $field['std'], '" /><span class="cmb_metabox_description">', $field['desc'], '</span>';
+					echo '<input class="isamb_timepicker text_time" type="text" name="', $field['id'], '" id="', $field['id'], '" value="', '' !== $meta ? $meta : $field['std'], '" /><span class="cmb_metabox_description">', $field['desc'], '</span>';
 					break;					
 				case 'text_money':
 					echo '$ <input class="cmb_text_money" type="text" name="', $field['id'], '" id="', $field['id'], '" value="', '' !== $meta ? $meta : $field['std'], '" /><span class="cmb_metabox_description">', $field['desc'], '</span>';
 					break;
 				case 'colorpicker':
-					echo '<input class="cmb_colorpicker cmb_text_small" type="text" name="', $field['id'], '" id="', $field['id'], '" value="', '' !== $meta ? $meta : $field['std'], '" /><span class="cmb_metabox_description">', $field['desc'], '</span>';
+					echo '<input class="isamb_colorpicker cmb_text_small" type="text" name="', $field['id'], '" id="', $field['id'], '" value="', '' !== $meta ? $meta : $field['std'], '" /><span class="cmb_metabox_description">', $field['desc'], '</span>';
 					break;
 				case 'textarea':
 					echo '<textarea name="', $field['id'], '" id="', $field['id'], '" cols="60" rows="10">', '' !== $meta ? $meta : $field['std'], '</textarea>','<p class="cmb_metabox_description">', $field['desc'], '</p>';
@@ -329,8 +329,8 @@ class cmb_Meta_Box {
 					}
 				break;
 				case 'file_list':
-					echo '<input class="cmb_upload_file" type="text" size="36" name="', $field['id'], '" value="" />';
-					echo '<input class="cmb_upload_button button" type="button" value="Upload File" />';
+					echo '<input class="isamb_upload_file" type="text" size="36" name="', $field['id'], '" value="" />';
+					echo '<input class="isamb_upload_button button" type="button" value="Upload File" />';
 					echo '<p class="cmb_metabox_description">', $field['desc'], '</p>';
 						$args = array(
 								'post_type' => 'attachment',
@@ -354,24 +354,24 @@ class cmb_Meta_Box {
 					$input_type_url = "hidden";
 					if ( 'url' == $field['allow'] || ( is_array( $field['allow'] ) && in_array( 'url', $field['allow'] ) ) )
 						$input_type_url="text";
-					echo '<input class="cmb_upload_file" type="' . $input_type_url . '" size="45" id="', $field['id'], '" name="', $field['id'], '" value="', $meta, '" />';
-					echo '<input class="cmb_upload_button button" type="button" value="Upload File" />';
-					echo '<input class="cmb_upload_file_id" type="hidden" id="', $field['id'], '_id" name="', $field['id'], '_id" value="', get_post_meta( $post->ID, $field['id'] . "_id",true), '" />';					
+					echo '<input class="isamb_upload_file" type="' . $input_type_url . '" size="45" id="', $field['id'], '" name="', $field['id'], '" value="', $meta, '" />';
+					echo '<input class="isamb_upload_button button" type="button" value="Upload File" />';
+					echo '<input class="isamb_upload_file_id" type="hidden" id="', $field['id'], '_id" name="', $field['id'], '_id" value="', get_post_meta( $post->ID, $field['id'] . "_id",true), '" />';					
 					echo '<p class="cmb_metabox_description">', $field['desc'], '</p>';
-					echo '<div id="', $field['id'], '_status" class="cmb_upload_status">';	
+					echo '<div id="', $field['id'], '_status" class="isamb_upload_status">';	
 						if ( $meta != '' ) { 
 							$check_image = preg_match( '/(^.*\.jpg|jpeg|png|gif|ico*)/i', $meta );
 							if ( $check_image ) {
 								echo '<div class="img_status">';
 								echo '<img src="', $meta, '" alt="" />';
-								echo '<a href="#" class="cmb_remove_file_button" rel="', $field['id'], '">Remove Image</a>';
+								echo '<a href="#" class="isamb_remove_file_button" rel="', $field['id'], '">Remove Image</a>';
 								echo '</div>';
 							} else {
 								$parts = explode( '/', $meta );
 								for( $i = 0; $i < count( $parts ); ++$i ) {
 									$title = $parts[$i];
 								} 
-								echo 'File: <strong>', $title, '</strong>&nbsp;&nbsp;&nbsp; (<a href="', $meta, '" target="_blank" rel="external">Download</a> / <a href="#" class="cmb_remove_file_button" rel="', $field['id'], '">Remove</a>)';
+								echo 'File: <strong>', $title, '</strong>&nbsp;&nbsp;&nbsp; (<a href="', $meta, '" target="_blank" rel="external">Download</a> / <a href="#" class="isamb_remove_file_button" rel="', $field['id'], '">Remove</a>)';
 							}	
 						}
 					echo '</div>'; 
@@ -441,7 +441,7 @@ class cmb_Meta_Box {
 			
 			// validate meta value
 			if ( isset( $field['validate_func']) ) {
-				$ok = call_user_func( array( 'cmb_Meta_Box_Validate', $field['validate_func']), $new );
+				$ok = call_user_func( array( 'isabelc_Meta_Box_Validate', $field['validate_func']), $new );
 				if ( $ok === false ) { // pass away when meta value is invalid
 					continue;
 				}
@@ -480,22 +480,22 @@ class cmb_Meta_Box {
 /**
  * Adding scripts and styles
  */
-function cmb_scripts( $hook ) {
+function isamb_scripts( $hook ) {
   	if ( $hook == 'post.php' || $hook == 'post-new.php' || $hook == 'page-new.php' || $hook == 'page.php' ) {
-		wp_register_script( 'cmb-timepicker', CMB_META_BOX_URL . 'js/jquery.timePicker.min.js' );
-		wp_register_script( 'cmb-scripts', CMB_META_BOX_URL . 'js/cmb.js', array( 'jquery', 'jquery-ui-core', 'jquery-ui-datepicker', 'media-upload', 'thickbox', 'farbtastic' ) );
-		wp_enqueue_script( 'cmb-timepicker' );
-		wp_enqueue_script( 'cmb-scripts' );
-		wp_register_style( 'cmb-styles', CMB_META_BOX_URL . 'style.css', array( 'thickbox', 'farbtastic' ) );
-		wp_enqueue_style( 'cmb-styles' );
+		wp_register_script( 'isamb-timepicker', ISAC_META_BOX_URL . 'js/jquery.timePicker.min.js' );
+		wp_register_script( 'isamb-scripts', ISAC_META_BOX_URL . 'js/cmb.js', array( 'jquery', 'jquery-ui-core', 'jquery-ui-datepicker', 'media-upload', 'thickbox', 'farbtastic' ) );
+		wp_enqueue_script( 'isamb-timepicker' );
+		wp_enqueue_script( 'isamb-scripts' );
+		wp_register_style( 'isamb-styles', ISAC_META_BOX_URL . 'style.css', array( 'thickbox', 'farbtastic' ) );
+		wp_enqueue_style( 'isamb-styles' );
   	}
 }
-add_action( 'admin_enqueue_scripts', 'cmb_scripts', 10 );
+add_action( 'admin_enqueue_scripts', 'isamb_scripts', 10 );
 
-function cmb_editor_footer_scripts() { ?>
+function isamb_editor_footer_scripts() { ?>
 	<?php
-	if ( isset( $_GET['cmb_force_send'] ) && 'true' == $_GET['cmb_force_send'] ) { 
-		$label = $_GET['cmb_send_label']; 
+	if ( isset( $_GET['isamb_force_send'] ) && 'true' == $_GET['isamb_force_send'] ) { 
+		$label = $_GET['isamb_send_label']; 
 		if ( empty( $label ) ) $label="Select File";
 		?>	
 		<script type="text/javascript">
@@ -506,14 +506,14 @@ function cmb_editor_footer_scripts() { ?>
 		<?php 
 	}
 }
-add_action( 'admin_print_footer_scripts', 'cmb_editor_footer_scripts', 99 );
+add_action( 'admin_print_footer_scripts', 'isamb_editor_footer_scripts', 99 );
 
 // Force 'Insert into Post' button from Media Library 
-add_filter( 'get_media_item_args', 'cmb_force_send' );
-function cmb_force_send( $args ) {
+add_filter( 'get_media_item_args', 'isamb_force_send' );
+function isamb_force_send( $args ) {
 		
 	// if the Gallery tab is opened from a custom meta box field, add Insert Into Post button	
-	if ( isset( $_GET['cmb_force_send'] ) && 'true' == $_GET['cmb_force_send'] )
+	if ( isset( $_GET['isamb_force_send'] ) && 'true' == $_GET['isamb_force_send'] )
 		$args['send'] = true;
 	
 	// if the From Computer tab is opened AT ALL, add Insert Into Post button after an image is uploaded	
@@ -547,9 +547,9 @@ function cmb_force_send( $args ) {
 				}
 							
 				jQuery(function($) {
-					if (cmbGetParameterByNameInline("cmb_force_send")=="true") {
-						var cmb_send_label = cmbGetParameterByNameInline("cmb_send_label");
-						$("td.savesend input").val(cmb_send_label);
+					if (cmbGetParameterByNameInline("isamb_force_send")=="true") {
+						var isamb_send_label = cmbGetParameterByNameInline("isamb_send_label");
+						$("td.savesend input").val(isamb_send_label);
 					}
 				});
 			</script>

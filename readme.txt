@@ -5,7 +5,7 @@ Contributors: isabel104
 Tags: software, application, SoftwareApplication, specs, microdata, schema, schema.org, easy digital downloads, web application
 Requires at least: 3.3
 Tested up to: 3.5.1
-Stable Tag: 0.1
+Stable Tag: 0.3
 License: GNU Version 2 or Any Later Version
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -56,26 +56,15 @@ If you do have EDD Versions active, the version meta field from that plugin will
 For more info, go to [Easy Digital Downloads - Software Specs](http://isabelcastillo.com/easy-digital-downloads-software-specs/)
 
 == Installation ==
-**Easy Installation**
+1. Download the plugin to your computer
+2. Extract the contents
+3. Upload (via FTP) to a sub folder of the WordPress plugins directory
+4. Activate the plugin through the 'Plugins' menu in WordPress
 
-1. In your WordPress dashboard, go to `Plugins > Add New`
-2. Search for "Easy Digital Downloads Software Specs"
-3. When you find it, install it.
+**After Activating the Plugin**
 
-**Manual Installation via WP**
+Go to the Downloads editor and enter specs for your existing digital products. Then "View Download" to see the specs table.
 
-1.  After you download the plugin to your computer, login to your WordPress dashboard.
-2.  Go to `Plugins > Add New`
-2.  Click Upload.
-3.  Browse for the "easy-digital-downloads-software-specs.zip" file that you downloaded from this page.
-4.  Click "Install Now".
-5.  Click "Activate Plugin"
-6.  You're done.
-
-**Really Manual Installation**
-
-1. Unzip `easy-digital-downloads-software-specs.zip` directly into the `/wp-content/plugins/` directory
-2. Activate the plugin through the 'Plugins' menu in WordPress
 == Frequently Asked Questions ==
 
 = Why am I not getting rich snippets in Google's Structured Data Testing Tool? =
@@ -86,6 +75,9 @@ You have to select a Software Application Type for the download. "OtherApplicati
 1. Front-end: Specs table as shown on single download page
 2. Back-end: Specs meta box on single download editor
 == Changelog ==
+
+= 0.3: April 15, 2013 = 
+* Fixed compatibility issue with the cmb_Meta_Box class
 
 = 0.2: April 9, 2013 =
 

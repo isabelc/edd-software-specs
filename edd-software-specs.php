@@ -3,7 +3,7 @@
 Plugin Name: Easy Digital Downloads - Software Specs
 Plugin URI: http://isabelcastillo.com/easy-digital-downloads-software-specs/
 Description: Add software specs and Software Application Microdata to your downloads when using Easy Digital Downloads plugin.
-Version: 0.2
+Version: 0.3
 Author: Isabel Castillo
 Author URI: http://isabelcastillo.com
 License: GPL2
@@ -191,9 +191,9 @@ class EDD_Software_Specs{
 	 * adds specs metabox to downloads
 	 */
 	
-	public function specs_metabox( array $meta_boxes ) {
+	public function specs_metabox( $ic_meta_boxes ) {
 		$prefix = '_smartest_';
-	$meta_boxes[] = array(
+	$ic_meta_boxes[] = array(
 			'id'         => 'download_specs_meta_box',
 			'title'      => __( 'Specs', 'edd-specs' ),
 			'pages'      => array( 'download'), // Post type
@@ -303,17 +303,14 @@ class EDD_Software_Specs{
 		);
 
 
-	return $meta_boxes;
+	return $ic_meta_boxes;
 	} // end specs_metabox
 
 
 	public function init_specs_metabox() {
-		if ( ! class_exists( 'cmb_Meta_Box' ) ) 
+		if ( ! class_exists( 'isabelc_Meta_Box' ) ) 
 			require_once plugin_dir_path( __FILE__ ) . 'lib/metabox/init.php';
 	}
-
-
-
 
 	
 	/**
