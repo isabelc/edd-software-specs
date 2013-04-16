@@ -29,7 +29,7 @@ if(!class_exists('EDD_Software_Specs')) {
 class EDD_Software_Specs{
     public function __construct() {
 
-		add_filter( 'cmb_meta_boxes', array( $this, 'specs_metabox' ) );
+		add_filter( 'isa_meta_boxes', array( $this, 'specs_metabox' ) );
 		add_action( 'init', array( $this, 'init_specs_metabox'), 9999 );
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue' ) );
 	    add_action( 'plugins_loaded', array( $this, 'load_textdomain' ) );
