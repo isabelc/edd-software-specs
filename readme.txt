@@ -5,7 +5,7 @@ Contributors: isabel104
 Tags: software, application, SoftwareApplication, specs, microdata, schema, schema.org, easy digital downloads, web application
 Requires at least: 3.3
 Tested up to: 3.5.1
-Stable Tag: 0.3
+Stable Tag: 1.1
 License: GNU Version 2 or Any Later Version
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
