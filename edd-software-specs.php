@@ -3,7 +3,7 @@
 Plugin Name: Easy Digital Downloads - Software Specs
 Plugin URI: http://isabelcastillo.com/easy-digital-downloads-software-specs/
 Description: Add software specs and Software Application Microdata to your downloads when using Easy Digital Downloads plugin.
-Version: 1.1
+Version: 1.2
 Author: Isabel Castillo
 Author URI: http://isabelcastillo.com
 License: GPL2
@@ -149,10 +149,11 @@ class EDD_Software_Specs{
 								<tr>
 									<td>'. __( 'Last updated:', 'edd-specs' ). '</td>
 	
-						<td><meta itemprop="dateModified" content="' . date('Y-m-d', $dm) . '">' .
-				date('F j, Y', $dm) . 
-						'</td>
-								</tr>
+												<td><meta itemprop="dateModified" content="';// @ test begin this line
+
+			$moddate = ($dm) ? date('Y-m-d', $dm) : '';
+echo $moddate . '">' . $moddate . '</td>
+							</tr>
 								<tr>
 									<td>' . __( 'Current version:', 'edd-specs' ) . '</td>
 									<td itemprop="softwareVersion">' . $sVersion . '</td>

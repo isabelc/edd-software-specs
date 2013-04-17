@@ -76,6 +76,9 @@ You have to select a Software Application Type for the download. "OtherApplicati
 2. Back-end: Specs meta box on single download editor
 == Changelog ==
 
+= 1.2 = 
+* Fixed minor WP notice that appeared if modified date had not been set yet.
+
 = 0.3: April 15, 2013 = 
 * Fixed compatibility issue with the cmb_Meta_Box class
 
