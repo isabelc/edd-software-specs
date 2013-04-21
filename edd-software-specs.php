@@ -181,8 +181,14 @@ echo $moddate . '">' . $moddate . '</td>
 									<td><span>'. 
 									$this->smartest_isa_edd_price($post->ID, false) . // don't echo
 									' </span>
-									 <span itemprop="priceCurrency">' . $isa_curr . '</span>			</td></tr>
-			</table>';
+									 <span itemprop="priceCurrency">' . $isa_curr . '</span>			</td></tr>';
+
+// @test 4.21 . allow to insert rows
+do_action( 'eddss_add_specs_table_row' );
+
+// @end test
+
+			echo '</table>';
 	
 	
 	} // end function easy-digital-downloads-specs

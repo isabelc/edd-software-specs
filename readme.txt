@@ -70,6 +70,29 @@ Go to the Downloads editor and enter specs for your existing digital products. T
 = Why am I not getting rich snippets in Google's Structured Data Testing Tool? =
 
 You have to select a Software Application Type for the download. "OtherApplication" doesn't qualify for rich snippets, unless, outside of this plugin, you've added either "aggregateRating" or "operatingSystems" for the particular download. Go to the download's Specs meta box to select the Software Application Type.
+
+
+= How do I add a row to the Specs display table? -
+
+Add something like this to your functions:
+
+`
+/**
+ * Add a custom row to EDD Software Specs table
+ *
+*/
+add_action ( 'eddss_add_specs_table_row', 'my_add_specs_table_row');
+
+function my_add_specs_table_row() {
+
+	echo '<tr><td>';
+	echo 'YOUR CUSTOM TABLE ROW LABEL';
+	echo '</td><td>';
+	echo 'YOUR CUSTOM TABLE ROW VALUE';
+	echo '</td></tr>';
+}
+
+`
 == Screenshots ==
 
 1. Front-end: Specs table as shown on single download page
@@ -77,7 +100,9 @@ You have to select a Software Application Type for the download. "OtherApplicati
 == Changelog ==
 
 = 1.2 = 
+* Added ability to insert custom rows into specs table
 * Fixed minor WP notice that appeared if modified date had not been set yet.
+
 
 = 0.3: April 15, 2013 = 
 * Fixed compatibility issue with the cmb_Meta_Box class
