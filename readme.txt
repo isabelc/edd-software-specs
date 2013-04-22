@@ -1,11 +1,12 @@
 ﻿=== Easy Digital Downloads - Software Specs ===
 Author URI: http://isabelcastillo.com
-Plugin URI: http://isabelcastillo.com/easy-digital-downloads-software-specs/
+Plugin URI: http://wordpress.org/extend/plugins/easy-digital-downloads-software-specs/
 Contributors: isabel104
+Donate link: http://isabelcastillo.com/donate/
 Tags: software, application, SoftwareApplication, specs, microdata, schema, schema.org, easy digital downloads, web application
 Requires at least: 3.3
 Tested up to: 3.5.1
-Stable Tag: 1.2
+Stable Tag: 1.3
 License: GNU Version 2 or Any Later Version
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -53,6 +54,18 @@ If you DON'T have [EDD Versions plugin](http://wordpress.org/extend/plugins/edd-
 
 If you do have EDD Versions active, the version meta field from that plugin will take precedence. Nothing extra is added to the `download_history` table.
 
+**How can I give back?**
+
+Please rate the plugin, Tweet about it (mentioning @isabelphp would be appreciated), share it on Facebook, etc. I don't ask for donations, but thank you for the thought. [Go here to donate a few seconds of your time](http://isabelcastillo.com/donate/) to tweet, like, share etc. Thank you.
+
+You can also follow me on your favorite social network:
+
+[Twitter](https://twitter.com/isabelphp)
+
+[Facebook](https://www.facebook.com/isabel.8991)
+
+[Google Plus](https://plus.google.com/111025990685359974539/posts)
+
 For more info, go to [Easy Digital Downloads - Software Specs](http://isabelcastillo.com/easy-digital-downloads-software-specs/)
 
 == Installation ==
@@ -72,7 +85,7 @@ Go to the Downloads editor and enter specs for your existing digital products. T
 You have to select a Software Application Type for the download. "OtherApplication" doesn't qualify for rich snippets, unless, outside of this plugin, you've added either "aggregateRating" or "operatingSystems" for the particular download. Go to the download's Specs meta box to select the Software Application Type.
 
 
-= How do I add a row to the Specs display table? -
+= How do I add a row to the Specs display table? =
 
 Add something like this to your functions:
 
@@ -98,6 +111,9 @@ function my_add_specs_table_row() {
 1. Front-end: Specs table as shown on single download page
 2. Back-end: Specs meta box on single download editor
 == Changelog ==
+
+= 1.3 =
+* Minor tweaks to readme. Changed plugin url, added donate link, added rate it link.
 
 = 1.2 = 
 * Added ability to insert custom rows into specs table
