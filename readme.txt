@@ -6,7 +6,7 @@ Donate link: http://isabelcastillo.com/donate/
 Tags: software, application, SoftwareApplication, specs, microdata, schema, schema.org, easy digital downloads, web application
 Requires at least: 3.3
 Tested up to: 3.5.1
-Stable Tag: 1.3
+Stable Tag: 1.4
 License: GNU Version 2 or Any Later Version
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -14,9 +14,16 @@ Add software specs and Software Application microdata to your downloads when usi
 
 == Description ==
 
-This is an extension for [Easy Digital Downloads](http://wordpress.org/extend/plugins/easy-digital-downloads/) that automatically does several things: 
+= New Since Version 1.4 =
 
-It adds a Specs table below your single download content. The Specs table displays these:
+You can disable the Specs table for downloads that don't need it. See below for details.
+
+
+= Description =
+
+This is an extension for [Easy Digital Downloads](http://wordpress.org/extend/plugins/easy-digital-downloads/) that does several things if you enable it for a download: 
+
+1. It adds a Specs table below your single download content. The Specs table displays these fields:
 
 	- Release date
 	- Last updated date
@@ -28,14 +35,15 @@ It adds a Specs table below your single download content. The Specs table displa
 	- Price
 	- Currency code
 
+You can leave a field blank to omit that row from the table. (Except the `Last updated date` field, since leaving that field blank will disable the entire table.) In addition, you can add code to add more rows to the table (see FAQs).
 
-It replaces EDD's default microdata itemptype `Product` with `SoftwareApplication`.
+2. It replaces EDD's default microdata itemptype `Product` with `SoftwareApplication`.
 
-It moves the microdata itemtype declaration up to the body element so as to nest the `name` property within the itemscope. *
+3. It moves the microdata itemtype declaration up to the body element so as to nest the `name` property within the itemscope. *
 
-It adds `offers`, `price`, and `currency` microdata in order to generate Google rich snippets for Software Applications.
+4. It adds `offers`, `price`, and `currency` microdata in order to generate Google rich snippets for Software Applications.
 
-In addition, it adds these microdata properties of `SoftwareApplication`:
+5. In addition, it adds these microdata properties of `SoftwareApplication`:
 
 	- description
 	- softwareapplicationcategory
@@ -48,23 +56,26 @@ In addition, it adds these microdata properties of `SoftwareApplication`:
 	- requirements
 
 
+6. It adds the "Current Version" of the download to the table that is outputted by EDD's `download_history` shortcode.
+
+
+= How To Enable Specs For a Download =
+
+To enable it, fill in the `Date of Last Update` field for a download. If that field is blank, no Specs table will show up for that download, and Microdata will not be altered for that download.
+
+
+
 = Compatible with EDD Versions plugin  =
 
-If you DON'T have [EDD Versions plugin](http://wordpress.org/extend/plugins/edd-versions/) plugin active, then EDD Software Specs will add a "Current Version" column in the table that is outputted by EDD's `download_history` shortcode.
-
-If you do have EDD Versions active, the version meta field from that plugin will take precedence. Nothing extra is added to the `download_history` table.
+If you have the EDD Versions plugin active, the version meta field from that plugin will take precedence. 
 
 **How can I give back?**
 
-Please rate the plugin, Tweet about it (mentioning @isabelphp would be appreciated), share it on Facebook, etc. I don't ask for donations, but thank you for the thought. [Go here to donate a few seconds of your time](http://isabelcastillo.com/donate/) to tweet, like, share etc. Thank you.
+[Please rate the plugin, Tweet about it, share it on Facebook](http://isabelcastillo.com/donate/), etc. Thank you.
 
 You can also follow me on your favorite social network:
 
-[Twitter](https://twitter.com/isabelphp)
-
-[Facebook](https://www.facebook.com/isabel.8991)
-
-[Google Plus](https://plus.google.com/111025990685359974539/posts)
+[Twitter](https://twitter.com/isabelphp), [Facebook](https://www.facebook.com/isabel.8991), [Google Plus](https://plus.google.com/111025990685359974539/posts)
 
 For more info, go to [Easy Digital Downloads - Software Specs](http://isabelcastillo.com/easy-digital-downloads-software-specs/)
 
@@ -112,11 +123,16 @@ function my_add_specs_table_row() {
 2. Back-end: Specs meta box on single download editor
 == Changelog ==
 
+= 1.4 =
+* New: Specs table only shows if enabled for a given download.
+* New: blank fields will not show up on table.
+* New: microdata type is only altered if Specs table is enabled for a given download.
+
 = 1.3 =
 * Minor tweaks to readme. Changed plugin url, added donate link, added rate it link.
 
 = 1.2 = 
-* Added ability to insert custom rows into specs table
+* New: added ability to insert custom rows into specs table.
 * Fixed minor WP notice that appeared if modified date had not been set yet.
 
 

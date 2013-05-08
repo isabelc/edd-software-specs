@@ -3,7 +3,7 @@
 Plugin Name: Easy Digital Downloads - Software Specs
 Plugin URI: http://wordpress.org/extend/plugins/easy-digital-downloads-software-specs/
 Description: Add software specs and Software Application Microdata to your downloads when using Easy Digital Downloads plugin.
-Version: 1.3
+Version: 1.4
 Author: Isabel Castillo
 Author URI: http://isabelcastillo.com
 License: GPL2
@@ -30,17 +30,17 @@ class EDD_Software_Specs{
     public function __construct() {
 
 		add_filter( 'isa_meta_boxes', array( $this, 'specs_metabox' ) );
-		add_action( 'init', array( $this, 'init_specs_metabox'), 9999 );
+		add_action( 'init', array( $this, 'init'), 9999 );
+
+		add_action( 'get_header', array( $this, 'remove_microdata') );
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue' ) );
-	    add_action( 'plugins_loaded', array( $this, 'load_textdomain' ) );
-		/* remove EDD's itemtype product, will do SoftwareApplication instead, up at the body element */
-		remove_filter( 'the_content', 'edd_microdata_wrapper', 10 );
+		add_action( 'plugins_loaded', array( $this, 'load_textdomain' ) );
 		add_filter( 'the_content', array( $this, 'featureList_wrap' ), 20 );
 		add_filter( 'body_class', array( $this, 'softwareapp_body_class' ) );
 		add_action( 'edd_after_download_content', array( $this, 'specs' ), 30 );// EDD-Related is 50
 		/* add Current version field to download_history */
-		add_action( 'edd_download_history_header_end', array( $this, 'download_history_header' ) );
 		add_action( 'edd_download_history_row_end', array( $this, 'download_history_row' ), 10, 2 );// @requires EDD v1.3+
+		add_action( 'edd_download_history_header_end', array( $this, 'download_history_header' ) );
 		add_filter('plugin_row_meta', array( $this, 'rate_link' ), 10, 2);
    }
 
@@ -66,7 +66,10 @@ class EDD_Software_Specs{
 	
 	public function featureList_wrap( $content ) {
 		global $post;
-		if ( $post->post_type == 'download' && is_singular() && is_main_query() ) {
+		$dm = get_post_meta($post->ID, '_smartest_lastupdate', true);
+
+		// add to conditions - only if last updated date is entered
+		if ( ($post->post_type == 'download') && is_singular() && is_main_query() && $dm ) {
 			$content = '<div itemprop="description">' . $content . '</div>';
 		}
 		return $content;
@@ -79,10 +82,18 @@ class EDD_Software_Specs{
 	 */
 	
 	public function softwareapp_body_class( $classes ) {
+
+		global $post;
+		$dm = get_post_meta($post->ID, '_smartest_lastupdate', true);
+		// only do the following if last updated date is entered
+		if($dm) {
+
 			$backtrace = debug_backtrace();
 			if ( $backtrace[4]['function'] === 'body_class' )
 				echo ' itemscope itemtype="http://schema.org/SoftwareApplication" ';
-			return $classes;
+		}
+
+		return $classes;
 	}
 	
 	
@@ -121,12 +132,13 @@ class EDD_Software_Specs{
 	public function specs() {
 	
 		global $post;
+
 		$dm = get_post_meta($post->ID, '_smartest_lastupdate', true);
 		$pc = get_post_meta($post->ID, '_smartest_pricecurrency', true);
 		$isa_curr = empty($pc) ? 'USD' : $pc;
-
+	
 		/* compatible with EDDV, if it's active, use its version instead of ours */
-
+	
 		if ( ! defined( 'TB_EDDV_PLUGIN_FILE' ) ) {
 			// get my own specs version
 			$vKey = '_smartest_currentversion';
@@ -134,63 +146,100 @@ class EDD_Software_Specs{
 			// get eddv meta version
 			$vKey = '_edd_sl_version';
 		}
-
+	
 		$sVersion = get_post_meta($post->ID, $vKey, true);
+		$appt = get_post_meta($post->ID, '_smartest_apptype', true);
+		$filt = get_post_meta($post->ID, '_smartest_filetype', true);
+		$fils = get_post_meta($post->ID, '_smartest_filesize', true);
+		$reqs = get_post_meta($post->ID, '_smartest_requirements', true);
+		$pric = $this->smartest_isa_edd_price($post->ID, false); // don't echo
 
-		// 1st close featurList element and open new div to pair up with closing div inserted by featureList_wrap()
-		echo '</div><div>'; ?>
-			<link itemprop="SoftwareApplicationCategory" href="http://schema.org/<?php echo get_post_meta($post->ID, '_smartest_software_apptype', true); ?>"/>
-		<?php echo '<table id="isa-edd-specs"><caption>'. __( 'Specs', 'edd-specs' ). '</caption>
-								<tr>
-									<td>'. __( 'Release date:', 'edd-specs' ). '</td>
-									<td>
-	<meta itemprop="datePublished" content="'. get_post_time('Y-m-d', false, $post->ID). '">
-							'. get_post_time('F j, Y', false, $post->ID, true). '</td>
-								</tr>
-								<tr>
-									<td>'. __( 'Last updated:', 'edd-specs' ). '</td>
+		// only show specs if last updated date is entered
+		if($dm) {
+
 	
-												<td><meta itemprop="dateModified" content="';// @ test begin this line
-
-			$moddate = ($dm) ? date('Y-m-d', $dm) : '';
-echo $moddate . '">' . $moddate . '</td>
-							</tr>
-								<tr>
-									<td>' . __( 'Current version:', 'edd-specs' ) . '</td>
-									<td itemprop="softwareVersion">' . $sVersion . '</td>
-								</tr>
-								<tr>
-									<td>'. __( 'Software application type:', 'edd-specs' ) .'</td>
+			// 1st close featurList element and open new div to pair up with closing div inserted by featureList_wrap()
+			echo '</div><div>'; ?>
+				<link itemprop="SoftwareApplicationCategory" href="http://schema.org/<?php echo get_post_meta($post->ID, '_smartest_software_apptype', true); ?>"/>
+			<?php echo '<table id="isa-edd-specs"><caption>'. __( 'Specs', 'edd-specs' ). '</caption>
+									<tr>
+										<td>'. __( 'Release date:', 'edd-specs' ). '</td>
+										<td>
+		<meta itemprop="datePublished" content="'. get_post_time('Y-m-d', false, $post->ID). '">
+								'. get_post_time('F j, Y', false, $post->ID, true). '</td>
+									</tr>
+									<tr>
+										<td>'. __( 'Last updated:', 'edd-specs' ). '</td>
+		
+													<td><meta itemprop="dateModified" content="';
 	
-									<td itemprop="applicationCategory">'. get_post_meta($post->ID, '_smartest_apptype', true) . '</td>
-								</tr>
+				$moddate = ($dm) ? date('Y-m-d', $dm) : '';
+	echo $moddate . '">' . $moddate . '</td>
+								</tr>';
+			if($sVersion) {
 
-							<tr>
-									<td>'. __( 'File format:', 'edd-specs' ). '</td>
-									<td itemprop="fileFormat">'. get_post_meta($post->ID, '_smartest_filetype', true) .'</td>
-								</tr>
-								<tr>
-									<td>'. __( 'File size:', 'edd-specs' ) . '</td>
-									<td itemprop="fileSize">' . get_post_meta($post->ID, '_smartest_filesize', true) . '</td>
-								</tr>
-								<tr>
-									<td>' . __( 'Requirements:', 'edd-specs' ) . '</td>
-									<td itemprop="requirements">' . get_post_meta($post->ID, '_smartest_requirements', true) . '</td>
-								</tr>
-								<tr itemprop="offers" itemscope itemtype="http://schema.org/Offer">
-									<td>' . __( 'Price:', 'edd-specs' ) . '</td>
-									<td><span>'. 
-									$this->smartest_isa_edd_price($post->ID, false) . // don't echo
-									' </span>
-									 <span itemprop="priceCurrency">' . $isa_curr . '</span>			</td></tr>';
 
-// @test 4.21 . allow to insert rows
-do_action( 'eddss_add_specs_table_row' );
+								echo '<tr>
+										<td>' . __( 'Current version:', 'edd-specs' ) . '</td>
+										<td itemprop="softwareVersion">' . $sVersion . '</td>
+									</tr>';
 
-// @end test
+			}
 
-			echo '</table>';
+
+			if($appt) {
+								echo '<tr>
+										<td>'. __( 'Software application type:', 'edd-specs' ) .'</td>
+		
+										<td itemprop="applicationCategory">'. $appt . '</td>
+									</tr>';
+			}
+
+			if($filt) {			
+
 	
+								echo '<tr>
+										<td>'. __( 'File format:', 'edd-specs' ). '</td>
+										<td itemprop="fileFormat">'. $filt .'</td>
+									</tr>';
+
+			}
+
+			if($fils) {			
+
+	
+								echo '<tr>
+										<td>'. __( 'File size:', 'edd-specs' ) . '</td>
+										<td itemprop="fileSize">' . $fils . '</td>
+									</tr>';
+
+			}
+
+			if($reqs) {			
+
+
+									echo '<tr>
+										<td>' . __( 'Requirements:', 'edd-specs' ) . '</td>
+										<td itemprop="requirements">' . $reqs . '</td>
+									</tr>';
+
+			}
+
+			if($pric) {			
+
+
+									echo '<tr itemprop="offers" itemscope itemtype="http://schema.org/Offer">
+										<td>' . __( 'Price:', 'edd-specs' ) . '</td>
+										<td><span>'. $pric . ' </span>
+										 <span itemprop="priceCurrency">' . $isa_curr . '</span>			</td></tr>';
+
+			}
+	
+			do_action( 'eddss_add_specs_table_row' );
+	
+
+				echo '</table>';
+		} // end if($dm)	
 	
 	} // end function easy-digital-downloads-specs
 	
@@ -315,30 +364,37 @@ do_action( 'eddss_add_specs_table_row' );
 	} // end specs_metabox
 
 
-	public function init_specs_metabox() {
+	public function init() {
+
 		if ( ! class_exists( 'isabelc_Meta_Box' ) ) 
 			require_once plugin_dir_path( __FILE__ ) . 'lib/metabox/init.php';
 	}
 
-	
+
 	/**
-	 * Show Current Version column header on downloads table of 
-	 * [download_history] shortcode. 
+	 * remove EDD's itemtype product
 	 *
-	 * @since 0.2
+	 * @since 1.4
 	 */
-	
-	public function download_history_header() {
 
-		/* compatible with EDDV plugin, only add our column if EDDV is not active */
+	public function remove_microdata() {
 
-		if ( ! defined( 'TB_EDDV_PLUGIN_FILE' ) ) {
-	
-			echo '<th class="edd_download_download_version">' . __( 'Current Version', 'smartestb' ) . '</th>';
+		// only if specs are wanted
+		global $post;
+		$dm = get_post_meta($post->ID, '_smartest_lastupdate', true);
+
+		if($dm) {
+
+				/* remove EDD's itemtype product, will do SoftwareApplication instead, up at the body element */
+				remove_filter( 'the_content', 'edd_microdata_wrapper', 10 );
+
 		}
-	
+
 	}
-	
+
+
+
+
 	
 	/**
 	 * Show Version number cell on downloads table of 
@@ -349,13 +405,30 @@ do_action( 'eddss_add_specs_table_row' );
 	 
 	public function download_history_row( $puchase_id, $download_id ){
 
-		/* compatible with EDDV plugin, only add our column if EDDV is not active */
+		/* only add our version if EDD Versions plugin is not active */
+			// and also only if the version field is filled in
 
-		if ( ! defined( 'TB_EDDV_PLUGIN_FILE' ) ) {
-			echo '<td class="edd_download_download_version">'.get_post_meta( $download_id, '_smartest_currentversion', true ).'</td>';
-		}
+		$vm = get_post_meta( $download_id, '_smartest_currentversion', true );
+		if ( ! defined( 'TB_EDDV_PLUGIN_FILE' ) && $vm )
+			echo '<td class="edd_download_download_version">'.$vm.'</td>';
+
 	}
+
+
+	/**
+	 * Show Current Version column header on downloads table of 
+	 * [download_history] shortcode. 
+	 *
+	 * @since 0.2
+	 */
 	
+	public function download_history_header() {
+		if ( ! defined( 'TB_EDDV_PLUGIN_FILE' ) )
+			echo '<th class="edd_download_download_version">' . __( 'Current Version', 'smartestb' ) . '</th>';
+	}
+
+
+
 	// rate link on manage plugin page, since 1.4
 	function rate_link($links, $file) {
 		if ($file == plugin_basename(__FILE__)) {
