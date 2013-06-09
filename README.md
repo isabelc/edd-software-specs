@@ -5,40 +5,40 @@ Add software specs and Software Application microdata to your downloads when usi
 
 This is an extension for [Easy Digital Downloads](http://wordpress.org/extend/plugins/easy-digital-downloads/) that does several things if you enable it for a download: 
 
-1. It adds a Specs table below your single download content. The Specs table displays these:
+* It adds a Specs table below your single download content. The Specs table displays these:
 
-- Release date
-- Last updated date
-- Current version
-- Software application type
-- File format
-- File size
-- Requirements
-- Price
-- Currency code
+ * Release date
+ * Last updated date
+ * Current version
+ * Software application type
+ * File format
+ * File size
+ * Requirements
+ * Price
+ * Currency code
 
 You can leave a field blank to omit that row from the table. (Except the `Last updated date` field, since leaving that field blank will disable the entire table.) In addition, you can add code to add more rows to the table (see FAQs below).
 
-2. It replaces EDD's default microdata itemptype `Product` with `SoftwareApplication`.
+* It replaces EDD's default microdata itemptype `Product` with `SoftwareApplication`.
 
-3. It moves the microdata itemtype declaration up to the body element so as to nest the `name` property within the itemscope. *
+* It moves the microdata itemtype declaration up to the body element so as to nest the `name` property within the itemscope. *
 
-4. It adds `offers`, `price`, and `currency` microdata in order to generate Google rich snippets for Software Applications.
+* It adds `offers`, `price`, and `currency` microdata in order to generate Google rich snippets for Software Applications.
 
-5. In addition, it adds these microdata properties of `SoftwareApplication`:
+* In addition, it adds these microdata properties of `SoftwareApplication`:
 
-  - description
-	- softwareapplicationcategory
-	- datepublished
-	- datemodified
-	- softwareversion
-	- applicationcategory
-	- fileformat
-	- filesize
-	- requirements
+```description
+softwareapplicationcategory
+datepublished
+datemodified
+softwareversion
+applicationcategory
+fileformat
+filesize
+requirements
+```
 
-
-6. It adds the "Current Version" of the download to the table that is outputted by EDD's `download_history` shortcode.
+* It adds the "Current Version" of the download to the table that is outputted by EDD's `download_history` shortcode.
 
 
 **How To Enable Specs For a Download**
