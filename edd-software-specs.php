@@ -1,9 +1,9 @@
 <?php
 /*
 Plugin Name: Easy Digital Downloads - Software Specs
-Plugin URI: http://wordpress.org/extend/plugins/easy-digital-downloads-software-specs/
+Plugin URI: http://wordpress.org/plugins/easy-digital-downloads-software-specs/
 Description: Add software specs and Software Application Microdata to your downloads when using Easy Digital Downloads plugin.
-Version: 1.4
+Version: 1.5.3
 Author: Isabel Castillo
 Author URI: http://isabelcastillo.com
 License: GPL2
@@ -31,16 +31,13 @@ class EDD_Software_Specs{
 
 		add_filter( 'isa_meta_boxes', array( $this, 'specs_metabox' ) );
 		add_action( 'init', array( $this, 'init'), 9999 );
-
 		add_action( 'get_header', array( $this, 'remove_microdata') );
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue' ) );
 		add_action( 'plugins_loaded', array( $this, 'load_textdomain' ) );
 		add_filter( 'the_content', array( $this, 'featureList_wrap' ), 20 );
 		add_filter( 'body_class', array( $this, 'softwareapp_body_class' ) );
 		add_action( 'edd_after_download_content', array( $this, 'specs' ), 30 );// EDD-Related is 50
-		/* add Current version field to download_history */
-		add_action( 'edd_download_history_row_end', array( $this, 'download_history_row' ), 10, 2 );// @requires EDD v1.3+
-		add_action( 'edd_download_history_header_end', array( $this, 'download_history_header' ) );
+		add_action( 'edd_receipt_files', array( $this, 'receipt' ), 10, 5 );
 		add_filter('plugin_row_meta', array( $this, 'rate_link' ), 10, 2);
    }
 
@@ -108,7 +105,7 @@ class EDD_Software_Specs{
 	 * @param       int $download_id The ID of the download price to show
 	 * @param		bool $echo Whether to echo or return the results
 	 * @return      void
-	 */
+	 */	
 	public function smartest_isa_edd_price( $download_id, $echo = true ) {
 		if ( edd_has_variable_prices( $download_id ) ) {
 			$prices = edd_get_variable_prices( $download_id );
@@ -137,13 +134,17 @@ class EDD_Software_Specs{
 		$pc = get_post_meta($post->ID, '_smartest_pricecurrency', true);
 		$isa_curr = empty($pc) ? 'USD' : $pc;
 	
-		/* compatible with EDDV, if it's active, use its version instead of ours */
+		/* compatible with EDD Changelog plugin. If it's active and its version is entered, use its version instead of ours */
 	
-		if ( ! defined( 'TB_EDDV_PLUGIN_FILE' ) ) {
+		$eddchangelog_version = get_post_meta( $post->ID, '_edd_sl_version', TRUE );
+
+		if ( empty( $eddchangelog_version ) ) {
+
 			// get my own specs version
 			$vKey = '_smartest_currentversion';
-		} else { 
-			// get eddv meta version
+
+		} else {
+			// get EDD Changelog's version
 			$vKey = '_edd_sl_version';
 		}
 	
@@ -174,7 +175,8 @@ class EDD_Software_Specs{
 													<td><meta itemprop="dateModified" content="';
 	
 				$moddate = ($dm) ? date('Y-m-d', $dm) : '';
-	echo $moddate . '">' . $moddate . '</td>
+				$moddatenice = ($dm) ? date('F j, Y', $dm) : '';
+	echo $moddate . '">' . $moddatenice . '</td>
 								</tr>';
 			if($sVersion) {
 
@@ -266,7 +268,7 @@ class EDD_Software_Specs{
 				array(
 					'name' => __( 'Current Version', 'edd-specs' ),
 					'id'   => $prefix . 'currentversion',
-					'desc' => __( 'If EDD Versions plugin is active, it will take precedence, and this field will be ignored.', 'edd-specs' ),
+					'desc' => __( 'If EDD Changelog plugin is active and its version is entered, it will take precedence, and this field will be ignored.', 'edd-specs' ),
 					'type' => 'text_small',
 				),
 
@@ -393,52 +395,45 @@ class EDD_Software_Specs{
 	}
 
 
-
-
-	
 	/**
-	 * Show Version number cell on downloads table of 
-	 * [download_history] shortcode. 
+	 * Add version to each download on edd_receipt.
 	 *
-	 * @since 0.2
+	 * @since 1.5
 	 */
-	 
-	public function download_history_row( $puchase_id, $download_id ){
 
-		/* only add our version if EDD Versions plugin is not active */
-			// and also only if the version field is filled in
+	function receipt( $filekey, $file, $item_ID, $payment_ID, $meta ) {
 
-		$vm = get_post_meta( $download_id, '_smartest_currentversion', true );
-		if ( ! defined( 'TB_EDDV_PLUGIN_FILE' ) && $vm )
-			echo '<td class="edd_download_download_version">'.$vm.'</td>';
+		
+		// Add compatibility with EDD Changelog plugin. If that version is present, don't add Software Specs version to receipt.
 
-	}
+		$eddchangelog_version = get_post_meta( $item_ID, '_edd_sl_version', TRUE );
+
+		
+		if ( empty( $eddchangelog_version ) ) {
+
+			$eddsspecs_ver = get_post_meta( $item_ID, '_smartest_currentversion', true );
+			if ( ! empty( $eddsspecs_ver ) )
+					printf( '<li id="sspecs_download_version" style="text-indent:48px;"> - %1$s %2$s</li>',
+						__( 'Current Version:', 'edd-specs' ),
+						esc_html( $eddsspecs_ver )
+			);		
+
+		}
 
 
-	/**
-	 * Show Current Version column header on downloads table of 
-	 * [download_history] shortcode. 
-	 *
-	 * @since 0.2
-	 */
-	
-	public function download_history_header() {
-		if ( ! defined( 'TB_EDDV_PLUGIN_FILE' ) )
-			echo '<th class="edd_download_download_version">' . __( 'Current Version', 'smartestb' ) . '</th>';
+
 	}
 
 
 
 	// rate link on manage plugin page, since 1.4
-	function rate_link($links, $file) {
+	public function rate_link($links, $file) {
 		if ($file == plugin_basename(__FILE__)) {
 			$rate_link = '<a href="http://isabelcastillo.com/donate/">Rate It</a>';
 			$links[] = $rate_link;
 		}
 		return $links;
 	}
-	
-
 }
 }
 $EDD_Software_Specs = new EDD_Software_Specs();

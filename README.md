@@ -3,7 +3,7 @@ EDD Software Specs
 
 Add software specs and Software Application microdata to your downloads when using Easy Digital Downloads plugin.
 
-This is an extension for [Easy Digital Downloads](http://wordpress.org/extend/plugins/easy-digital-downloads/) that does several things if you enable it for a download: 
+This is an extension for [Easy Digital Downloads](http://wordpress.org/plugins/easy-digital-downloads/) that does several things if you enable it for a download: 
 
 * It adds a Specs table below your single download content. The Specs table displays these:
 
@@ -38,7 +38,9 @@ filesize
 requirements
 ```
 
-* It adds the "Current Version" of the download to the table that is outputted by EDD's `download_history` shortcode.
+* It adds the "Current Version" of the download to the purchase receipt list (on EDD's `download_history` shortcode). This is compatible with **EDD Changelog Plugin**. If that plugin is present, and you have entered a version in that plugin's metabox, that will override this version on the receipt page and in the Specs table on the downloads page.
+
+* It lets you enable the Specs table only for downloads that need it. 
 
 
 **How To Enable Specs For a Download**
@@ -46,12 +48,7 @@ requirements
 To enable it, fill in the `Date of Last Update` field for a download. If that field is blank, no Specs table will show up for that download, and Microdata will not be altered for that download.
 
 
-**Compatible with EDD Versions plugin**
-
-If you have the EDD Versions plugin active, the version meta field from that plugin will take precedence. 
-
-
-Download the plugin from WordPress: [EDD - Software Specs](http://wordpress.org/extend/plugins/easy-digital-downloads-software-specs/)
+Download the plugin from WordPress: [EDD - Software Specs](http://wordpress.org/plugins/easy-digital-downloads-software-specs/)
 
 
 Frequently Asked Questions
