@@ -1,12 +1,12 @@
 ﻿=== Easy Digital Downloads - Software Specs ===
 Author URI: http://isabelcastillo.com
-Plugin URI: http://wordpress.org/extend/plugins/easy-digital-downloads-software-specs/
+Plugin URI: http://wordpress.org/plugins/easy-digital-downloads-software-specs/
 Contributors: isabel104
 Donate link: http://isabelcastillo.com/donate/
-Tags: software, application, SoftwareApplication, specs, microdata, schema, schema.org, easy digital downloads, web application
+Tags: software, specs, SoftwareApplication, application, microdata, schema, schema.org, easy digital downloads, edd specs
 Requires at least: 3.3
-Tested up to: 3.5.1
-Stable Tag: 1.4
+Tested up to: 3.5.2
+Stable Tag: 1.5
 License: GNU Version 2 or Any Later Version
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -14,70 +14,59 @@ Add software specs and Software Application microdata to your downloads when usi
 
 == Description ==
 
-= New Since Version 1.4 =
+= New Since Version 1.5 =
 
-You can disable the Specs table for downloads that don't need it. See below for details.
+ * Adds current version of each download to the edd_receipt shortcode.
+ * Compatibility with EDD Changelog plugin, so that plugin's verison will take precedence.
+
 
 
 = Description =
 
-This is an extension for [Easy Digital Downloads](http://wordpress.org/extend/plugins/easy-digital-downloads/) that does several things if you enable it for a download: 
+This is an extension for [Easy Digital Downloads](http://wordpress.org/plugins/easy-digital-downloads/) that does several things if you enable it for a download: 
 
-1. It adds a Specs table below your single download content. The Specs table displays these fields:
-
-	- Release date
-	- Last updated date
-	- Current version
-	- Software application type
-	- File format
-	- File size
-	- Requirements
-	- Price
-	- Currency code
-
-You can leave a field blank to omit that row from the table. (Except the `Last updated date` field, since leaving that field blank will disable the entire table.) In addition, you can add code to add more rows to the table (see FAQs).
-
-2. It replaces EDD's default microdata itemptype `Product` with `SoftwareApplication`.
-
-3. It moves the microdata itemtype declaration up to the body element so as to nest the `name` property within the itemscope. *
-
-4. It adds `offers`, `price`, and `currency` microdata in order to generate Google rich snippets for Software Applications.
-
-5. In addition, it adds these microdata properties of `SoftwareApplication`:
-
-	- description
-	- softwareapplicationcategory
-	- datepublished
-	- datemodified
-	- softwareversion
-	- applicationcategory
-	- fileformat
-	- filesize
-	- requirements
+* It adds a Specs table below your single download content. The Specs table displays these fields:
 
 
-6. It adds the "Current Version" of the download to the table that is outputted by EDD's `download_history` shortcode.
+ * Release date
+ * Last updated date
+ * Current version
+ * Software application type
+ * File format
+ * File size
+ * Requirements
+ * Price
+ * Currency code
+
+ You can leave a field blank to omit that row from the table. (Except the `Last updated date` field, since leaving that field blank will disable the entire table.) In addition, you can add code to add more rows to the table (see FAQs).
+
+* It replaces EDD's default microdata itemptype `Product` with `SoftwareApplication`.
+
+* It moves the microdata itemtype declaration up to the body element so as to nest the `name` property within the itemscope. *
+
+* It adds `offers`, `price`, and `currency` microdata in order to generate Google rich snippets for Software Applications.
+
+* In addition, it adds these microdata properties of `SoftwareApplication`:
+
+`description
+softwareapplicationcategory
+datepublished
+datemodified
+softwareversion
+applicationcategory
+fileformat
+filesize
+requirements`
 
 
-= How To Enable Specs For a Download =
+* It adds the "Current Version" of the download to the purchase receipt list (on EDD's `download_history` shortcode). This is compatible with **EDD Changelog Plugin**. If that plugin is present, and you have entered a version in that plugin's metabox, that will override this version on the receipt page and in the Specs table on the downloads page.
 
-To enable it, fill in the `Date of Last Update` field for a download. If that field is blank, no Specs table will show up for that download, and Microdata will not be altered for that download.
+* It lets you enable the Specs table only for downloads that need it. See FAQ for details.
 
 
+For more info, [see the FAQ](http://wordpress.org/plugins/easy-digital-downloads-software-specs/faq/), the [plugin's web page](http://isabelcastillo.com/downloads/easy-digital-downloads-software-specs-plugin), or [GitHub](https://github.com/isabelc/edd-software-specs).
 
-= Compatible with EDD Versions plugin  =
 
-If you have the EDD Versions plugin active, the version meta field from that plugin will take precedence. 
-
-**How can I give back?**
-
-[Please rate the plugin, Tweet about it, share it on Facebook](http://isabelcastillo.com/donate/), etc. Thank you.
-
-You can also follow me on your favorite social network:
-
-[Twitter](https://twitter.com/isabelphp), [Facebook](https://www.facebook.com/isabel.8991), [Google Plus](https://plus.google.com/111025990685359974539/posts)
-
-For more info, go to [Easy Digital Downloads - Software Specs](http://isabelcastillo.com/easy-digital-downloads-software-specs/)
 
 == Installation ==
 1. Download the plugin to your computer
@@ -90,6 +79,11 @@ For more info, go to [Easy Digital Downloads - Software Specs](http://isabelcast
 Go to the Downloads editor and enter specs for your existing digital products. Then "View Download" to see the specs table.
 
 == Frequently Asked Questions ==
+
+= How To Disable Specs For a Specific Download =
+
+Leave the `Date of Last Update` field empty. If that field is blank, no Specs table will show up for that download, and Microdata will not be altered for that download.
+
 
 = Why am I not getting rich snippets in Google's Structured Data Testing Tool? =
 
@@ -115,13 +109,25 @@ function my_add_specs_table_row() {
 	echo 'YOUR CUSTOM TABLE ROW VALUE';
 	echo '</td></tr>';
 }
-
 `
+
+= How can I give back? =
+
+[Please rate the plugin, Tweet about it, share it on Facebook](http://isabelcastillo.com/donate/), etc. Thank you.
+You can also follow me on your favorite social network: [Twitter](https://twitter.com/isabelphp), [Facebook](https://www.facebook.com/isabel.8991), [Google Plus](https://plus.google.com/111025990685359974539/posts)
+
+
 == Screenshots ==
 
 1. Front-end: Specs table as shown on single download page
 2. Back-end: Specs meta box on single download editor
 == Changelog ==
+
+= 1.5 =
+* Tweak: changed Last updated date format to display F j, Y instead of Y-m-d.
+* New: dropped compatibility with EDD Versions plugin since download_history shortcode is deprecated since EDD 1.6.
+* New: added compatibility with EDD Changelog plugin.
+* New: adds Current Version to edd_receipt shortcode.
 
 = 1.4 =
 * New: Specs table only shows if enabled for a given download.
