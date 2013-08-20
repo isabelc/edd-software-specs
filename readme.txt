@@ -5,8 +5,8 @@ Contributors: isabel104
 Donate link: http://isabelcastillo.com/donate/
 Tags: software, specs, SoftwareApplication, application, microdata, schema, schema.org, easy digital downloads, edd specs
 Requires at least: 3.3
-Tested up to: 3.5.2
-Stable Tag: 1.5
+Tested up to: 3.6
+Stable Tag: 1.5.4
 License: GNU Version 2 or Any Later Version
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -64,7 +64,7 @@ requirements`
 * It lets you enable the Specs table only for downloads that need it. See FAQ for details.
 
 
-For more info, [see the FAQ](http://wordpress.org/plugins/easy-digital-downloads-software-specs/faq/), the [plugin's web page](http://isabelcastillo.com/downloads/easy-digital-downloads-software-specs-plugin), or [GitHub](https://github.com/isabelc/edd-software-specs).
+For more info, [see the FAQ](http://wordpress.org/plugins/easy-digital-downloads-software-specs/faq/), and the [Installation Instructions](http://wordpress.org/plugins/easy-digital-downloads-software-specs/installation/). Or see the [plugin's web page](http://isabelcastillo.com/downloads/easy-digital-downloads-software-specs-plugin), or [GitHub](https://github.com/isabelc/edd-software-specs).
 
 
 
@@ -123,7 +123,11 @@ You can also follow me on your favorite social network: [Twitter](https://twitte
 2. Back-end: Specs meta box on single download editor
 == Changelog ==
 
-= 1.5 =
+= 1.5.4 =
+* Update: compatible with WP 3.6
+* Tweak: fixed typo, wrong version number.
+
+= 1.5.3 =
 * Tweak: changed Last updated date format to display F j, Y instead of Y-m-d.
 * New: dropped compatibility with EDD Versions plugin since download_history shortcode is deprecated since EDD 1.6.
 * New: added compatibility with EDD Changelog plugin.
