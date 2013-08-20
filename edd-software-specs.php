@@ -3,7 +3,7 @@
 Plugin Name: Easy Digital Downloads - Software Specs
 Plugin URI: http://wordpress.org/plugins/easy-digital-downloads-software-specs/
 Description: Add software specs and Software Application Microdata to your downloads when using Easy Digital Downloads plugin.
-Version: 1.5.3
+Version: 1.5.4
 Author: Isabel Castillo
 Author URI: http://isabelcastillo.com
 License: GPL2
@@ -36,7 +36,7 @@ class EDD_Software_Specs{
 		add_action( 'plugins_loaded', array( $this, 'load_textdomain' ) );
 		add_filter( 'the_content', array( $this, 'featureList_wrap' ), 20 );
 		add_filter( 'body_class', array( $this, 'softwareapp_body_class' ) );
-		add_action( 'edd_after_download_content', array( $this, 'specs' ), 30 );// EDD-Related is 50
+		add_action( 'edd_after_download_content', array( $this, 'specs' ), 30 );
 		add_action( 'edd_receipt_files', array( $this, 'receipt' ), 10, 5 );
 		add_filter('plugin_row_meta', array( $this, 'rate_link' ), 10, 2);
    }
