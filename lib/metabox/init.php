@@ -5,7 +5,8 @@ Contributors: 	Andrew Norcross (@norcross / andrewnorcross.com)
 				Jared Atchison (@jaredatch / jaredatchison.com)
 				Bill Erickson (@billerickson / billerickson.net)
 Description: 	This will create metaboxes with custom fields that will blow your mind.
-Version: 		0.9
+Version: 		0.9.1
+Modified by:	Isabel Castillo (@isabelphp / isabelcastillo.com)
 */
 
 /**
@@ -481,7 +482,7 @@ class isabelc_Meta_Box {
  * Adding scripts and styles
  */
 function isamb_scripts( $hook ) {
-  	if ( $hook == 'post.php' || $hook == 'post-new.php' || $hook == 'page-new.php' || $hook == 'page.php' ) {
+	if ( ( ( $hook == 'post.php' ) || ( $hook == 'post-new.php' ) ) && ( isa_eddss_get_current_post_type() == 'download' ) ) {
 		wp_register_script( 'isamb-timepicker', ISAC_META_BOX_URL . 'js/jquery.timePicker.min.js' );
 		wp_register_script( 'isamb-scripts', ISAC_META_BOX_URL . 'js/cmb.js', array( 'jquery', 'jquery-ui-core', 'jquery-ui-datepicker', 'media-upload', 'thickbox', 'farbtastic' ) );
 		wp_enqueue_script( 'isamb-timepicker' );
@@ -492,6 +493,27 @@ function isamb_scripts( $hook ) {
 }
 add_action( 'admin_enqueue_scripts', 'isamb_scripts', 10 );
 
+/**
+* gets the current post type in the WordPress Admin
+*/
+function isa_eddss_get_current_post_type() {
+	global $post, $typenow, $current_screen;
+	//we have a post so we can just get the post type from that
+	if ( $post && $post->post_type )
+	return $post->post_type;
+	//check the global $typenow - set in admin.php
+	elseif( $typenow )
+	return $typenow;
+	//check the global $current_screen object - set in sceen.php
+	elseif( $current_screen && $current_screen->post_type )
+	return $current_screen->post_type;
+	//lastly check the post_type querystring
+	elseif( isset( $_REQUEST['post_type'] ) )
+	return sanitize_key( $_REQUEST['post_type'] );
+	//we do not know the post type!
+	return null;
+}
+ 
 function isamb_editor_footer_scripts() { ?>
 	<?php
 	if ( isset( $_GET['isamb_force_send'] ) && 'true' == $_GET['isamb_force_send'] ) { 

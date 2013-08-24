@@ -6,7 +6,7 @@ Donate link: http://isabelcastillo.com/donate/
 Tags: software, specs, SoftwareApplication, application, microdata, schema, schema.org, easy digital downloads, edd specs
 Requires at least: 3.3
 Tested up to: 3.6
-Stable Tag: 1.5.4
+Stable Tag: 1.5.5
 License: GNU Version 2 or Any Later Version
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -69,10 +69,10 @@ For more info, [see the FAQ](http://wordpress.org/plugins/easy-digital-downloads
 
 
 == Installation ==
-1. Download the plugin to your computer
-2. Extract the contents
-3. Upload (via FTP) to a sub folder of the WordPress plugins directory
-4. Activate the plugin through the 'Plugins' menu in WordPress
+1. Download the plugin to your computer.
+2. Extract the contents.
+3. Upload (via FTP) to a sub folder of the WordPress plugins directory.
+4. Activate the plugin through the 'Plugins' menu in WordPress.
 
 **After Activating the Plugin**
 
@@ -122,6 +122,9 @@ You can also follow me on your favorite social network: [Twitter](https://twitte
 1. Front-end: Specs table as shown on single download page
 2. Back-end: Specs meta box on single download editor
 == Changelog ==
+
+= 1.5.5 =
+* Bug fix: metabox class was causing conflict with some plugins, which broke the image uploader for inserting media into posts.
 
 = 1.5.4 =
 * Update: compatible with WP 3.6
