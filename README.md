@@ -54,4 +54,4 @@ Download the plugin from WordPress: [EDD - Software Specs](http://wordpress.org/
 Frequently Asked Questions
 --------------------------
 
-See [this plugin's FAQ](http://wordpress.org/plugins/easy-digital-downloads-software-specs/faq/) at WordPress. 
+See [this plugin's FAQ](http://wordpress.org/plugins/easy-digital-downloads-software-specs/faq/) at WordPress.
