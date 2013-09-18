@@ -3,7 +3,7 @@
 Plugin Name: Easy Digital Downloads - Software Specs
 Plugin URI: http://wordpress.org/plugins/easy-digital-downloads-software-specs/
 Description: Add software specs and Software Application Microdata to your downloads when using Easy Digital Downloads plugin.
-Version: 1.5.6
+Version: 1.5.7
 Author: Isabel Castillo
 Author URI: http://isabelcastillo.com
 License: GPL2
@@ -39,6 +39,12 @@ class EDD_Software_Specs{
 		add_action( 'edd_after_download_content', array( $this, 'specs' ), 30 );
 		add_action( 'edd_receipt_files', array( $this, 'receipt' ), 10, 5 );
 		add_filter('plugin_row_meta', array( $this, 'rate_link' ), 10, 2);
+		add_action( 'widgets_init', array( $this, 'register_widgets' ) );
+
+		if( ! defined( 'EDDSPECS_PLUGIN_DIR' ) )
+			define( 'EDDSPECS_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
+		require_once EDDSPECS_PLUGIN_DIR . 'widget-specs.php';
+
    }
 
    	public function enqueue() {
@@ -155,9 +161,8 @@ class EDD_Software_Specs{
 		$reqs = get_post_meta($post->ID, '_smartest_requirements', true);
 		$pric = $this->smartest_isa_edd_price($post->ID, false); // don't echo
 
-		// only show specs if last updated date is entered
-		if($dm) {
-
+		// only show specs if last updated date is entered, and if not suppressed by widget
+		if( $dm && ( get_option('remove_specs_content_filter') == false ) ) {
 	
 			// 1st close featurList element and open new div to pair up with closing div inserted by featureList_wrap()
 			echo '</div><div>'; ?>
@@ -243,7 +248,7 @@ class EDD_Software_Specs{
 				echo '</table>';
 		} // end if($dm)	
 	
-	} // end function easy-digital-downloads-specs
+	} // end specs
 	
 	
 	/**
@@ -361,15 +366,13 @@ class EDD_Software_Specs{
 	)
 		);
 
-
 	return $ic_meta_boxes;
 	} // end specs_metabox
-
 
 	public function init() {
 
 		if ( ! class_exists( 'isabelc_Meta_Box' ) ) 
-			require_once plugin_dir_path( __FILE__ ) . 'lib/metabox/init.php';
+			require_once EDDSPECS_PLUGIN_DIR . 'lib/metabox/init.php';
 	}
 
 
@@ -408,7 +411,6 @@ class EDD_Software_Specs{
 
 		$eddchangelog_version = get_post_meta( $item_ID, '_edd_sl_version', TRUE );
 
-		
 		if ( empty( $eddchangelog_version ) ) {
 
 			$eddsspecs_ver = get_post_meta( $item_ID, '_smartest_currentversion', true );
@@ -419,12 +421,15 @@ class EDD_Software_Specs{
 			);		
 
 		}
-
-
-
 	}
 
-
+	/** 
+	 * Registers the EDD Related Downloads Widget.
+	 * @since 1.5.7
+	 */
+	function register_widgets() {
+		register_widget( 'edd_software_specs_widget' );// @new
+	}
 
 	// rate link on manage plugin page, since 1.4
 	public function rate_link($links, $file) {

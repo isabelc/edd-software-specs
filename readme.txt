@@ -6,7 +6,7 @@ Donate link: http://isabelcastillo.com/donate/
 Tags: software, specs, SoftwareApplication, application, microdata, schema, schema.org, easy digital downloads, edd specs
 Requires at least: 3.3
 Tested up to: 3.6.1
-Stable Tag: 1.5.6
+Stable Tag: 1.5.7
 License: GNU Version 2 or Any Later Version
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -14,10 +14,9 @@ Add software specs and Software Application microdata to your downloads when usi
 
 == Description ==
 
-= New Since Version 1.5 =
+= New Since Version 1.5.7 =
 
- * Adds current version of each download to the edd_receipt shortcode.
- * Compatibility with EDD Changelog plugin, so that plugin's verison will take precedence.
+ * Use it as a widget instead.
 
 
 
@@ -78,7 +77,13 @@ For more info, [see the FAQ](http://wordpress.org/plugins/easy-digital-downloads
 
 Go to the Downloads editor and enter specs for your existing digital products. Then "View Download" to see the specs table.
 
+
 == Frequently Asked Questions ==
+
+= How do add Specs to the sidebar instead of below the content? =
+
+Use it as a widget instead. Go to **Appearance --> Widgets** to use the widget.
+
 
 = How To Disable Specs For a Specific Download =
 
@@ -97,9 +102,7 @@ Add something like this to your functions:
 `
 /**
  * Add a custom row to EDD Software Specs table
- *
 */
-add_action ( 'eddss_add_specs_table_row', 'my_add_specs_table_row');
 
 function my_add_specs_table_row() {
 
@@ -109,6 +112,30 @@ function my_add_specs_table_row() {
 	echo 'YOUR CUSTOM TABLE ROW VALUE';
 	echo '</td></tr>';
 }
+
+add_action ( 'eddss_add_specs_table_row', 'my_add_specs_table_row');
+
+`
+
+For example, say you added a custom meta field to the downloads, and you want to show this custom meta the Specs table. Say your custom field is 'my_license'. Then you add this to your functions:
+
+`
+/**
+ * Add a custom row with a custom meta field to EDD Software Specs table
+*/
+
+function my_add_specs_table_row() {
+
+	global $post;
+
+	echo '<tr><td>';
+	echo 'License';
+	echo '</td><td>';
+	echo get_post_meta($post->ID, 'my_license', true);
+	echo '</td></tr>';
+}
+
+add_action ( 'eddss_add_specs_table_row', 'my_add_specs_table_row');
 `
 
 = How can I give back? =
@@ -122,6 +149,10 @@ You can also follow me on your favorite social network: [Twitter](https://twitte
 1. Front-end: Specs table as shown on single download page
 2. Back-end: Specs meta box on single download editor
 == Changelog ==
+
+= 1.5.7 =
+* New: added widget.
+* Updated FAQ.
 
 = 1.5.6 =
 * Tweak: minified CSS.
@@ -163,3 +194,8 @@ You can also follow me on your favorite social network: [Twitter](https://twitte
 = 0.1: April 9, 2013 =
 
 * Initial release.
+
+== Upgrade Notice ==
+
+= 1.5.7 =
+New Specs widget so you can use it on the sidebar. Updated FAQ.
