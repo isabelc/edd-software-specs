@@ -5,8 +5,8 @@ Contributors: isabel104
 Donate link: http://isabelcastillo.com/donate/
 Tags: software, specs, SoftwareApplication, application, microdata, schema, schema.org, easy digital downloads, edd specs
 Requires at least: 3.3
-Tested up to: 3.6.1
-Stable Tag: 1.5.7
+Tested up to: 3.7.1
+Stable Tag: 1.5.8
 License: GNU Version 2 or Any Later Version
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -149,6 +149,9 @@ You can also follow me on your favorite social network: [Twitter](https://twitte
 1. Front-end: Specs table as shown on single download page
 2. Back-end: Specs meta box on single download editor
 == Changelog ==
+
+= 1.5.8 =
+* Tested for WP 3.7.1 compatibility.
 
 = 1.5.7 =
 * New: added widget.
