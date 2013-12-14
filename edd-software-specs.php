@@ -3,7 +3,7 @@
 Plugin Name: Easy Digital Downloads - Software Specs
 Plugin URI: http://wordpress.org/plugins/easy-digital-downloads-software-specs/
 Description: Add software specs and Software Application Microdata to your downloads when using Easy Digital Downloads plugin.
-Version: 1.5.8
+Version: 1.5.9
 Author: Isabel Castillo
 Author URI: http://isabelcastillo.com
 License: GPL2
@@ -99,7 +99,6 @@ class EDD_Software_Specs{
 		return $classes;
 	}
 	
-	
 	/**
 	 * Basically same as edd_price, but has itemprop="price" on it
 	 * Price
@@ -138,7 +137,7 @@ class EDD_Software_Specs{
 
 		$dm = get_post_meta($post->ID, '_smartest_lastupdate', true);
 		$pc = get_post_meta($post->ID, '_smartest_pricecurrency', true);
-		$isa_curr = empty($pc) ? 'USD' : $pc;
+		$isa_curr = $pc ? $pc : '';
 	
 		/* compatible with EDD Changelog plugin. If it's active and its version is entered, use its version instead of ours */
 	
@@ -161,8 +160,8 @@ class EDD_Software_Specs{
 		$reqs = get_post_meta($post->ID, '_smartest_requirements', true);
 		$pric = $this->smartest_isa_edd_price($post->ID, false); // don't echo
 
-		// only show specs if last updated date is entered, and if not suppressed by widget
-		if( $dm && ( get_option('remove_specs_content_filter') == false ) ) {
+		// only show specs if last updated date is entered, and if not suppressed by widget, and if content does not have shortcode
+		if( $dm && ( get_option('remove_specs_content_filter') == false ) && (! has_shortcode( $post->post_content, 'edd-software-specs')) ) {
 	
 			// 1st close featurList element and open new div to pair up with closing div inserted by featureList_wrap()
 			echo '</div><div>'; ?>
@@ -232,7 +231,7 @@ class EDD_Software_Specs{
 
 			}
 
-			if($pric) {			
+			if($pric && $isa_curr) {
 
 
 									echo '<tr itemprop="offers" itemscope itemtype="http://schema.org/Offer">
@@ -356,9 +355,8 @@ class EDD_Software_Specs{
 					'name' => __( 'Price Currency', 'edd-specs' ),
 					'id'   => $prefix . 'pricecurrency',
 					'desc' => sprintf(__( 'The type of currency that the price refers to. Use 3-letter %1$s.', 'edd-specs' ), 
-											'<a href="http://en.wikipedia.org/wiki/ISO_4217" title="ISO 4217 currency codes" target="_blank">ISO 4217 format</a>. Defaults to "USD" if blank.'
+											'<a href="http://en.wikipedia.org/wiki/ISO_4217" title="ISO 4217 currency codes" target="_blank">ISO 4217 format</a>.'
 									),
-					'std'  => 'USD',
 					'type' => 'text_small',
 					
 				),
@@ -427,18 +425,39 @@ class EDD_Software_Specs{
 	 * Registers the EDD Related Downloads Widget.
 	 * @since 1.5.7
 	 */
-	function register_widgets() {
-		register_widget( 'edd_software_specs_widget' );// @new
+	public function register_widgets() {
+		register_widget( 'edd_software_specs_widget' );
 	}
 
 	// rate link on manage plugin page, since 1.4
 	public function rate_link($links, $file) {
 		if ($file == plugin_basename(__FILE__)) {
-			$rate_link = '<a href="http://isabelcastillo.com/donate/">Rate It</a>';
+			$rate_link = '<a href="http://isabelcastillo.com/donate/">' . __('Rate It', 'edd-specs') . '</a>';
 			$links[] = $rate_link;
 		}
 		return $links;
 	}
+	/** 
+	 * Shortcode to insert specs widget anywhere
+	 * @since 1.5.9
+	 */
+	public function edd_software_specs_shortcode($atts) {
+		extract( shortcode_atts( 
+			array(	'title' => __( 'Specs', 'edd-specs' ),
+					'isodate' => false,
+					'remove_specs_content_filter' => 'on',
+			), 
+			$atts
+		));
+		
+		$atts['title'] = empty($atts['title']) ? __( 'Specs', 'edd-specs' ) : $atts['title'];
+		ob_start();
+		the_widget( 'edd_software_specs_widget', $atts ); 
+		$output = ob_get_clean();
+		return $output;
+
+	}
 }
 }
 $EDD_Software_Specs = new EDD_Software_Specs();
+add_shortcode( 'edd-software-specs', array( 'EDD_Software_Specs', 'edd_software_specs_shortcode' ) );
