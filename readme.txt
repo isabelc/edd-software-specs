@@ -5,8 +5,8 @@ Contributors: isabel104
 Donate link: http://isabelcastillo.com/donate/
 Tags: software, specs, SoftwareApplication, application, microdata, schema, schema.org, easy digital downloads, edd specs
 Requires at least: 3.3
-Tested up to: 3.7.1
-Stable Tag: 1.5.8
+Tested up to: 3.8
+Stable Tag: 1.5.9
 License: GNU Version 2 or Any Later Version
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -14,9 +14,11 @@ Add software specs and Software Application microdata to your downloads when usi
 
 == Description ==
 
-= New Since Version 1.5.7 =
+= New Since Version 1.5.9 =
 
- * Use it as a widget instead.
+* Use it as a shortcode instead: 
+
+`[edd-software-specs]`
 
 
 
@@ -24,7 +26,7 @@ Add software specs and Software Application microdata to your downloads when usi
 
 This is an extension for [Easy Digital Downloads](http://wordpress.org/plugins/easy-digital-downloads/) that does several things if you enable it for a download: 
 
-* It adds a Specs table below your single download content. The Specs table displays these fields:
+* It adds a Specs table below your single download content (option to use it instead as a widget, and/or as a shortcode). The Specs table displays these fields:
 
 
  * Release date
@@ -83,6 +85,13 @@ Go to the Downloads editor and enter specs for your existing digital products. T
 = How do add Specs to the sidebar instead of below the content? =
 
 Use it as a widget instead. Go to **Appearance --> Widgets** to use the widget.
+
+
+= How do I insert the Specs wherever I want with a shortcode? =
+
+Paste this shortcode inside a post or a page where you want the Specs table to appear.:
+
+`[edd-software-specs]`
 
 
 = How To Disable Specs For a Specific Download =
@@ -150,6 +159,12 @@ You can also follow me on your favorite social network: [Twitter](https://twitte
 2. Back-end: Specs meta box on single download editor
 == Changelog ==
 
+= 1.5.9 =
+* Bug fix: USD money format was showing up even when left empty.
+* Bug fix: CSS for backend Specs fields is better mobile responsive.
+* New: shortcode to insert Specs table into posts and pages.
+* Tested for WP 3.8 compatibility.
+
 = 1.5.8 =
 * Tested for WP 3.7.1 compatibility.
 
@@ -199,6 +214,9 @@ You can also follow me on your favorite social network: [Twitter](https://twitte
 * Initial release.
 
 == Upgrade Notice ==
+
+= 1.5.9 =
+New: shortcode to insert Specs table into posts.
 
 = 1.5.7 =
 New Specs widget so you can use it on the sidebar. Updated FAQ.

@@ -33,7 +33,7 @@ class edd_software_specs_widget extends WP_Widget {
 
 		$dm = get_post_meta($post->ID, '_smartest_lastupdate', true);
 		$pc = get_post_meta($post->ID, '_smartest_pricecurrency', true);
-		$isa_curr = empty($pc) ? 'USD' : $pc;
+		$isa_curr = $pc ? $pc : '';// @new
 	
 		/* compatible with EDD Changelog plugin. If it's active and its version is entered, use its version instead of ours */
 	
@@ -134,7 +134,7 @@ class edd_software_specs_widget extends WP_Widget {
 
 			}
 
-			if($pric) {			
+			if($pric && $isa_curr) {// @new
 
 
 									echo '<tr itemprop="offers" itemscope itemtype="http://schema.org/Offer">
