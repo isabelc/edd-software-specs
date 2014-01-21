@@ -3,7 +3,7 @@
 Plugin Name: Easy Digital Downloads - Software Specs
 Plugin URI: http://wordpress.org/plugins/easy-digital-downloads-software-specs/
 Description: Add software specs and Software Application Microdata to your downloads when using Easy Digital Downloads plugin.
-Version: 1.5.9
+Version: 1.6
 Author: Isabel Castillo
 Author URI: http://isabelcastillo.com
 License: GPL2
@@ -48,9 +48,8 @@ class EDD_Software_Specs{
    }
 
    	public function enqueue() {
-			
+		wp_register_style('edd-software-specs', plugins_url('/edd-software-specs.css', __FILE__));
 		if ( is_singular( 'download' ) ) {
-	            wp_register_style('edd-software-specs', plugins_url('/edd-software-specs.css', __FILE__));
 	            wp_enqueue_style('edd-software-specs');
 		}
 	}
@@ -139,7 +138,7 @@ class EDD_Software_Specs{
 		$pc = get_post_meta($post->ID, '_smartest_pricecurrency', true);
 		$isa_curr = $pc ? $pc : '';
 	
-		/* compatible with EDD Changelog plugin. If it's active and its version is entered, use its version instead of ours */
+		/* compatible with EDD Software Licensing plugin. If it's active and its version is entered, use its version instead of ours */
 	
 		$eddchangelog_version = get_post_meta( $post->ID, '_edd_sl_version', TRUE );
 
@@ -149,7 +148,7 @@ class EDD_Software_Specs{
 			$vKey = '_smartest_currentversion';
 
 		} else {
-			// get EDD Changelog's version
+			// get EDD Software Licensing's version
 			$vKey = '_edd_sl_version';
 		}
 	
@@ -272,7 +271,7 @@ class EDD_Software_Specs{
 				array(
 					'name' => __( 'Current Version', 'edd-specs' ),
 					'id'   => $prefix . 'currentversion',
-					'desc' => __( 'If EDD Changelog plugin is active and its version is entered, it will take precedence, and this field will be ignored.', 'edd-specs' ),
+					'desc' => __( 'If EDD Software Licensing or EDD Changelog plugin is enabled for this download, its version will take precedence in that order, and this field will be ignored.', 'edd-specs' ),
 					'type' => 'text_small',
 				),
 
@@ -405,7 +404,7 @@ class EDD_Software_Specs{
 	function receipt( $filekey, $file, $item_ID, $payment_ID, $meta ) {
 
 		
-		// Add compatibility with EDD Changelog plugin. If that version is present, don't add Software Specs version to receipt.
+		// If EDD Software Licensing plugin or EDD Changelog is present, don't add Software Specs version to receipt.
 
 		$eddchangelog_version = get_post_meta( $item_ID, '_edd_sl_version', TRUE );
 

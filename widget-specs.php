@@ -26,18 +26,22 @@ class edd_software_specs_widget extends WP_Widget {
 		
 		$title = apply_filters('widget_title', $instance['title']);
 		$isodate = isset($instance['isodate']) ? $instance['isodate'] : false;
+		$download_id = isset($instance['download_id']) ? $instance['download_id'] : false;
 
-		echo $before_widget;
+		if(! $download_id) {
+			global $post;
+			$download_id = $post->ID;
+		}
 
-		global $post, $EDD_Software_Specs;
+		global $EDD_Software_Specs;
 
-		$dm = get_post_meta($post->ID, '_smartest_lastupdate', true);
-		$pc = get_post_meta($post->ID, '_smartest_pricecurrency', true);
+		$dm = get_post_meta($download_id, '_smartest_lastupdate', true);
+		$pc = get_post_meta($download_id, '_smartest_pricecurrency', true);
 		$isa_curr = $pc ? $pc : '';// @new
 	
-		/* compatible with EDD Changelog plugin. If it's active and its version is entered, use its version instead of ours */
+		/* If EDD Software Licensing or EDD Changelog plugin is active and its version is entered, use their version instead of ours */
 	
-		$eddchangelog_version = get_post_meta( $post->ID, '_edd_sl_version', TRUE );
+		$eddchangelog_version = get_post_meta( $download_id, '_edd_sl_version', TRUE );
 
 		if ( empty( $eddchangelog_version ) ) {
 
@@ -49,26 +53,29 @@ class edd_software_specs_widget extends WP_Widget {
 			$vKey = '_edd_sl_version';
 		}
 	
-		$sVersion = get_post_meta($post->ID, $vKey, true);
-		$appt = get_post_meta($post->ID, '_smartest_apptype', true);
-		$filt = get_post_meta($post->ID, '_smartest_filetype', true);
-		$fils = get_post_meta($post->ID, '_smartest_filesize', true);
-		$reqs = get_post_meta($post->ID, '_smartest_requirements', true);
-		$pric = $EDD_Software_Specs->smartest_isa_edd_price($post->ID, false); // don't echo
+		$sVersion = get_post_meta($download_id, $vKey, true);
+		$appt = get_post_meta($download_id, '_smartest_apptype', true);
+		$filt = get_post_meta($download_id, '_smartest_filetype', true);
+		$fils = get_post_meta($download_id, '_smartest_filesize', true);
+		$reqs = get_post_meta($download_id, '_smartest_requirements', true);
+		$pric = $EDD_Software_Specs->smartest_isa_edd_price($download_id, false); // don't echo
+
+		wp_enqueue_style('edd-software-specs');
+		echo $before_widget;
 
 		// only show specs if last updated date is entered
 		if($dm) {
 		?>
-		<link itemprop="SoftwareApplicationCategory" href="http://schema.org/<?php echo get_post_meta($post->ID, '_smartest_software_apptype', true); ?>"/>
+		<link itemprop="SoftwareApplicationCategory" href="http://schema.org/<?php echo get_post_meta($download_id, '_smartest_software_apptype', true); ?>"/>
 			<?php echo '<table id="isa-edd-specs"><caption>';
 				if ( ! empty( $title ) ) echo $title;
 
 				echo '</caption><tr>
 										<td>'. __( 'Release date:', 'edd-specs' ). '</td>
 										<td>
-		<meta itemprop="datePublished" content="'. get_post_time('Y-m-d', false, $post->ID). '">';
-		if($isodate == true) { echo get_post_time('Y-m-d', false, $post->ID); }
-		else { echo get_post_time('F j, Y', false, $post->ID, true); }
+		<meta itemprop="datePublished" content="'. get_post_time('Y-m-d', false, $download_id). '">';
+		if($isodate == true) { echo get_post_time('Y-m-d', false, $download_id); }
+		else { echo get_post_time('F j, Y', false, $download_id, true); }
 
 								echo '</td>
 									</tr>
@@ -150,10 +157,6 @@ class edd_software_specs_widget extends WP_Widget {
 		} // end if($dm)	
 
 
-// END CONTENT--------------------------------------------------------------------------------
-
-
-
 		echo $after_widget;
 
 	}
@@ -199,10 +202,8 @@ class edd_software_specs_widget extends WP_Widget {
 
 	<p><input id="<?php echo $this->get_field_id( 'isodate' ); ?>" name="<?php echo $this->get_field_name( 'isodate' ); ?>" type="checkbox" class="checkbox" <?php checked( $instance['isodate'], 'on' ); ?> /><label for="<?php echo $this->get_field_id( 'isodate' ); ?>"><?php _e( ' Use ISO 8601 date format (YYYY-MM-DD) instead of nice date. Useful if less space is available in sidebar.', 'edd-specs' ); ?></label></p>
 
-
 	<p><input id="<?php echo $this->get_field_id( 'remove_specs_content_filter' ); ?>" name="<?php echo $this->get_field_name( 'remove_specs_content_filter' ); ?>" type="checkbox" class="checkbox" <?php checked( $instance['remove_specs_content_filter'], 'on' ); ?> /><label for="<?php echo $this->get_field_id( 'remove_specs_content_filter' ); ?>"><?php _e( ' Remove Specs from below content, since I will use this widget instead.', 'edd-specs' ); ?></label></p>
 		<?php 
 	}
-
 }
 ?>

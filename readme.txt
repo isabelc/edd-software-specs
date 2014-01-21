@@ -6,7 +6,7 @@ Donate link: http://isabelcastillo.com/donate/
 Tags: software, specs, SoftwareApplication, application, microdata, schema, schema.org, easy digital downloads, edd specs
 Requires at least: 3.3
 Tested up to: 3.8
-Stable Tag: 1.5.9
+Stable Tag: 1.6
 License: GNU Version 2 or Any Later Version
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -18,7 +18,7 @@ Add software specs and Software Application microdata to your downloads when usi
 
 * Use it as a shortcode instead: 
 
-`[edd-software-specs]`
+`[edd-software-specs download_id="###"]`
 
 
 
@@ -29,17 +29,21 @@ This is an extension for [Easy Digital Downloads](http://wordpress.org/plugins/e
 * It adds a Specs table below your single download content (option to use it instead as a widget, and/or as a shortcode). The Specs table displays these fields:
 
 
- * Release date
- * Last updated date
- * Current version
- * Software application type
- * File format
- * File size
- * Requirements
- * Price
- * Currency code
+  * Release date
+  * Last updated date
+  * Current version (compatible with EDD Software Licensing plugin)
+  * Software application type
+  * File format
+  * File size
+  * Requirements
+  * Price
+  * Currency code
 
- You can leave a field blank to omit that row from the table. (Except the `Last updated date` field, since leaving that field blank will disable the entire table.) In addition, you can add code to add more rows to the table (see FAQs).
+ You can leave a field blank to omit that row from the table. There are 2 exceptions to this. 
+    * 1.  The `Last updated date` field, since leaving that field blank will disable the entire table.
+    * 2.  The `Version` field. This plugin is compatible with **EDD Software Licensing plugin** and with **EDD Changelog Plugin**. If EDD Software Licensing plugin is present, and you have enabled it for a download, that version will override this version in the Specs table on the downloads page. In that case, if you leave the Specs version field blank, the Specs table on the site will still show the version from EDD Software Licensing. So, EDD Software Specs plugin gives priority to the version entered in **EDD Software Licensing plugin**, then **EDD Changelog Plugin**, in that order.
+
+ In addition to leaving fields blank, you can add code to add more rows to the table (see FAQs).
 
 * It replaces EDD's default microdata itemptype `Product` with `SoftwareApplication`.
 
@@ -60,7 +64,7 @@ filesize
 requirements`
 
 
-* It adds the "Current Version" of the download to the purchase receipt list (on EDD's `download_history` shortcode). This is compatible with **EDD Changelog Plugin**. If that plugin is present, and you have entered a version in that plugin's metabox, that will override this version on the receipt page and in the Specs table on the downloads page.
+* It adds the "Current Version" of the download to the purchase receipt "Products" list (on EDD's `edd_receipt shortcode` shortcode). This is only if EDD Software Licensing plugin or EDD Changelog plugin is not active.
 
 * It lets you enable the Specs table only for downloads that need it. See FAQ for details.
 
@@ -91,7 +95,9 @@ Use it as a widget instead. Go to **Appearance --> Widgets** to use the widget.
 
 Paste this shortcode inside a post or a page where you want the Specs table to appear.:
 
-`[edd-software-specs]`
+`[edd-software-specs download_id="###"]`
+
+in which the ### is the **post ID** of the download item. If you are using EDD's `purchase_link` shortcode for a download on a page, take the same `id` number from that shortcode.
 
 
 = How To Disable Specs For a Specific Download =
@@ -159,6 +165,11 @@ You can also follow me on your favorite social network: [Twitter](https://twitte
 2. Back-end: Specs meta box on single download editor
 == Changelog ==
 
+= 1.6 =
+* Bug fix: shortcode now works on any page or post for a download.
+* Tweak: added CSS for compatibility with TWenty Fourteen theme's thin, dark sidebars.
+* Tweak: Updated readme with missing details about compatibility with EDD Software Licensing plugin.
+
 = 1.5.9 =
 * Bug fix: USD money format was showing up even when left empty.
 * Bug fix: CSS for backend Specs fields is better mobile responsive.
@@ -214,6 +225,9 @@ You can also follow me on your favorite social network: [Twitter](https://twitte
 * Initial release.
 
 == Upgrade Notice ==
+
+= 1.6 =
+Bug fix: Specs table shortcode now works on any page or post. Updated FAQ.
 
 = 1.5.9 =
 New: shortcode to insert Specs table into posts.
