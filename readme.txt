@@ -132,7 +132,7 @@ add_action ( 'eddss_add_specs_table_row', 'my_add_specs_table_row');
 
 `
 
-For example, say you added a custom meta field to the downloads, and you want to show this custom meta the Specs table. Say your custom field is 'my_license'. Then you add this to your functions:
+For example, say you added a custom meta field to the downloads, and you want to show this custom meta in the Specs table. Say your custom field is 'my_license'. Then you add this to your functions:
 
 `
 /**
