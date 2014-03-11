@@ -2,7 +2,7 @@
 Author URI: http://isabelcastillo.com
 Plugin URI: http://isabelcastillo.com/docs/category/easy-digital-downloads-software-specs-plugin
 Contributors: isabel104
-Donate link: http://isabelcastillo.com/donate/
+Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=me%40isabelcastillo%2ecom
 Tags: software, specs, SoftwareApplication, application, microdata, schema, schema.org, easy digital downloads, edd specs
 Requires at least: 3.3
 Tested up to: 3.8
