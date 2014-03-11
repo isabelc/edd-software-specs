@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: Easy Digital Downloads - Software Specs
-Plugin URI: http://wordpress.org/plugins/easy-digital-downloads-software-specs/
+Plugin URI: http://isabelcastillo.com/docs/category/easy-digital-downloads-software-specs-plugin
 Description: Add software specs and Software Application Microdata to your downloads when using Easy Digital Downloads plugin.
 Version: 1.6.1RC1
 Author: Isabel Castillo
