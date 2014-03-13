@@ -71,8 +71,6 @@ requirements`
 
 For more info, [see the FAQ](http://wordpress.org/plugins/easy-digital-downloads-software-specs/faq/), and the [Installation Instructions](http://wordpress.org/plugins/easy-digital-downloads-software-specs/installation/). Or see the [plugin's web page](http://isabelcastillo.com/docs/category/easy-digital-downloads-software-specs-plugin), or [GitHub](https://github.com/isabelc/edd-software-specs).
 
-
-
 == Installation ==
 1. Download the plugin to your computer.
 2. Extract the contents.
@@ -155,8 +153,7 @@ add_action ( 'eddss_add_specs_table_row', 'my_add_specs_table_row');
 
 = How can I give back? =
 
-[Please rate the plugin, Tweet about it, share it on Facebook](http://isabelcastillo.com/donate/), etc. Thank you.
-You can also follow me on your favorite social network: [Twitter](https://twitter.com/isabelphp), [Facebook](https://www.facebook.com/isabel.8991), [Google Plus](https://plus.google.com/111025990685359974539/posts)
+Please [rate the plugin](http://wordpress.org/support/view/plugin-reviews/easy-digital-downloads-software-specs). Thank you.
 
 
 == Screenshots ==
