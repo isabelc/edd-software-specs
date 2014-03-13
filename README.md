@@ -19,8 +19,8 @@ This is an extension for [Easy Digital Downloads](http://wordpress.org/plugins/e
 
 You can leave a field blank to omit that row from the table. There are 2 exceptions to this. 
 
-    * 1.  The `Last updated date` field, since leaving that field blank will disable the entire table.
-    * 2.  The `Version` field. This plugin is compatible with **EDD Software Licensing plugin** and with **EDD Changelog Plugin**. If EDD Software Licensing plugin is present, and you have enabled it for a download, that version will override this version in the Specs table on the downloads page. In that case, if you leave the Specs version field blank, the Specs table on the site will still show the version from EDD Software Licensing. So, EDD Software Specs plugin gives priority to the version entered in **EDD Software Licensing plugin**, then **EDD Changelog Plugin**, in that order.
+1.  The `Last updated date` field, since leaving that field blank will disable the entire table.
+2.  The `Version` field. This plugin is compatible with **EDD Software Licensing plugin** and with **EDD Changelog Plugin**. If EDD Software Licensing plugin is present, and you have enabled it for a download, that version will override this version in the Specs table on the downloads page. In that case, if you leave the Specs version field blank, the Specs table on the site will still show the version from EDD Software Licensing. So, EDD Software Specs plugin gives priority to the version entered in **EDD Software Licensing plugin**, then **EDD Changelog Plugin**, in that order.
 
  In addition to leaving fields blank, you can add code to add more rows to the table (see FAQs).
 
