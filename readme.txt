@@ -235,8 +235,8 @@ Contributors: isabel104
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=me%40isabelcastillo%2ecom
 Tags: software, specs, SoftwareApplication, application, microdata, schema, schema.org, easy digital downloads, edd specs
 Requires at least: 3.3
-Tested up to: 3.8
-Stable Tag: 1.6
+Tested up to: 3.9
+Stable Tag: 1.6.1
 License: GNU Version 2 or Any Later Version
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -391,6 +391,11 @@ Please [rate the plugin](http://wordpress.org/support/view/plugin-reviews/easy-d
 1. Front-end: Specs table as shown on single download page
 2. Back-end: Specs meta box on single download editor
 == Changelog ==
+
+= 1.6.1 =
+* Fix: specs content filter should ignore widget setting to surpress specs if the widget is not active
+* Maintenance: Updated rate link and plugin URI.
+* Maintenance: Tested and passed for WP 3.9 compatibility.
 
 = 1.6 =
 * Bug fix: shortcode now works on any page or post for a download.
