@@ -3,7 +3,7 @@
 Plugin Name: Easy Digital Downloads - Software Specs
 Plugin URI: http://isabelcastillo.com/docs/category/easy-digital-downloads-software-specs-plugin
 Description: Add software specs and Software Application Microdata to your downloads when using Easy Digital Downloads plugin.
-Version: 1.6.1RC1
+Version: 1.6.1RC4
 Author: Isabel Castillo
 Author URI: http://isabelcastillo.com
 License: GPL2
@@ -159,9 +159,18 @@ class EDD_Software_Specs{
 		$reqs = get_post_meta($post->ID, '_smartest_requirements', true);
 		$pric = $this->smartest_isa_edd_price($post->ID, false); // don't echo
 
-		// only show specs if last updated date is entered, and if not suppressed by widget, and if content does not have shortcode
-		if( $dm && ( get_option('remove_specs_content_filter') == false ) && (! has_shortcode( $post->post_content, 'edd-software-specs')) ) {
-	
+
+		// only show if modified date is entered, and if not surpressed by widget, and if shortcode is not present
+		$surpress = '';
+		if ( ! $dm )
+			$surpress = true;
+		if ( has_shortcode( $post->post_content, 'edd-software-specs') )
+			$surpress = true;
+		if ( empty( $surpress ) && is_active_widget( false, false, 'edd_software_specs_widget', true ) )
+			$surpress = true;
+
+		if ( ! $surpress ) {
+
 			// 1st close featurList element and open new div to pair up with closing div inserted by featureList_wrap()
 			echo '</div><div>'; ?>
 				<link itemprop="SoftwareApplicationCategory" href="http://schema.org/<?php echo get_post_meta($post->ID, '_smartest_software_apptype', true); ?>"/>
@@ -367,7 +376,6 @@ class EDD_Software_Specs{
 	} // end specs_metabox
 
 	public function init() {
-
 		if ( ! class_exists( 'isabelc_Meta_Box' ) ) 
 			require_once EDDSPECS_PLUGIN_DIR . 'lib/metabox/init.php';
 	}
@@ -375,25 +383,19 @@ class EDD_Software_Specs{
 
 	/**
 	 * remove EDD's itemtype product
-	 *
 	 * @since 1.4
 	 */
 
 	public function remove_microdata() {
-
 		// only if specs are wanted
 		global $post;
 		$dm = get_post_meta($post->ID, '_smartest_lastupdate', true);
 
 		if($dm) {
-
 				/* remove EDD's itemtype product, will do SoftwareApplication instead, up at the body element */
 				remove_filter( 'the_content', 'edd_microdata_wrapper', 10 );
-
 		}
-
 	}
-
 
 	/**
 	 * Add version to each download on edd_receipt.
@@ -405,11 +407,9 @@ class EDD_Software_Specs{
 
 		
 		// If EDD Software Licensing plugin or EDD Changelog is present, don't add Software Specs version to receipt.
-
 		$eddchangelog_version = get_post_meta( $item_ID, '_edd_sl_version', TRUE );
 
 		if ( empty( $eddchangelog_version ) ) {
-
 			$eddsspecs_ver = get_post_meta( $item_ID, '_smartest_currentversion', true );
 			if ( ! empty( $eddsspecs_ver ) )
 					printf( '<li id="sspecs_download_version" style="text-indent:48px;"> - %1$s %2$s</li>',
@@ -431,7 +431,7 @@ class EDD_Software_Specs{
 	// rate link on manage plugin page, since 1.4
 	public function rate_link($links, $file) {
 		if ($file == plugin_basename(__FILE__)) {
-			$rate_link = '<a href="http://isabelcastillo.com/donate/">' . __('Rate It', 'edd-specs') . '</a>';
+			$rate_link = '<a href="http://wordpress.org/support/view/plugin-reviews/easy-digital-downloads-software-specs">' . __('Rate It', 'edd-specs') . '</a>';
 			$links[] = $rate_link;
 		}
 		return $links;
