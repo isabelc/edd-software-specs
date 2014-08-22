@@ -232,6 +232,9 @@ Please [rate the plugin](http://wordpress.org/support/view/plugin-reviews/easy-d
 
 == Upgrade Notice ==
 
+= 1.7 =
+Textdomain has changed to word with WordPress core language packs.
+
 = 1.6 =
 Bug fix: Specs table shortcode now works on any page or post. Updated FAQ.
 
