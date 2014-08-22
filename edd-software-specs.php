@@ -7,7 +7,7 @@ Version: 1.6.1
 Author: Isabel Castillo
 Author URI: http://isabelcastillo.com
 License: GPL2
-Text Domain: edd-specs
+Text Domain: easy-digital-downloads-software-specs
 Domain Path: lang
 
 Copyright 2013 - 2014 Isabel Castillo
@@ -56,7 +56,7 @@ class EDD_Software_Specs{
 
 	public function load_textdomain() {
 
-		load_plugin_textdomain( 'edd-specs', false, dirname( plugin_basename( __FILE__ ) ) . '/lang/' );
+		load_plugin_textdomain( 'easy-digital-downloads-software-specs', false, dirname( plugin_basename( __FILE__ ) ) . '/lang/' );
 
 	}
 
@@ -174,15 +174,15 @@ class EDD_Software_Specs{
 			// 1st close featurList element and open new div to pair up with closing div inserted by featureList_wrap()
 			echo '</div><div>'; ?>
 				<link itemprop="SoftwareApplicationCategory" href="http://schema.org/<?php echo get_post_meta($post->ID, '_smartest_software_apptype', true); ?>"/>
-			<?php echo '<table id="isa-edd-specs"><caption>'. __( 'Specs', 'edd-specs' ). '</caption>
+			<?php echo '<table id="isa-edd-specs"><caption>'. __( 'Specs', 'easy-digital-downloads-software-specs' ). '</caption>
 									<tr>
-										<td>'. __( 'Release date:', 'edd-specs' ). '</td>
+										<td>'. __( 'Release date:', 'easy-digital-downloads-software-specs' ). '</td>
 										<td>
 		<meta itemprop="datePublished" content="'. get_post_time('Y-m-d', false, $post->ID). '">
 								'. get_post_time('F j, Y', false, $post->ID, true). '</td>
 									</tr>
 									<tr>
-										<td>'. __( 'Last updated:', 'edd-specs' ). '</td>
+										<td>'. __( 'Last updated:', 'easy-digital-downloads-software-specs' ). '</td>
 		
 													<td><meta itemprop="dateModified" content="';
 	
@@ -194,7 +194,7 @@ class EDD_Software_Specs{
 
 
 								echo '<tr>
-										<td>' . __( 'Current version:', 'edd-specs' ) . '</td>
+										<td>' . __( 'Current version:', 'easy-digital-downloads-software-specs' ) . '</td>
 										<td itemprop="softwareVersion">' . $sVersion . '</td>
 									</tr>';
 
@@ -203,7 +203,7 @@ class EDD_Software_Specs{
 
 			if($appt) {
 								echo '<tr>
-										<td>'. __( 'Software application type:', 'edd-specs' ) .'</td>
+										<td>'. __( 'Software application type:', 'easy-digital-downloads-software-specs' ) .'</td>
 		
 										<td itemprop="applicationCategory">'. $appt . '</td>
 									</tr>';
@@ -213,7 +213,7 @@ class EDD_Software_Specs{
 
 	
 								echo '<tr>
-										<td>'. __( 'File format:', 'edd-specs' ). '</td>
+										<td>'. __( 'File format:', 'easy-digital-downloads-software-specs' ). '</td>
 										<td itemprop="fileFormat">'. $filt .'</td>
 									</tr>';
 
@@ -223,7 +223,7 @@ class EDD_Software_Specs{
 
 	
 								echo '<tr>
-										<td>'. __( 'File size:', 'edd-specs' ) . '</td>
+										<td>'. __( 'File size:', 'easy-digital-downloads-software-specs' ) . '</td>
 										<td itemprop="fileSize">' . $fils . '</td>
 									</tr>';
 
@@ -233,7 +233,7 @@ class EDD_Software_Specs{
 
 
 									echo '<tr>
-										<td>' . __( 'Requirements:', 'edd-specs' ) . '</td>
+										<td>' . __( 'Requirements:', 'easy-digital-downloads-software-specs' ) . '</td>
 										<td itemprop="requirements">' . $reqs . '</td>
 									</tr>';
 
@@ -243,7 +243,7 @@ class EDD_Software_Specs{
 
 
 									echo '<tr itemprop="offers" itemscope itemtype="http://schema.org/Offer">
-										<td>' . __( 'Price:', 'edd-specs' ) . '</td>
+										<td>' . __( 'Price:', 'easy-digital-downloads-software-specs' ) . '</td>
 										<td><span>'. $pric . ' </span>
 										 <span itemprop="priceCurrency">' . $isa_curr . '</span>			</td></tr>';
 
@@ -266,103 +266,103 @@ class EDD_Software_Specs{
 		$prefix = '_smartest_';
 	$ic_meta_boxes[] = array(
 			'id'         => 'download_specs_meta_box',
-			'title'      => __( 'Specs', 'edd-specs' ),
+			'title'      => __( 'Specs', 'easy-digital-downloads-software-specs' ),
 			'pages'      => array( 'download'), // Post type
 			'context'    => 'normal',
 			'priority'   => 'high',
 			'show_names' => true,
 			'fields'     => array(
 				array(
-					'name' => __( 'Date of Last Update', 'edd-specs' ),
+					'name' => __( 'Date of Last Update', 'easy-digital-downloads-software-specs' ),
 					'id'   => $prefix . 'lastupdate',
 					'type' => 'text_date_timestamp',
 				),
 				array(
-					'name' => __( 'Current Version', 'edd-specs' ),
+					'name' => __( 'Current Version', 'easy-digital-downloads-software-specs' ),
 					'id'   => $prefix . 'currentversion',
-					'desc' => __( 'If EDD Software Licensing or EDD Changelog plugin is enabled for this download, its version will take precedence in that order, and this field will be ignored.', 'edd-specs' ),
+					'desc' => __( 'If EDD Software Licensing or EDD Changelog plugin is enabled for this download, its version will take precedence in that order, and this field will be ignored.', 'easy-digital-downloads-software-specs' ),
 					'type' => 'text_small',
 				),
 
 				array(
-					'name' => __( 'Software Application Type - For Display', 'edd-specs' ),
+					'name' => __( 'Software Application Type - For Display', 'easy-digital-downloads-software-specs' ),
 					'id'   => $prefix . 'apptype',
-					'desc' => __( 'Text to display. For example, WordPress plugin, or Game', 'edd-specs' ),
+					'desc' => __( 'Text to display. For example, WordPress plugin, or Game', 'easy-digital-downloads-software-specs' ),
 					'type'    => 'text',
 				),
 				array(
-					'name' => __( 'Software Application Type - For Microdata', 'edd-specs' ),
+					'name' => __( 'Software Application Type - For Microdata', 'easy-digital-downloads-software-specs' ),
 					'id'   => $prefix . 'software_apptype',
-					'desc' => __( 'Select the Microdata type that fits your product best.', 'edd-specs' ),
+					'desc' => __( 'Select the Microdata type that fits your product best.', 'easy-digital-downloads-software-specs' ),
 					'type'    => 'select',
 					'options' => array(
-						array( 'name' => __( 'OtherApplication (if application doesn\'t map to any of the categories listed)', 'edd-specs' ), 'value' => 'OtherApplication', ),
-						array( 'name' => __( 'BrowserApplication (web browser, RSS reader, browser add-on/plug-in)', 'edd-specs' ), 'value' => 'BrowserApplication', ),
-						array( 'name' => __( 'BusinessApplication (office suites, sales and marketing apps, project management apps)', 'edd-specs' ), 'value' => 'BusinessApplication', ),
-						array( 'name' => __( 'CommunicationApplication (email , VOIP application)', 'edd-specs' ), 'value' => 'CommunicationApplication', ),
+						array( 'name' => __( 'OtherApplication (if application doesn\'t map to any of the categories listed)', 'easy-digital-downloads-software-specs' ), 'value' => 'OtherApplication', ),
+						array( 'name' => __( 'BrowserApplication (web browser, RSS reader, browser add-on/plug-in)', 'easy-digital-downloads-software-specs' ), 'value' => 'BrowserApplication', ),
+						array( 'name' => __( 'BusinessApplication (office suites, sales and marketing apps, project management apps)', 'easy-digital-downloads-software-specs' ), 'value' => 'BusinessApplication', ),
+						array( 'name' => __( 'CommunicationApplication (email , VOIP application)', 'easy-digital-downloads-software-specs' ), 'value' => 'CommunicationApplication', ),
 	
-						array( 'name' => __( 'DesignApplication (graphic design, pro audio/video, modeling, CAD/CAM)', 'edd-specs' ), 'value' => 'DesignApplication', ),
-						array( 'name' => __( 'DesktopEnhancementApplication', 'edd-specs' ), 'value' => 'DesktopEnhancementApplication', ),
-						array( 'name' => __( 'DeveloperApplication (compilers, debuggers)', 'edd-specs' ), 'value' => 'DeveloperApplication', ),
-	
-	
-						array( 'name' => __( 'DriverApplication (OS drivers)', 'edd-specs' ), 'value' => 'DriverApplication', ),
-						array( 'name' => __( 'EntertainmentApplication (music, sports, TV)', 'edd-specs' ), 'value' => 'EntertainmentApplication', ),
-						array( 'name' => __( 'EducationalApplication', 'edd-specs' ), 'value' => 'EducationalApplication', ),
+						array( 'name' => __( 'DesignApplication (graphic design, pro audio/video, modeling, CAD/CAM)', 'easy-digital-downloads-software-specs' ), 'value' => 'DesignApplication', ),
+						array( 'name' => __( 'DesktopEnhancementApplication', 'easy-digital-downloads-software-specs' ), 'value' => 'DesktopEnhancementApplication', ),
+						array( 'name' => __( 'DeveloperApplication (compilers, debuggers)', 'easy-digital-downloads-software-specs' ), 'value' => 'DeveloperApplication', ),
 	
 	
-						array( 'name' => __( 'FinanceApplication (accounting, finance, tax)', 'edd-specs' ), 'value' => 'FinanceApplication', ),
-						array( 'name' => __( 'GameApplication (action, arcades, etc)', 'edd-specs' ), 'value' => 'GameApplication', ),
-						array( 'name' => __( 'HealthApplication', 'edd-specs' ), 'value' => 'HealthApplication', ),
+						array( 'name' => __( 'DriverApplication (OS drivers)', 'easy-digital-downloads-software-specs' ), 'value' => 'DriverApplication', ),
+						array( 'name' => __( 'EntertainmentApplication (music, sports, TV)', 'easy-digital-downloads-software-specs' ), 'value' => 'EntertainmentApplication', ),
+						array( 'name' => __( 'EducationalApplication', 'easy-digital-downloads-software-specs' ), 'value' => 'EducationalApplication', ),
 	
 	
-						array( 'name' => __( 'HomeApplication (decoration, landscaping, DIY)', 'edd-specs' ), 'value' => 'HomeApplication', ),
-						array( 'name' => __( 'LifestyleApplication (cooking, diary, organizers)', 'edd-specs' ), 'value' => 'LifestyleApplication', ),
-						array( 'name' => __( 'MedicalApplication', 'edd-specs' ), 'value' => 'MedicalApplication', ),
-	
-						array( 'name' => __( 'MultimediaApplication (audio/video player, consumer photo/video editor)', 'edd-specs' ), 'value' => 'MultimediaApplication', ),
-						array( 'name' => __( 'NetworkingApplication', 'edd-specs' ), 'value' => 'NetworkingApplication', ),
-						array( 'name' => __( 'ReferenceApplication (books, reference)', 'edd-specs' ), 'value' => 'ReferenceApplication', ),
+						array( 'name' => __( 'FinanceApplication (accounting, finance, tax)', 'easy-digital-downloads-software-specs' ), 'value' => 'FinanceApplication', ),
+						array( 'name' => __( 'GameApplication (action, arcades, etc)', 'easy-digital-downloads-software-specs' ), 'value' => 'GameApplication', ),
+						array( 'name' => __( 'HealthApplication', 'easy-digital-downloads-software-specs' ), 'value' => 'HealthApplication', ),
 	
 	
-						array( 'name' => __( 'SecurityApplication (antivirus, firewall, encryption)', 'edd-specs' ), 'value' => 'SecurityApplication', ),
-						array( 'name' => __( 'ShoppingApplication', 'edd-specs' ), 'value' => 'ShoppingApplication', ),
-						array( 'name' => __( 'SocialNetworkingApplication', 'edd-specs' ), 'value' => 'SocialNetworkingApplication', ),
+						array( 'name' => __( 'HomeApplication (decoration, landscaping, DIY)', 'easy-digital-downloads-software-specs' ), 'value' => 'HomeApplication', ),
+						array( 'name' => __( 'LifestyleApplication (cooking, diary, organizers)', 'easy-digital-downloads-software-specs' ), 'value' => 'LifestyleApplication', ),
+						array( 'name' => __( 'MedicalApplication', 'easy-digital-downloads-software-specs' ), 'value' => 'MedicalApplication', ),
+	
+						array( 'name' => __( 'MultimediaApplication (audio/video player, consumer photo/video editor)', 'easy-digital-downloads-software-specs' ), 'value' => 'MultimediaApplication', ),
+						array( 'name' => __( 'NetworkingApplication', 'easy-digital-downloads-software-specs' ), 'value' => 'NetworkingApplication', ),
+						array( 'name' => __( 'ReferenceApplication (books, reference)', 'easy-digital-downloads-software-specs' ), 'value' => 'ReferenceApplication', ),
 	
 	
-						array( 'name' => __( 'SportsApplication', 'edd-specs' ), 'value' => 'SportsApplication', ),
-						array( 'name' => __( 'TravelApplication', 'edd-specs' ), 'value' => 'TravelApplication', ),
-						array( 'name' => __( 'UtilitiesApplication (system tools, utilities)', 'edd-specs' ), 'value' => 'UtilitiesApplication', ),
+						array( 'name' => __( 'SecurityApplication (antivirus, firewall, encryption)', 'easy-digital-downloads-software-specs' ), 'value' => 'SecurityApplication', ),
+						array( 'name' => __( 'ShoppingApplication', 'easy-digital-downloads-software-specs' ), 'value' => 'ShoppingApplication', ),
+						array( 'name' => __( 'SocialNetworkingApplication', 'easy-digital-downloads-software-specs' ), 'value' => 'SocialNetworkingApplication', ),
+	
+	
+						array( 'name' => __( 'SportsApplication', 'easy-digital-downloads-software-specs' ), 'value' => 'SportsApplication', ),
+						array( 'name' => __( 'TravelApplication', 'easy-digital-downloads-software-specs' ), 'value' => 'TravelApplication', ),
+						array( 'name' => __( 'UtilitiesApplication (system tools, utilities)', 'easy-digital-downloads-software-specs' ), 'value' => 'UtilitiesApplication', ),
 	
 					),
 				),
 	
 	
 				array(
-					'name' => __( 'File type', 'edd-specs' ),
+					'name' => __( 'File type', 'easy-digital-downloads-software-specs' ),
 					'id'   => $prefix . 'filetype',
-					'desc' => __( 'For example, .zip, or .eps', 'edd-specs' ),
+					'desc' => __( 'For example, .zip, or .eps', 'easy-digital-downloads-software-specs' ),
 					'type'    => 'text',
 				),
 	
 	
 				array(
-					'name' => __( 'File Size', 'edd-specs' ),
+					'name' => __( 'File Size', 'easy-digital-downloads-software-specs' ),
 					'id'   => $prefix . 'filesize',
 					'type' => 'text_small',
 				),
 	
 				array(
-					'name' => __( 'Requirements', 'edd-specs' ),
+					'name' => __( 'Requirements', 'easy-digital-downloads-software-specs' ),
 					'id'   => $prefix . 'requirements',
-					'desc' => __( 'For example, WordPress 3.3.1+, or a certain required plugin. Separate requirements with commas.', 'edd-specs' ),
+					'desc' => __( 'For example, WordPress 3.3.1+, or a certain required plugin. Separate requirements with commas.', 'easy-digital-downloads-software-specs' ),
 					'type' => 'text',
 				),
 	
 				array(
-					'name' => __( 'Price Currency', 'edd-specs' ),
+					'name' => __( 'Price Currency', 'easy-digital-downloads-software-specs' ),
 					'id'   => $prefix . 'pricecurrency',
-					'desc' => sprintf(__( 'The type of currency that the price refers to. Use 3-letter %1$s.', 'edd-specs' ), 
+					'desc' => sprintf(__( 'The type of currency that the price refers to. Use 3-letter %1$s.', 'easy-digital-downloads-software-specs' ), 
 											'<a href="http://en.wikipedia.org/wiki/ISO_4217" title="ISO 4217 currency codes" target="_blank">ISO 4217 format</a>.'
 									),
 					'type' => 'text_small',
@@ -413,7 +413,7 @@ class EDD_Software_Specs{
 			$eddsspecs_ver = get_post_meta( $item_ID, '_smartest_currentversion', true );
 			if ( ! empty( $eddsspecs_ver ) )
 					printf( '<li id="sspecs_download_version" style="text-indent:48px;"> - %1$s %2$s</li>',
-						__( 'Current Version:', 'edd-specs' ),
+						__( 'Current Version:', 'easy-digital-downloads-software-specs' ),
 						esc_html( $eddsspecs_ver )
 			);		
 
@@ -431,7 +431,7 @@ class EDD_Software_Specs{
 	// rate link on manage plugin page, since 1.4
 	public function rate_link($links, $file) {
 		if ($file == plugin_basename(__FILE__)) {
-			$rate_link = '<a href="http://wordpress.org/support/view/plugin-reviews/easy-digital-downloads-software-specs">' . __('Rate It', 'edd-specs') . '</a>';
+			$rate_link = '<a href="http://wordpress.org/support/view/plugin-reviews/easy-digital-downloads-software-specs">' . __('Rate It', 'easy-digital-downloads-software-specs') . '</a>';
 			$links[] = $rate_link;
 		}
 		return $links;
@@ -442,14 +442,14 @@ class EDD_Software_Specs{
 	 */
 	public function edd_software_specs_shortcode($atts) {
 		extract( shortcode_atts( 
-			array(	'title' => __( 'Specs', 'edd-specs' ),
+			array(	'title' => __( 'Specs', 'easy-digital-downloads-software-specs' ),
 					'isodate' => false,
 					'remove_specs_content_filter' => 'on',
 			), 
 			$atts
 		));
 		
-		$atts['title'] = empty($atts['title']) ? __( 'Specs', 'edd-specs' ) : $atts['title'];
+		$atts['title'] = empty($atts['title']) ? __( 'Specs', 'easy-digital-downloads-software-specs' ) : $atts['title'];
 		ob_start();
 		the_widget( 'edd_software_specs_widget', $atts ); 
 		$output = ob_get_clean();
