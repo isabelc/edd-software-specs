@@ -6,7 +6,6 @@
  * @package 	EDD Software Specs
  * @extends 	WP_Widget
  */
-
 class edd_software_specs_widget extends WP_Widget {
 	public function __construct() {
 		parent::__construct(
@@ -19,7 +18,6 @@ class edd_software_specs_widget extends WP_Widget {
 	 * Front-end display of widget.
 	 */
 	public function widget( $args, $instance ) {
-
 		$title = apply_filters( 'widget_title', empty( $instance['title'] ) ? __( 'Specs', 'edd-specs' ) : $instance['title'], $instance, $this->id_base );
 		$isodate = isset($instance['isodate']) ? $instance['isodate'] : false;
 		$download_id = isset($instance['download_id']) ? $instance['download_id'] : false;
@@ -33,7 +31,7 @@ class edd_software_specs_widget extends WP_Widget {
 
 		$dm = get_post_meta($download_id, '_smartest_lastupdate', true);
 		$pc = get_post_meta($download_id, '_smartest_pricecurrency', true);
-		$isa_curr = $pc ? $pc : '';
+		$isa_curr = $pc ? $pc : '';// @new
 	
 		/* If EDD Software Licensing or EDD Changelog plugin is active and its version is entered, use their version instead of ours */
 	
@@ -147,11 +145,10 @@ class edd_software_specs_widget extends WP_Widget {
 										 <span itemprop="priceCurrency">' . $isa_curr . '</span>			</td></tr>';
 
 			}
-	
 			do_action( 'eddss_add_specs_table_row' );
 				echo '</table>';
+		} // end if($dm)	
 
-		} // end if($dm)
 		echo $args['after_widget'];
 	}
 
@@ -172,10 +169,10 @@ class edd_software_specs_widget extends WP_Widget {
 	 */
 	public function form( $instance ) {
 		$defaults = array( 
-				'title' => __('Specs','edd-specs'),
-				'isodate' => 'on',
-				'remove_specs_content_filter' => 'on',
-				);
+					'title' => __('Specs', 'edd-specs'),
+					'isodate' => 'on',
+					'remove_specs_content_filter' => 'on',
+					);
  		$instance = wp_parse_args( (array) $instance, $defaults );
     	?>
 		<p><label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title:', 'edd-specs' ); ?></label><input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo $instance['title']; ?>" /></p>
