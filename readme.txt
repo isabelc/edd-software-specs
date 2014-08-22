@@ -19,7 +19,6 @@ Add software specs and Software Application microdata to your downloads when usi
 `[edd-software-specs download_id="###"]`
 
 
-
 = Description =
 
 This is an extension for [Easy Digital Downloads](http://wordpress.org/plugins/easy-digital-downloads/) that does several things if you enable it for a download: 
@@ -163,7 +162,9 @@ Please [rate the plugin](http://wordpress.org/support/view/plugin-reviews/easy-d
 == Changelog ==
 
 = 1.7 =
-* New - the textdomain has changed to easy-digital-downloads-software-specs. You must update your .mo files accordingly.
+* New - The textdomain has changed to easy-digital-downloads-software-specs. You must update your .mo files accordingly.
+* Maintenance - Updated widget to work with the WordPress 4.0 live customizer.
+* Maintenance - Use singleton class.
 
 = 1.6.1 =
 * Fix: specs content filter should ignore widget setting to surpress specs if the widget is not active

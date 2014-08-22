@@ -6,7 +6,6 @@
  * @package 	EDD Software Specs
  * @extends 	WP_Widget
  */
-
 class edd_software_specs_widget extends WP_Widget {
 	public function __construct() {
 		parent::__construct(
@@ -17,14 +16,9 @@ class edd_software_specs_widget extends WP_Widget {
 	}
 	/**
 	 * Front-end display of widget.
-	 *
-	 * @param array $args     Widget arguments.
-	 * @param array $instance Saved values from database.
 	 */
 	public function widget( $args, $instance ) {
-		extract( $args );
-		
-		$title = apply_filters('widget_title', $instance['title']);
+		$title = apply_filters( 'widget_title', empty( $instance['title'] ) ? __( 'Specs', 'easy-digital-downloads-software-specs' ) : $instance['title'], $instance, $this->id_base );
 		$isodate = isset($instance['isodate']) ? $instance['isodate'] : false;
 		$download_id = isset($instance['download_id']) ? $instance['download_id'] : false;
 
@@ -61,19 +55,20 @@ class edd_software_specs_widget extends WP_Widget {
 		$pric = $EDD_Software_Specs->smartest_isa_edd_price($download_id, false); // don't echo
 
 		wp_enqueue_style('edd-software-specs');
-		echo $before_widget;
+		echo $args['before_widget'];
 
 		// only show specs if last updated date is entered
 		if($dm) {
 		?>
 		<link itemprop="SoftwareApplicationCategory" href="http://schema.org/<?php echo get_post_meta($download_id, '_smartest_software_apptype', true); ?>"/>
 			<?php echo '<table id="isa-edd-specs"><caption>';
-				if ( ! empty( $title ) ) echo $title;
-
+				if ( $title ) {
+					echo $title;
+				}
 				echo '</caption><tr>
-										<td>'. __( 'Release date:', 'easy-digital-downloads-software-specs' ). '</td>
-										<td>
-		<meta itemprop="datePublished" content="'. get_post_time('Y-m-d', false, $download_id). '">';
+					<td>'. __( 'Release date:', 'easy-digital-downloads-software-specs' ). '</td>
+					<td>
+					<meta itemprop="datePublished" content="'. get_post_time('Y-m-d', false, $download_id). '">';
 		if($isodate == true) { echo get_post_time('Y-m-d', false, $download_id); }
 		else { echo get_post_time('F j, Y', false, $download_id, true); }
 
@@ -141,35 +136,22 @@ class edd_software_specs_widget extends WP_Widget {
 
 			}
 
-			if($pric && $isa_curr) {// @new
-
-
-									echo '<tr itemprop="offers" itemscope itemtype="http://schema.org/Offer">
-										<td>' . __( 'Price:', 'easy-digital-downloads-software-specs' ) . '</td>
-										<td><span>'. $pric . ' </span>
-										 <span itemprop="priceCurrency">' . $isa_curr . '</span>			</td></tr>';
-
+			if($pric && $isa_curr) {
+					echo '<tr itemprop="offers" itemscope itemtype="http://schema.org/Offer">
+						<td>' . __( 'Price:', 'easy-digital-downloads-software-specs' ) . '</td>
+						<td><span>'. $pric . ' </span>
+					<span itemprop="priceCurrency">' . $isa_curr . '</span>			</td></tr>';
 			}
 	
 			do_action( 'eddss_add_specs_table_row' );
-				echo '</table>';
+			echo '</table>';
 
 		} // end if($dm)	
-
-
-		echo $after_widget;
-
+		echo $args['after_widget'];
 	}
 
 	/**
 	 * Sanitize widget form values as they are saved.
-	 *
-	 * @see WP_Widget::update()
-	 *
-	 * @param array $new_instance Values just sent to be saved.
-	 * @param array $old_instance Previously saved values from database.
-	 *
-	 * @return array Updated safe values to be saved.
 	 */
 	public function update( $new_instance, $old_instance ) {
 		$instance = array();
@@ -177,32 +159,23 @@ class edd_software_specs_widget extends WP_Widget {
 		$instance['remove_specs_content_filter'] = $new_instance['remove_specs_content_filter'];
 		$instance['isodate'] = $new_instance['isodate'];		
 		update_option('remove_specs_content_filter', $instance['remove_specs_content_filter']);
-
 		return $instance;
 	}
 
 	/**
 	 * Back-end widget form.
-	 *
-	 * @see WP_Widget::form()
-	 *
-	 * @param array $instance Previously saved values from database.
 	 */
 	public function form( $instance ) {
-
 		$defaults = array( 
-					'title' => 'Specs',
+					'title' => __('Specs','easy-digital-downloads-software-specs'),
 					'isodate' => 'on',
 					'remove_specs_content_filter' => 'on',
 					);
  		$instance = wp_parse_args( (array) $instance, $defaults );
     	?>
 		<p><label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title:', 'easy-digital-downloads-software-specs' ); ?></label><input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo $instance['title']; ?>" /></p>
-
-
-	<p><input id="<?php echo $this->get_field_id( 'isodate' ); ?>" name="<?php echo $this->get_field_name( 'isodate' ); ?>" type="checkbox" class="checkbox" <?php checked( $instance['isodate'], 'on' ); ?> /><label for="<?php echo $this->get_field_id( 'isodate' ); ?>"><?php _e( ' Use ISO 8601 date format (YYYY-MM-DD) instead of nice date. Useful if less space is available in sidebar.', 'easy-digital-downloads-software-specs' ); ?></label></p>
-
-	<p><input id="<?php echo $this->get_field_id( 'remove_specs_content_filter' ); ?>" name="<?php echo $this->get_field_name( 'remove_specs_content_filter' ); ?>" type="checkbox" class="checkbox" <?php checked( $instance['remove_specs_content_filter'], 'on' ); ?> /><label for="<?php echo $this->get_field_id( 'remove_specs_content_filter' ); ?>"><?php _e( ' Remove Specs from below content, since I will use this widget instead.', 'easy-digital-downloads-software-specs' ); ?></label></p>
+		<p><input id="<?php echo $this->get_field_id( 'isodate' ); ?>" name="<?php echo $this->get_field_name( 'isodate' ); ?>" type="checkbox" class="checkbox" <?php checked( $instance['isodate'], 'on' ); ?> /><label for="<?php echo $this->get_field_id( 'isodate' ); ?>"><?php _e( ' Use ISO 8601 date format (YYYY-MM-DD) instead of nice date. Useful if less space is available in sidebar.', 'easy-digital-downloads-software-specs' ); ?></label></p>
+		<p><input id="<?php echo $this->get_field_id( 'remove_specs_content_filter' ); ?>" name="<?php echo $this->get_field_name( 'remove_specs_content_filter' ); ?>" type="checkbox" class="checkbox" <?php checked( $instance['remove_specs_content_filter'], 'on' ); ?> /><label for="<?php echo $this->get_field_id( 'remove_specs_content_filter' ); ?>"><?php _e( ' Remove Specs from below content, since I will use this widget instead.', 'easy-digital-downloads-software-specs' ); ?></label></p>
 		<?php 
 	}
 }
