@@ -163,6 +163,7 @@ Please [rate the plugin](http://wordpress.org/support/view/plugin-reviews/easy-d
 
 = 1.7.1 =
 * Fix: The edd_software_specs_shortcode shortcode was called incorrectly. Thanks to Austin Passy.
+* Maintenance - Removed 2 PHP notices. Thanks to Keiser Media.
 
 = 1.7 =
 * New - The textdomain has changed to easy-digital-downloads-software-specs. You must update your .mo files accordingly.
