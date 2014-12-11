@@ -92,6 +92,10 @@ class EDD_Software_Specs{
 	public function softwareapp_body_class( $classes ) {
 
 		global $post;
+		if ( ! is_object($post) ) {
+			return;
+		}
+
 		$dm = get_post_meta($post->ID, '_smartest_lastupdate', true);
 		// only do the following if last updated date is entered
 		if($dm) {
@@ -393,13 +397,15 @@ class EDD_Software_Specs{
 	 */
 
 	public function remove_microdata() {
-		// only if specs are wanted
 		global $post;
+		if ( ! is_object($post) ) {
+			return;
+		}		
 		$dm = get_post_meta($post->ID, '_smartest_lastupdate', true);
 
-		if($dm) {
-				/* remove EDD's itemtype product, will do SoftwareApplication instead, up at the body element */
-				remove_filter( 'the_content', 'edd_microdata_wrapper', 10 );
+		if( $dm ) {
+			/* remove EDD's itemtype product, will do SoftwareApplication instead, up at the body element */
+			remove_filter( 'the_content', 'edd_microdata_wrapper', 10 );
 		}
 	}
 
