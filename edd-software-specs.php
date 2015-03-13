@@ -3,7 +3,7 @@
 Plugin Name: Easy Digital Downloads - Software Specs
 Plugin URI: http://isabelcastillo.com/docs/category/easy-digital-downloads-software-specs-plugin
 Description: Add software specs and Software Application Microdata to your downloads when using Easy Digital Downloads plugin.
-Version: 1.8-beta-1
+Version: 1.8-beta-2
 Author: Isabel Castillo
 Author URI: http://isabelcastillo.com
 License: GPL2
@@ -43,7 +43,8 @@ class EDD_Software_Specs{
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue' ) );
 		add_action( 'plugins_loaded', array( $this, 'load_textdomain' ) );
 		add_filter( 'the_content', array( $this, 'featureList_wrap' ), 20 );
-		add_filter( 'body_class', array( $this, 'softwareapp_body_class' ) );
+		add_action( 'loop_start', array( $this, 'microdata_open' ), 10 );
+		add_action( 'loop_end', array( $this, 'microdata_close' ), 10 );
 		add_action( 'edd_after_download_content', array( $this, 'specs' ), 30 );
 		add_action( 'edd_receipt_files', array( $this, 'receipt' ), 10, 5 );
 		add_filter('plugin_row_meta', array( $this, 'rate_link' ), 10, 2);
@@ -81,31 +82,6 @@ class EDD_Software_Specs{
 			$content = '<div itemprop="description">' . $content . '</div>';
 		}
 		return $content;
-	}
-	
-	/**
-	 * Add SoftwareApplication Microdata to single downloads
-	 * 
-	 * @since 0.1
-	 */
-	
-	public function softwareapp_body_class( $classes ) {
-
-		global $post;
-		if ( ! is_object($post) ) {
-			return;
-		}
-
-		$dm = get_post_meta($post->ID, '_smartest_lastupdate', true);
-		// only do the following if last updated date is entered
-		if($dm) {
-
-			$backtrace = debug_backtrace();
-			if ( $backtrace[4]['function'] === 'body_class' )
-				echo ' itemscope itemtype="http://schema.org/SoftwareApplication" ';
-		}
-
-		return $classes;
 	}
 	
 	/**
@@ -182,9 +158,7 @@ class EDD_Software_Specs{
 		if ( ! $surpress ) {
 
 			// 1st close featurList element and open new div to pair up with closing div inserted by featureList_wrap()
-			echo '</div><div>'; ?>
-				<link itemprop="SoftwareApplicationCategory" href="http://schema.org/<?php echo get_post_meta($post->ID, '_smartest_software_apptype', true); ?>"/>
-			<?php echo '<table id="isa-edd-specs"><caption>'. __( 'Specs', 'easy-digital-downloads-software-specs' ). '</caption>
+			echo '</div><div><table id="isa-edd-specs"><caption>'. __( 'Specs', 'easy-digital-downloads-software-specs' ). '</caption>
 									<tr>
 										<td>'. __( 'Release date:', 'easy-digital-downloads-software-specs' ). '</td>
 										<td>
@@ -295,66 +269,17 @@ class EDD_Software_Specs{
 				),
 
 				array(
-					'name' => __( 'Software Application Type - For Display', 'easy-digital-downloads-software-specs' ),
+					'name' => __( 'Software Application Type', 'easy-digital-downloads-software-specs' ),
 					'id'   => $prefix . 'apptype',
-					'desc' => __( 'Text to display. For example, WordPress plugin, or Game', 'easy-digital-downloads-software-specs' ),
+					'desc' => __( 'Text to display (also used for microdata). For example, WordPress plugin, or Game', 'easy-digital-downloads-software-specs' ),
 					'type'    => 'text',
 				),
-				array(
-					'name' => __( 'Software Application Type - For Microdata', 'easy-digital-downloads-software-specs' ),
-					'id'   => $prefix . 'software_apptype',
-					'desc' => __( 'Select the Microdata type that fits your product best.', 'easy-digital-downloads-software-specs' ),
-					'type'    => 'select',
-					'options' => array(
-						array( 'name' => __( 'OtherApplication (if application doesn\'t map to any of the categories listed)', 'easy-digital-downloads-software-specs' ), 'value' => 'OtherApplication', ),
-						array( 'name' => __( 'BrowserApplication (web browser, RSS reader, browser add-on/plug-in)', 'easy-digital-downloads-software-specs' ), 'value' => 'BrowserApplication', ),
-						array( 'name' => __( 'BusinessApplication (office suites, sales and marketing apps, project management apps)', 'easy-digital-downloads-software-specs' ), 'value' => 'BusinessApplication', ),
-						array( 'name' => __( 'CommunicationApplication (email , VOIP application)', 'easy-digital-downloads-software-specs' ), 'value' => 'CommunicationApplication', ),
-	
-						array( 'name' => __( 'DesignApplication (graphic design, pro audio/video, modeling, CAD/CAM)', 'easy-digital-downloads-software-specs' ), 'value' => 'DesignApplication', ),
-						array( 'name' => __( 'DesktopEnhancementApplication', 'easy-digital-downloads-software-specs' ), 'value' => 'DesktopEnhancementApplication', ),
-						array( 'name' => __( 'DeveloperApplication (compilers, debuggers)', 'easy-digital-downloads-software-specs' ), 'value' => 'DeveloperApplication', ),
-	
-	
-						array( 'name' => __( 'DriverApplication (OS drivers)', 'easy-digital-downloads-software-specs' ), 'value' => 'DriverApplication', ),
-						array( 'name' => __( 'EntertainmentApplication (music, sports, TV)', 'easy-digital-downloads-software-specs' ), 'value' => 'EntertainmentApplication', ),
-						array( 'name' => __( 'EducationalApplication', 'easy-digital-downloads-software-specs' ), 'value' => 'EducationalApplication', ),
-	
-	
-						array( 'name' => __( 'FinanceApplication (accounting, finance, tax)', 'easy-digital-downloads-software-specs' ), 'value' => 'FinanceApplication', ),
-						array( 'name' => __( 'GameApplication (action, arcades, etc)', 'easy-digital-downloads-software-specs' ), 'value' => 'GameApplication', ),
-						array( 'name' => __( 'HealthApplication', 'easy-digital-downloads-software-specs' ), 'value' => 'HealthApplication', ),
-	
-	
-						array( 'name' => __( 'HomeApplication (decoration, landscaping, DIY)', 'easy-digital-downloads-software-specs' ), 'value' => 'HomeApplication', ),
-						array( 'name' => __( 'LifestyleApplication (cooking, diary, organizers)', 'easy-digital-downloads-software-specs' ), 'value' => 'LifestyleApplication', ),
-						array( 'name' => __( 'MedicalApplication', 'easy-digital-downloads-software-specs' ), 'value' => 'MedicalApplication', ),
-	
-						array( 'name' => __( 'MultimediaApplication (audio/video player, consumer photo/video editor)', 'easy-digital-downloads-software-specs' ), 'value' => 'MultimediaApplication', ),
-						array( 'name' => __( 'NetworkingApplication', 'easy-digital-downloads-software-specs' ), 'value' => 'NetworkingApplication', ),
-						array( 'name' => __( 'ReferenceApplication (books, reference)', 'easy-digital-downloads-software-specs' ), 'value' => 'ReferenceApplication', ),
-	
-	
-						array( 'name' => __( 'SecurityApplication (antivirus, firewall, encryption)', 'easy-digital-downloads-software-specs' ), 'value' => 'SecurityApplication', ),
-						array( 'name' => __( 'ShoppingApplication', 'easy-digital-downloads-software-specs' ), 'value' => 'ShoppingApplication', ),
-						array( 'name' => __( 'SocialNetworkingApplication', 'easy-digital-downloads-software-specs' ), 'value' => 'SocialNetworkingApplication', ),
-	
-	
-						array( 'name' => __( 'SportsApplication', 'easy-digital-downloads-software-specs' ), 'value' => 'SportsApplication', ),
-						array( 'name' => __( 'TravelApplication', 'easy-digital-downloads-software-specs' ), 'value' => 'TravelApplication', ),
-						array( 'name' => __( 'UtilitiesApplication (system tools, utilities)', 'easy-digital-downloads-software-specs' ), 'value' => 'UtilitiesApplication', ),
-	
-					),
-				),
-	
-	
 				array(
 					'name' => __( 'File type', 'easy-digital-downloads-software-specs' ),
 					'id'   => $prefix . 'filetype',
 					'desc' => __( 'For example, .zip, or .eps', 'easy-digital-downloads-software-specs' ),
 					'type'    => 'text',
 				),
-	
 	
 				array(
 					'name' => __( 'File Size', 'easy-digital-downloads-software-specs' ),
@@ -471,6 +396,48 @@ class EDD_Software_Specs{
 		return $output;
 
 	}
+
+/**
+* Add SoftwareApplication Microdata to single downloads
+*
+* @since 1.8
+* @return void
+*/
+public function microdata_open() {
+	global $post;
+	static $microdata_open = NULL;
+	if( true === $microdata_open || ! is_object( $post ) ) {
+		return;
+	}
+	if ( $post && $post->post_type == 'download' && is_singular( 'download' ) && is_main_query() ) {
+		// only add microdata if last updated date is entered
+		if( get_post_meta($post->ID, '_smartest_lastupdate', true) ) {
+			$microdata_open = true;
+			echo '<span itemscope itemtype="http://schema.org/SoftwareApplication">';
+		}
+	}
+}
+/**
+* Close the SoftwareApplication Microdata wrapper on single downloads
+*
+* @since 1.8
+* @return void
+*/
+public function microdata_close() {
+	global $post;
+	static $microdata_close = NULL;
+	if( true === $microdata_close || ! is_object( $post ) ) {
+		return;
+	}
+	if ( $post && $post->post_type == 'download' && is_singular( 'download' ) && is_main_query() ) {
+		// only add microdata if last updated date is entered
+		if( get_post_meta($post->ID, '_smartest_lastupdate', true) ) {
+			$microdata_close = true;
+			echo '</span>';
+		}
+	}
+}
+
 }
 }
 $EDD_Software_Specs = EDD_Software_Specs::get_instance();

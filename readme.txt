@@ -51,7 +51,6 @@ This is an extension for [Easy Digital Downloads](http://wordpress.org/plugins/e
 * In addition, it adds these microdata properties of `SoftwareApplication`:
 
 `description
-softwareapplicationcategory
 datepublished
 datemodified
 softwareversion
@@ -161,6 +160,10 @@ Please [rate the plugin](http://wordpress.org/support/view/plugin-reviews/easy-d
 2. Back-end: Specs meta box on single download editor
 == Changelog ==
 
+= 1.8 =
+* Fix - Remove Product microdata with the new filter. 
+* Tweak - Add the SoftwareApplication microdata by inserting a span element rather than in the body tag since this method uses less memory.
+
 = 1.7.2 =
 * New: Added .pot localization file.
 
@@ -238,6 +241,9 @@ Please [rate the plugin](http://wordpress.org/support/view/plugin-reviews/easy-d
 * Initial release.
 
 == Upgrade Notice ==
+
+= 1.8 =
+
 
 = 1.7.1 =
 Fixed the shortcode call which was giving errors. Thanks to Austin Passy.

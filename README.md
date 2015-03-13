@@ -33,7 +33,6 @@ You can leave a field blank to omit that row from the table. There are 2 excepti
 * In addition, it adds these microdata properties of `SoftwareApplication`:
 
 ```description
-softwareapplicationcategory
 datepublished
 datemodified
 softwareversion

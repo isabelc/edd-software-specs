@@ -58,10 +58,8 @@ class edd_software_specs_widget extends WP_Widget {
 		echo $args['before_widget'];
 
 		// only show specs if last updated date is entered
-		if($dm) {
-		?>
-		<link itemprop="SoftwareApplicationCategory" href="http://schema.org/<?php echo get_post_meta($download_id, '_smartest_software_apptype', true); ?>"/>
-			<?php echo '<table id="isa-edd-specs"><caption>';
+		if ( $dm ) {
+			echo '<table id="isa-edd-specs"><caption>';
 				if ( $title ) {
 					echo $title;
 				}
