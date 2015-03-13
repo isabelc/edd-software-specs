@@ -3,14 +3,14 @@
 Plugin Name: Easy Digital Downloads - Software Specs
 Plugin URI: http://isabelcastillo.com/docs/category/easy-digital-downloads-software-specs-plugin
 Description: Add software specs and Software Application Microdata to your downloads when using Easy Digital Downloads plugin.
-Version: 1.7.1
+Version: 1.8-beta-1
 Author: Isabel Castillo
 Author URI: http://isabelcastillo.com
 License: GPL2
 Text Domain: easy-digital-downloads-software-specs
 Domain Path: lang
 
-Copyright 2013 - 2014 Isabel Castillo
+Copyright 2013 - 2015 Isabel Castillo
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License, version 2, as 
@@ -25,7 +25,7 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
-if(!class_exists('EDD_Software_Specs')) {
+if ( ! class_exists('EDD_Software_Specs' ) ) {
 class EDD_Software_Specs{
 
 	private static $instance = null;
@@ -39,7 +39,7 @@ class EDD_Software_Specs{
 	private function __construct() {
 		add_filter( 'isa_meta_boxes', array( $this, 'specs_metabox' ) );
 		add_action( 'init', array( $this, 'init'), 9999 );
-		add_action( 'get_header', array( $this, 'remove_microdata') );
+		add_filter( 'edd_add_schema_microdata', array( $this, 'remove_microdata') );
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue' ) );
 		add_action( 'plugins_loaded', array( $this, 'load_textdomain' ) );
 		add_filter( 'the_content', array( $this, 'featureList_wrap' ), 20 );
@@ -393,20 +393,23 @@ class EDD_Software_Specs{
 
 	/**
 	 * remove EDD's itemtype product
+	 * @param bool $ret the default return value
 	 * @since 1.4
 	 */
 
-	public function remove_microdata() {
+	public function remove_microdata( $ret ) {
 		global $post;
-		if ( ! is_object($post) ) {
-			return;
-		}		
-		$dm = get_post_meta($post->ID, '_smartest_lastupdate', true);
 
-		if( $dm ) {
-			/* remove EDD's itemtype product, will do SoftwareApplication instead, up at the body element */
-			remove_filter( 'the_content', 'edd_microdata_wrapper', 10 );
+		if ( ! is_object( $post ) ) {
+			return $ret;
 		}
+
+		if ( get_post_meta($post->ID, '_smartest_lastupdate', true) ) {
+			return false;				
+		} else {
+			return $ret;
+		}
+
 	}
 
 	/**
