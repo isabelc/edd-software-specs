@@ -3,8 +3,8 @@ Contributors: isabel104
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=me%40isabelcastillo%2ecom
 Tags: software, specs, SoftwareApplication, application, microdata, schema, schema.org, easy digital downloads, edd specs
 Requires at least: 3.8
-Tested up to: 4.0.1
-Stable tag: 1.7.1
+Tested up to: 4.1
+Stable tag: 1.8
 License: GNU Version 2 or Any Later Version
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -163,6 +163,7 @@ Please [rate the plugin](http://wordpress.org/support/view/plugin-reviews/easy-d
 = 1.8 =
 * Fix - Remove Product microdata with the new filter. 
 * Tweak - Add the SoftwareApplication microdata by inserting a span element rather than in the body tag since this method uses less memory.
+* Maintenance - Removed 'softwareApplicationCategory' since Google no longer recognizes it.
 
 = 1.7.2 =
 * New: Added .pot localization file.
@@ -243,7 +244,7 @@ Please [rate the plugin](http://wordpress.org/support/view/plugin-reviews/easy-d
 == Upgrade Notice ==
 
 = 1.8 =
-
+Fix: Removing Product microdata now required use of new EDD filter.
 
 = 1.7.1 =
 Fixed the shortcode call which was giving errors. Thanks to Austin Passy.

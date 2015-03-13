@@ -3,7 +3,7 @@
 Plugin Name: Easy Digital Downloads - Software Specs
 Plugin URI: http://isabelcastillo.com/docs/category/easy-digital-downloads-software-specs-plugin
 Description: Add software specs and Software Application Microdata to your downloads when using Easy Digital Downloads plugin.
-Version: 1.8-beta-2
+Version: 1.8
 Author: Isabel Castillo
 Author URI: http://isabelcastillo.com
 License: GPL2
