@@ -49,6 +49,7 @@ class EDD_Software_Specs{
 		add_action( 'edd_receipt_files', array( $this, 'receipt' ), 10, 5 );
 		add_filter('plugin_row_meta', array( $this, 'rate_link' ), 10, 2);
 		add_action( 'widgets_init', array( $this, 'register_widgets' ) );
+		add_action( 'init', array( $this, 'cleanup_old_options' ) );
 
 		if( ! defined( 'EDDSPECS_PLUGIN_DIR' ) ) {
 			define( 'EDDSPECS_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
@@ -275,7 +276,6 @@ class EDD_Software_Specs{
 		extract( shortcode_atts( 
 			array(	'title' => __( 'Specs', 'easy-digital-downloads-software-specs' ),
 					'isodate' => false,
-					'remove_specs_content_filter' => 'on',
 			), 
 			$atts
 		));
@@ -288,47 +288,58 @@ class EDD_Software_Specs{
 
 	}
 
-/**
-* Add SoftwareApplication Microdata to single downloads
-*
-* @since 1.8
-* @return void
-*/
-public function microdata_open() {
-	global $post;
-	static $microdata_open = NULL;
-	if( true === $microdata_open || ! is_object( $post ) ) {
-		return;
-	}
-	if ( $post && $post->post_type == 'download' && is_singular( 'download' ) && is_main_query() ) {
-		// only add microdata if last updated date is entered
-		if( get_post_meta($post->ID, '_smartest_lastupdate', true) ) {
-			$microdata_open = true;
-			echo '<span itemscope itemtype="http://schema.org/SoftwareApplication">';
+	/**
+	* Add SoftwareApplication Microdata to single downloads
+	*
+	* @since 1.8
+	* @return void
+	*/
+	public function microdata_open() {
+		global $post;
+		static $microdata_open = NULL;
+		if( true === $microdata_open || ! is_object( $post ) ) {
+			return;
+		}
+		if ( $post && $post->post_type == 'download' && is_singular( 'download' ) && is_main_query() ) {
+			// only add microdata if last updated date is entered
+			if( get_post_meta($post->ID, '_smartest_lastupdate', true) ) {
+				$microdata_open = true;
+				echo '<span itemscope itemtype="http://schema.org/SoftwareApplication">';
+			}
 		}
 	}
-}
-/**
-* Close the SoftwareApplication Microdata wrapper on single downloads
-*
-* @since 1.8
-* @return void
-*/
-public function microdata_close() {
-	global $post;
-	static $microdata_close = NULL;
-	if( true === $microdata_close || ! is_object( $post ) ) {
-		return;
-	}
-	if ( $post && $post->post_type == 'download' && is_singular( 'download' ) && is_main_query() ) {
-		// only add microdata if last updated date is entered
-		if( get_post_meta($post->ID, '_smartest_lastupdate', true) ) {
-			$microdata_close = true;
-			echo '</span>';
+	/**
+	* Close the SoftwareApplication Microdata wrapper on single downloads
+	*
+	* @since 1.8
+	* @return void
+	*/
+	public function microdata_close() {
+		global $post;
+		static $microdata_close = NULL;
+		if( true === $microdata_close || ! is_object( $post ) ) {
+			return;
+		}
+		if ( $post && $post->post_type == 'download' && is_singular( 'download' ) && is_main_query() ) {
+			// only add microdata if last updated date is entered
+			if( get_post_meta($post->ID, '_smartest_lastupdate', true) ) {
+				$microdata_close = true;
+				echo '</span>';
+			}
 		}
 	}
-}
-
+	/**
+	 * For cleanup, remove old option.
+	 * @since 1.9
+	 */
+	public function cleanup_old_options() {
+		// Run this cleanup only once
+		// @todo remove this block in version 2.0, and del eddspecs_cleanup_one on uninstall
+		if ( get_option( 'eddspecs_cleanup_one' ) != 'completed' ) {
+			delete_option( 'remove_specs_content_filter' );
+			update_option( 'eddspecs_cleanup_one', 'completed' );
+		}
+	}
 }
 }
 $EDD_Software_Specs = EDD_Software_Specs::get_instance();

@@ -24,7 +24,7 @@ class edd_software_specs_widget extends WP_Widget {
 		}
 		
 		$title = apply_filters( 'widget_title', empty( $instance['title'] ) ? __( 'Specs', 'easy-digital-downloads-software-specs' ) : $instance['title'], $instance, $this->id_base );
-		$isodate = isset($instance['isodate']) ? $instance['isodate'] : false;// @test isodate
+		$isodate = isset($instance['isodate']) ? $instance['isodate'] : false;
 		$download_id = isset($instance['download_id']) ? $instance['download_id'] : false;
 
 		if(! $download_id) {
@@ -44,9 +44,7 @@ class edd_software_specs_widget extends WP_Widget {
 	public function update( $new_instance, $old_instance ) {
 		$instance = array();
 		$instance['title'] = strip_tags( $new_instance['title'] );
-		$instance['remove_specs_content_filter'] = isset( $new_instance['remove_specs_content_filter'] ) ? $new_instance['remove_specs_content_filter'] : false;
-		$instance['isodate'] = $new_instance['isodate'];		
-		update_option('remove_specs_content_filter', $instance['remove_specs_content_filter']);
+		$instance['isodate'] = isset( $new_instance['isodate'] ) ? $new_instance['isodate'] : false;
 		return $instance;
 	}
 
@@ -56,14 +54,12 @@ class edd_software_specs_widget extends WP_Widget {
 	public function form( $instance ) {
 		$defaults = array( 
 					'title' => __('Specs','easy-digital-downloads-software-specs'),
-					'isodate' => 'on',
-					'remove_specs_content_filter' => 'on',// @todo remove unused option.
+					'isodate' => 'on'
 					);
  		$instance = wp_parse_args( (array) $instance, $defaults );
     	?>
 		<p><label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title:', 'easy-digital-downloads-software-specs' ); ?></label><input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo $instance['title']; ?>" /></p>
 		<p><input id="<?php echo $this->get_field_id( 'isodate' ); ?>" name="<?php echo $this->get_field_name( 'isodate' ); ?>" type="checkbox" class="checkbox" <?php checked( $instance['isodate'], 'on' ); ?> /><label for="<?php echo $this->get_field_id( 'isodate' ); ?>"><?php _e( ' Use ISO 8601 date format (YYYY-MM-DD) instead of nice date. Useful if less space is available in sidebar.', 'easy-digital-downloads-software-specs' ); ?></label></p>
-		<p><input id="<?php echo $this->get_field_id( 'remove_specs_content_filter' ); ?>" name="<?php echo $this->get_field_name( 'remove_specs_content_filter' ); ?>" type="checkbox" class="checkbox" <?php checked( $instance['remove_specs_content_filter'], 'on' ); ?> /><label for="<?php echo $this->get_field_id( 'remove_specs_content_filter' ); ?>"><?php _e( ' Remove Specs from below content, since I will use this widget instead.', 'easy-digital-downloads-software-specs' ); ?></label></p>
 		<?php 
 	}
 }
