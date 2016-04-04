@@ -84,7 +84,7 @@ Go to the Downloads editor and enter specs for your existing digital products. T
 
 = How do I add a custom field to the Specs? =
 
-See [http://isabelcastillo.com/docs/how-do-i-add-a-row-to-the-specs-display-table](How do I add a custom field to the Specs?)
+See [How do I add a custom field to the Specs?](http://isabelcastillo.com/docs/how-do-i-add-a-row-to-the-specs-display-table)
 
 = How do I add Specs to the sidebar instead of below the content? =
 
