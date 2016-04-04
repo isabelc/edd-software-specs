@@ -3,8 +3,8 @@ Contributors: isabel104
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=me%40isabelcastillo%2ecom
 Tags: software, specs, SoftwareApplication, application, microdata, schema, schema.org, easy digital downloads, edd specs
 Requires at least: 3.8
-Tested up to: 4.1
-Stable tag: 1.8
+Tested up to: 4.5
+Stable tag: 1.9
 License: GNU Version 2 or Any Later Version
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -82,10 +82,13 @@ Go to the Downloads editor and enter specs for your existing digital products. T
 
 == Frequently Asked Questions ==
 
+= How do I add a custom field to the Specs? =
+
+See [http://isabelcastillo.com/docs/how-do-i-add-a-row-to-the-specs-display-table](How do I add a custom field to the Specs?)
+
 = How do I add Specs to the sidebar instead of below the content? =
 
 Use it as a widget instead. Go to **Appearance --> Widgets** to use the widget.
-
 
 = How do I insert the Specs wherever I want with a shortcode? =
 
@@ -105,45 +108,6 @@ Leave the `Date of Last Update` field empty. If that field is blank, no Specs ta
 
 You have to select a Software Application Type for the download. "OtherApplication" doesn't qualify for rich snippets, unless, outside of this plugin, you've added either "aggregateRating" or "operatingSystems" for the particular download. Go to the download's Specs meta box to select the Software Application Type.
 
-
-= How do I add a field to the Specs? =
-
-This example adds 3 custom fields to the Specs. Add the code to your functions. The "id" must NOT contain any spaces or dashes, but underscores are ok. The "desc" is the description of the field which will only be visible on the "Edit Download" page in the back end.
-
-`
-/**
- * Add 3 custom fields to the Specs
- */
-add_action( 'init', 'my_set_custom_specs_fields' );
-function my_set_custom_specs_fields() {
-
-	$custom_fields = array();
-
-	// add a custom field 
-
-	$custom_fields[] = array(
-				'name' => 'Resolution',
-				'id'   => 'resolution',
-				'desc' => 'Enter the resolution of this product.' );
-
-	// add a second custom field 
-
-	$custom_fields[] = array(
-				'name' => 'A Second Custom Field',
-				'id'   => 'second_custom',
-				'desc' => 'Enter a description for this field, to be seen in the back end.' );
-
-	// add a third custom field 
-
-	$custom_fields[] = array(
-				'name' => 'A Third Custom Field',
-				'id'   => 'third_custom',
-				'desc' => 'Enter a description for this field, to be seen in the back end.' );
-
-	update_option( 'eddss_custom_fields', $custom_fields );
-
-}
-`
 
 = How can I give back? =
 
