@@ -11,7 +11,7 @@ class edd_software_specs_widget extends WP_Widget {
 		parent::__construct(
 	 		'edd_software_specs_widget',
 			__('EDD Software Specs', 'easy-digital-downloads-software-specs'),
-			array( 'description' => __( 'Display the Software Specs table.', 'easy-digital-downloads-software-specs' ), )
+			array( 'description' => __( 'Display the Software Specs table.', 'easy-digital-downloads-software-specs' ), 'customize_selective_refresh' => true, )
 		);
 	}
 	/**
