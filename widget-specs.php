@@ -18,6 +18,11 @@ class edd_software_specs_widget extends WP_Widget {
 	 * Front-end display of widget.
 	 */
 	public function widget( $args, $instance ) {
+		
+		if ( ! is_singular( 'download' ) ) {
+			return;
+		}
+		
 		$title = apply_filters( 'widget_title', empty( $instance['title'] ) ? __( 'Specs', 'easy-digital-downloads-software-specs' ) : $instance['title'], $instance, $this->id_base );
 		$isodate = isset($instance['isodate']) ? $instance['isodate'] : false;
 		$download_id = isset($instance['download_id']) ? $instance['download_id'] : false;
@@ -31,14 +36,13 @@ class edd_software_specs_widget extends WP_Widget {
 
 		$dm = get_post_meta($download_id, '_smartest_lastupdate', true);
 		$pc = get_post_meta($download_id, '_smartest_pricecurrency', true);
-		$isa_curr = $pc ? $pc : '';// @new
+		$isa_curr = $pc ? $pc : '';
 	
 		/* If EDD Software Licensing or EDD Changelog plugin is active and its version is entered, use their version instead of ours */
 	
 		$eddchangelog_version = get_post_meta( $download_id, '_edd_sl_version', TRUE );
 
 		if ( empty( $eddchangelog_version ) ) {
-
 			// get my own specs version
 			$vKey = '_smartest_currentversion';
 
