@@ -3,7 +3,7 @@
 Plugin Name: Easy Digital Downloads - Software Specs
 Plugin URI: http://isabelcastillo.com/docs/category/easy-digital-downloads-software-specs-plugin
 Description: Add software specs and Software Application Microdata to your downloads when using Easy Digital Downloads plugin.
-Version: 1.8
+Version: 1.9-beta1
 Author: Isabel Castillo
 Author URI: http://isabelcastillo.com
 License: GPL2
@@ -50,16 +50,15 @@ class EDD_Software_Specs{
 		add_filter('plugin_row_meta', array( $this, 'rate_link' ), 10, 2);
 		add_action( 'widgets_init', array( $this, 'register_widgets' ) );
 
-		if( ! defined( 'EDDSPECS_PLUGIN_DIR' ) )
+		if( ! defined( 'EDDSPECS_PLUGIN_DIR' ) ) {
 			define( 'EDDSPECS_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
-		require_once EDDSPECS_PLUGIN_DIR . 'widget-specs.php';
+		}
+	}
 
-   }
-
-   	public function enqueue() {
+	public function enqueue() {
 		wp_register_style('edd-software-specs', plugins_url('/edd-software-specs.css', __FILE__));
 		if ( is_singular( 'download' ) ) {
-	            wp_enqueue_style('edd-software-specs');
+				wp_enqueue_style('edd-software-specs');
 		}
 	}
 
@@ -101,10 +100,10 @@ class EDD_Software_Specs{
 			$prices = edd_get_variable_prices( $download_id );
 			// Return the lowest price
 			$price_float = 0;
-	        foreach ($prices as $key => $value)
-	            if ( ( ( (float)$prices[ $key ]['amount'] ) < $price_float ) or ( $price_float == 0 ) )
-	                $price_float = (float)$prices[ $key ]['amount'];
-	            $price = edd_sanitize_amount( $price_float );
+			foreach ($prices as $key => $value)
+				if ( ( ( (float)$prices[ $key ]['amount'] ) < $price_float ) or ( $price_float == 0 ) )
+					$price_float = (float)$prices[ $key ]['amount'];
+				$price = edd_sanitize_amount( $price_float );
 		} else {
 			$price = edd_get_download_price( $download_id );// @isa try use this for diaplay my price
 		}
@@ -120,126 +119,18 @@ class EDD_Software_Specs{
 	
 		global $post;
 
-		$dm = get_post_meta($post->ID, '_smartest_lastupdate', true);
-		$pc = get_post_meta($post->ID, '_smartest_pricecurrency', true);
-		$isa_curr = $pc ? $pc : '';
-	
-		/* compatible with EDD Software Licensing plugin. If it's active and its version is entered, use its version instead of ours */
-	
-		$eddchangelog_version = get_post_meta( $post->ID, '_edd_sl_version', TRUE );
-
-		if ( empty( $eddchangelog_version ) ) {
-
-			// get my own specs version
-			$vKey = '_smartest_currentversion';
-
-		} else {
-			// get EDD Software Licensing's version
-			$vKey = '_edd_sl_version';
-		}
-	
-		$sVersion = get_post_meta($post->ID, $vKey, true);
-		$appt = get_post_meta($post->ID, '_smartest_apptype', true);
-		$filt = get_post_meta($post->ID, '_smartest_filetype', true);
-		$fils = get_post_meta($post->ID, '_smartest_filesize', true);
-		$reqs = get_post_meta($post->ID, '_smartest_requirements', true);
-		$pric = $this->smartest_isa_edd_price($post->ID, false); // don't echo
-
-
-		// only show if modified date is entered, and if not surpressed by widget, and if shortcode is not present
+		// only show if not surpressed by widget, and if shortcode is not present
 		$surpress = '';
-		if ( ! $dm )
+		if ( has_shortcode( $post->post_content, 'edd-software-specs') ) {
 			$surpress = true;
-		if ( has_shortcode( $post->post_content, 'edd-software-specs') )
+		}
+		if ( empty( $surpress ) && is_active_widget( false, false, 'edd_software_specs_widget', true ) ) {
 			$surpress = true;
-		if ( empty( $surpress ) && is_active_widget( false, false, 'edd_software_specs_widget', true ) )
-			$surpress = true;
-
+		}
 		if ( ! $surpress ) {
-
-			// 1st close featurList element and open new div to pair up with closing div inserted by featureList_wrap()
-			echo '</div><div><table id="isa-edd-specs"><caption>'. __( 'Specs', 'easy-digital-downloads-software-specs' ). '</caption>
-									<tr>
-										<td>'. __( 'Release date:', 'easy-digital-downloads-software-specs' ). '</td>
-										<td>
-		<meta itemprop="datePublished" content="'. get_post_time('Y-m-d', false, $post->ID). '">
-								'. get_post_time('F j, Y', false, $post->ID, true). '</td>
-									</tr>
-									<tr>
-										<td>'. __( 'Last updated:', 'easy-digital-downloads-software-specs' ). '</td>
-		
-													<td><meta itemprop="dateModified" content="';
-	
-				$moddate = ($dm) ? date('Y-m-d', $dm) : '';
-				$moddatenice = ($dm) ? date('F j, Y', $dm) : '';
-	echo $moddate . '">' . $moddatenice . '</td>
-								</tr>';
-			if($sVersion) {
-
-
-								echo '<tr>
-										<td>' . __( 'Current version:', 'easy-digital-downloads-software-specs' ) . '</td>
-										<td itemprop="softwareVersion">' . $sVersion . '</td>
-									</tr>';
-
-			}
-
-
-			if($appt) {
-								echo '<tr>
-										<td>'. __( 'Software application type:', 'easy-digital-downloads-software-specs' ) .'</td>
-		
-										<td itemprop="applicationCategory">'. $appt . '</td>
-									</tr>';
-			}
-
-			if($filt) {			
-
-	
-								echo '<tr>
-										<td>'. __( 'File format:', 'easy-digital-downloads-software-specs' ). '</td>
-										<td itemprop="fileFormat">'. $filt .'</td>
-									</tr>';
-
-			}
-
-			if($fils) {			
-
-	
-								echo '<tr>
-										<td>'. __( 'File size:', 'easy-digital-downloads-software-specs' ) . '</td>
-										<td itemprop="fileSize">' . $fils . '</td>
-									</tr>';
-
-			}
-
-			if($reqs) {			
-
-
-									echo '<tr>
-										<td>' . __( 'Requirements:', 'easy-digital-downloads-software-specs' ) . '</td>
-										<td itemprop="requirements">' . $reqs . '</td>
-									</tr>';
-
-			}
-
-			if($pric && $isa_curr) {
-
-
-									echo '<tr itemprop="offers" itemscope itemtype="http://schema.org/Offer">
-										<td>' . __( 'Price:', 'easy-digital-downloads-software-specs' ) . '</td>
-										<td><span>'. $pric . ' </span>
-										 <span itemprop="priceCurrency">' . $isa_curr . '</span>			</td></tr>';
-
-			}
-	
-			do_action( 'eddss_add_specs_table_row' );
-	
-
-				echo '</table>';
-		} // end if($dm)	
-	
-	} // end specs
+			echo eddspecs_display( true, $post->ID );
+		}
+	}
 	
 	
 	/**
@@ -297,7 +188,7 @@ class EDD_Software_Specs{
 				array(
 					'name' => __( 'Price Currency', 'easy-digital-downloads-software-specs' ),
 					'id'   => $prefix . 'pricecurrency',
-					'desc' => sprintf(__( 'The type of currency that the price refers to. Use 3-letter %1$s.', 'easy-digital-downloads-software-specs' ), 
+					'desc' => sprintf(__( 'The type of currency that the price refers to. Use 3-letter %1$s. For US Dollar, use USD.', 'easy-digital-downloads-software-specs' ), 
 											'<a href="http://en.wikipedia.org/wiki/ISO_4217" title="ISO 4217 currency codes" target="_blank">ISO 4217 format</a>.'
 									),
 					'type' => 'text_small',
@@ -442,3 +333,5 @@ public function microdata_close() {
 }
 $EDD_Software_Specs = EDD_Software_Specs::get_instance();
 add_shortcode( 'edd-software-specs', array( $EDD_Software_Specs, 'edd_software_specs_shortcode' ) );
+require_once EDDSPECS_PLUGIN_DIR . 'widget-specs.php';
+require_once EDDSPECS_PLUGIN_DIR . 'display.php';

@@ -82,7 +82,7 @@ Go to the Downloads editor and enter specs for your existing digital products. T
 
 == Frequently Asked Questions ==
 
-= How do add Specs to the sidebar instead of below the content? =
+= How do I add Specs to the sidebar instead of below the content? =
 
 Use it as a widget instead. Go to **Appearance --> Widgets** to use the widget.
 
@@ -159,6 +159,10 @@ Please [rate the plugin](http://wordpress.org/support/view/plugin-reviews/easy-d
 1. Front-end: Specs table as shown on single download page
 2. Back-end: Specs meta box on single download editor
 == Changelog ==
+
+= 1.9 =
+* Fix - Only show the sidebar widget on single downloads.
+* Tweak - Synced the duplicate HTML into one external function.
 
 = 1.8 =
 * Fix - Remove Product microdata with the new filter. 
