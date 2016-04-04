@@ -22,7 +22,7 @@ class edd_software_specs_widget extends WP_Widget {
 		if ( ! is_singular( 'download' ) ) {
 			return;
 		}
-		
+
 		$title = apply_filters( 'widget_title', empty( $instance['title'] ) ? __( 'Specs', 'easy-digital-downloads-software-specs' ) : $instance['title'], $instance, $this->id_base );
 		$isodate = isset($instance['isodate']) ? $instance['isodate'] : false;
 		$download_id = isset($instance['download_id']) ? $instance['download_id'] : false;
@@ -32,6 +32,10 @@ class edd_software_specs_widget extends WP_Widget {
 			$download_id = $post->ID;
 		}
 
+		if ( ! get_post_meta($download_id, '_smartest_lastupdate', true) ) {
+			return;
+		}
+		
 		wp_enqueue_style('edd-software-specs');
 		echo $args['before_widget'];
 		echo eddspecs_display( false, $download_id, $title, $isodate );

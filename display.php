@@ -114,7 +114,20 @@ function eddspecs_display( $prepend = '', $post_id = '', $title = '', $isodate =
 					<span itemprop="priceCurrency">' . $isa_curr . '</span>			</td></tr>';
 	}
 
-	do_action( 'eddss_add_specs_table_row' );
+	// Add custom rows, if any
+
+	$custom_fields = get_option('eddss_custom_fields');
+	if ( is_array( $custom_fields ) && isset( $custom_fields[0] ) ) {
+		foreach ( $custom_fields as $field ) {
+
+			$val = get_post_meta($post_id, '_smartest_' . $field['id'], true);
+
+			if ( $val ) {
+				$out .= '<tr><td>' . $field['name'] . '</td><td>' . $val . '</td></tr>';
+	    	}
+		}
+	}
+	
 	$out .= '</table>';
 
 	return $out;
@@ -143,3 +156,30 @@ function eddspecs_price( $download_id ) {
 	
 	return $price;
 }
+
+/**
+ * Add custom fields to EDD Software Specs metabox in backend
+*/
+function eddss_custom_specs_fields( $fields, $prefix ) {
+
+	// do we have any custom fields? 
+	$custom_fields = get_option('eddss_custom_fields');
+
+	if ( is_array( $custom_fields ) && isset( $custom_fields[0] ) ) {
+
+		foreach ( $custom_fields as $field ) {
+
+			// add a text field to the Specs meta box
+			$fields[] = array(
+				'name' => $field['name'],
+				'id'   => $prefix . $field['id'],
+				'desc' => $field['desc'],
+				'type'    => 'text',
+			);
+
+		}
+	}
+	return $fields;
+}
+add_filter( 'eddss_specs_fields', 'eddss_custom_specs_fields', 10, 2 );
+

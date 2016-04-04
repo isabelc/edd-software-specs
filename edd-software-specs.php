@@ -107,14 +107,8 @@ class EDD_Software_Specs{
 	
 	public function specs_metabox( $ic_meta_boxes ) {
 		$prefix = '_smartest_';
-	$ic_meta_boxes[] = array(
-			'id'         => 'download_specs_meta_box',
-			'title'      => __( 'Specs', 'easy-digital-downloads-software-specs' ),
-			'pages'      => array( 'download'), // Post type
-			'context'    => 'normal',
-			'priority'   => 'high',
-			'show_names' => true,
-			'fields'     => array(
+
+		$fields = array(
 				array(
 					'name' => __( 'Date of Last Update', 'easy-digital-downloads-software-specs' ),
 					'id'   => $prefix . 'lastupdate',
@@ -139,20 +133,17 @@ class EDD_Software_Specs{
 					'desc' => __( 'For example, .zip, or .eps', 'easy-digital-downloads-software-specs' ),
 					'type'    => 'text',
 				),
-	
 				array(
 					'name' => __( 'File Size', 'easy-digital-downloads-software-specs' ),
 					'id'   => $prefix . 'filesize',
 					'type' => 'text_small',
 				),
-	
 				array(
 					'name' => __( 'Requirements', 'easy-digital-downloads-software-specs' ),
 					'id'   => $prefix . 'requirements',
 					'desc' => __( 'For example, WordPress 3.3.1+, or a certain required plugin. Separate requirements with commas.', 'easy-digital-downloads-software-specs' ),
 					'type' => 'text',
 				),
-	
 				array(
 					'name' => __( 'Price Currency', 'easy-digital-downloads-software-specs' ),
 					'id'   => $prefix . 'pricecurrency',
@@ -162,8 +153,16 @@ class EDD_Software_Specs{
 					'type' => 'text_small',
 					
 				),
-	
-	)
+		);
+
+		$ic_meta_boxes[] = array(
+			'id'         => 'download_specs_meta_box',
+			'title'      => __( 'Specs', 'easy-digital-downloads-software-specs' ),
+			'pages'      => array( 'download'), // Post type
+			'context'    => 'normal',
+			'priority'   => 'high',
+			'show_names' => true,
+			'fields'     => apply_filters( 'eddss_specs_fields', $fields, $prefix )
 		);
 
 	return $ic_meta_boxes;

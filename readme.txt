@@ -106,47 +106,43 @@ Leave the `Date of Last Update` field empty. If that field is blank, no Specs ta
 You have to select a Software Application Type for the download. "OtherApplication" doesn't qualify for rich snippets, unless, outside of this plugin, you've added either "aggregateRating" or "operatingSystems" for the particular download. Go to the download's Specs meta box to select the Software Application Type.
 
 
-= How do I add a row to the Specs display table? =
+= How do I add a field to the Specs? =
 
-Add something like this to your functions:
-
-`
-/**
- * Add a custom row to EDD Software Specs table
-*/
-
-function my_add_specs_table_row() {
-
-	echo '<tr><td>';
-	echo 'YOUR CUSTOM TABLE ROW LABEL';
-	echo '</td><td>';
-	echo 'YOUR CUSTOM TABLE ROW VALUE';
-	echo '</td></tr>';
-}
-
-add_action ( 'eddss_add_specs_table_row', 'my_add_specs_table_row');
-
-`
-
-For example, say you added a custom meta field to the downloads, and you want to show this custom meta in the Specs table. Say your custom field is 'my_license'. Then you add this to your functions:
+This example adds 3 custom fields to the Specs. Add the code to your functions. The "id" must NOT contain any spaces or dashes, but underscores are ok. The "desc" is the description of the field which will only be visible on the "Edit Download" page in the back end.
 
 `
 /**
- * Add a custom row with a custom meta field to EDD Software Specs table
-*/
+ * Add 3 custom fields to the Specs
+ */
+add_action( 'init', 'my_set_custom_specs_fields' );
+function my_set_custom_specs_fields() {
 
-function my_add_specs_table_row() {
+	$custom_fields = array();
 
-	global $post;
+	// add a custom field 
 
-	echo '<tr><td>';
-	echo 'License';
-	echo '</td><td>';
-	echo get_post_meta($post->ID, 'my_license', true);
-	echo '</td></tr>';
+	$custom_fields[] = array(
+				'name' => 'Resolution',
+				'id'   => 'resolution',
+				'desc' => 'Enter the resolution of this product.' );
+
+	// add a second custom field 
+
+	$custom_fields[] = array(
+				'name' => 'A Second Custom Field',
+				'id'   => 'second_custom',
+				'desc' => 'Enter a description for this field, to be seen in the back end.' );
+
+	// add a third custom field 
+
+	$custom_fields[] = array(
+				'name' => 'A Third Custom Field',
+				'id'   => 'third_custom',
+				'desc' => 'Enter a description for this field, to be seen in the back end.' );
+
+	update_option( 'eddss_custom_fields', $custom_fields );
+
 }
-
-add_action ( 'eddss_add_specs_table_row', 'my_add_specs_table_row');
 `
 
 = How can I give back? =
@@ -161,6 +157,7 @@ Please [rate the plugin](http://wordpress.org/support/view/plugin-reviews/easy-d
 == Changelog ==
 
 = 1.9 =
+* BREAKING CHANGE - Removed the eddss_add_specs_table_row hook in favor of an easier way to add custom fields to the specs box. See http://isabelcastillo.com/docs/how-do-i-add-a-row-to-the-specs-display-table
 * Fix - Only show the sidebar widget on single downloads.
 * Tweak - Synced the duplicate HTML into one external function.
 
