@@ -11,16 +11,11 @@ function eddspecs_display( $prepend = '', $post_id = '', $title = '', $isodate =
 		return;
 	}
 
-	global $EDD_Software_Specs;
-
 	$post_date = get_post_time('F j, Y', false, $post_id, true);
 	$modified_date = ($dm) ? date('F j, Y', $dm) : '';
 
-
 	$post_date_iso = get_post_time('Y-m-d', false, $post_id);
 	$modified_date_iso = ($dm) ? date('Y-m-d', $dm) : '';		
-
-	// @test iso date.
 
 	if($isodate == true) {
 		$post_date = $post_date_iso;
@@ -28,7 +23,7 @@ function eddspecs_display( $prepend = '', $post_id = '', $title = '', $isodate =
 	}
 
 	$pc = get_post_meta($post_id, '_smartest_pricecurrency', true);
-	$isa_curr = $pc ? $pc : '';// @test need? 
+	$isa_curr = $pc ? $pc : '';
 	
 	/* compat with EDD Software Licensing plugin. If it's active and its version is entered, use its version instead of ours */
 	
@@ -47,7 +42,7 @@ function eddspecs_display( $prepend = '', $post_id = '', $title = '', $isodate =
 	$filt = get_post_meta($post_id, '_smartest_filetype', true);
 	$fils = get_post_meta($post_id, '_smartest_filesize', true);
 	$reqs = get_post_meta($post_id, '_smartest_requirements', true);
-	$pric = $EDD_Software_Specs->smartest_isa_edd_price($post_id, false);
+	$pric = eddspecs_price( $post_id );
 
 	$out = '';
 
@@ -123,4 +118,28 @@ function eddspecs_display( $prepend = '', $post_id = '', $title = '', $isodate =
 	$out .= '</table>';
 
 	return $out;
+}
+
+/**
+ * Basically same as edd_price, but has itemprop="price" on it
+ *
+ * Returns a formatted price for a download.
+ *
+ * @param       int $download_id The ID of the download price to show
+ * @return      string
+ */	
+function eddspecs_price( $download_id ) {
+
+	if ( edd_has_variable_prices( $download_id ) ) {
+		$price = apply_filters( 'edd_download_price', edd_get_lowest_price_option( $download_id ), $download_id );
+
+		$price = sprintf( __( 'From %s', 'easy-digital-downloads-software-specs' ), $price );
+
+	} else {
+		$price = apply_filters( 'edd_download_price', edd_get_download_price( $download_id ), $download_id );
+	}
+	
+	$price = '<span class="edd_price" id="edd_price_' . $download_id . '" itemprop="price">' . $price . '</span>';
+	
+	return $price;
 }

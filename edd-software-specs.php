@@ -84,38 +84,6 @@ class EDD_Software_Specs{
 		return $content;
 	}
 	
-	/**
-	 * Basically same as edd_price, but has itemprop="price" on it
-	 * Price
-	 *
-	 * Displays a formatted price for a download.
-	 *
-	 * @access      public
-	 * @since       1.0
-	 * @param       int $download_id The ID of the download price to show
-	 * @param		bool $echo Whether to echo or return the results
-	 * @return      void
-	 */	
-	public function smartest_isa_edd_price( $download_id, $echo = true ) {
-		if ( edd_has_variable_prices( $download_id ) ) {
-			$prices = edd_get_variable_prices( $download_id );
-			// Return the lowest price
-			$price_float = 0;
-			foreach ($prices as $key => $value)
-				if ( ( ( (float)$prices[ $key ]['amount'] ) < $price_float ) or ( $price_float == 0 ) )
-					$price_float = (float)$prices[ $key ]['amount'];
-				$price = edd_sanitize_amount( $price_float );
-		} else {
-			$price = edd_get_download_price( $download_id );// @isa try use this for diaplay my price
-		}
-		$price = apply_filters( 'edd_download_price', $price, $download_id );
-		$price = '<span class="edd_price" id="edd_price_' . $download_id . '" itemprop="price">' . $price . '</span>';
-		if ( $echo )
-			echo $price;
-		else
-			return $price;
-	}
-	
 	public function specs() {
 	
 		global $post;
@@ -132,7 +100,6 @@ class EDD_Software_Specs{
 			echo eddspecs_display( true, $post->ID );
 		}
 	}
-	
 	
 	/**
 	 * adds specs metabox to downloads
