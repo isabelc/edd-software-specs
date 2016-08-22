@@ -3,7 +3,7 @@ Contributors: isabel104
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=me%40isabelcastillo%2ecom
 Tags: software, specs, SoftwareApplication, application, microdata, schema, schema.org, easy digital downloads, edd specs
 Requires at least: 3.8
-Tested up to: 4.5
+Tested up to: 4.6
 Stable tag: 1.9
 License: GNU Version 2 or Any Later Version
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -70,13 +70,10 @@ For more info, [see the FAQ](http://wordpress.org/plugins/easy-digital-downloads
 
 
 == Installation ==
-1. Download the plugin to your computer.
-2. Extract the contents.
-3. Upload (via FTP) to a sub folder of the WordPress plugins directory.
-4. Activate the plugin through the 'Plugins' menu in WordPress.
+1. In your WordPress dashboard, go to "Plugins -> Add New", and search for "Easy Digital Downloads - Software Specs".
+2. Click to install and then Activate the plugin.
 
 **After Activating the Plugin**
-
 Go to the Downloads editor and enter specs for your existing digital products. Then "View Download" to see the specs table.
 
 
