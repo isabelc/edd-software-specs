@@ -47,13 +47,13 @@ class EDDSPECS_Metabox {
 						
 			switch ( $field['type'] ) {
 				case 'text':
-					echo '<input type="text" name="', esc_attr( $field['id'] ), '" id="', esc_attr( $field['id'] ), '" value="', esc_attr( $value ), '" />','<p class="cmb_metabox_description">', esc_html( $field['desc'] ), '</p>';
+					echo '<input type="text" name="', esc_attr( $field['id'] ), '" id="', esc_attr( $field['id'] ), '" value="', esc_attr( $value ), '" />','<p class="cmb_metabox_description">', wp_kses_post( $field['desc'] ), '</p>';
 					break;
 				case 'text_small':
-					echo '<input class="cmb_text_small" type="text" name="', esc_attr( $field['id'] ), '" id="', esc_attr( $field['id'] ), '" value="', esc_attr( $value ), '" /><span class="cmb_metabox_description">', esc_html( $field['desc'] ), '</span>';
+					echo '<input class="cmb_text_small" type="text" name="', esc_attr( $field['id'] ), '" id="', esc_attr( $field['id'] ), '" value="', esc_attr( $value ), '" /><span class="cmb_metabox_description">', wp_kses_post( $field['desc'] ), '</span>';
 					break;
 				case 'text_date_timestamp':
-					echo '<input class="cmb_text_small isamb_datepicker" type="text" name="', esc_attr( $field['id'] ), '" id="', esc_attr( $field['id'] ), '" value="', '' !== $meta ? date( 'm\/d\/Y', $meta ) : $field['std'], '" /><span class="cmb_metabox_description">', esc_html( $field['desc'] ), '</span>';
+					echo '<input class="cmb_text_small isamb_datepicker" type="text" name="', esc_attr( $field['id'] ), '" id="', esc_attr( $field['id'] ), '" value="', '' !== $meta ? date( 'm\/d\/Y', $meta ) : $field['std'], '" /><span class="cmb_metabox_description">', wp_kses_post( $field['desc'] ), '</span>';
 					break;
 
 			}

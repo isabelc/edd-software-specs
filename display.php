@@ -3,9 +3,8 @@
 * The HTML to display the Specs.
 */
 function eddspecs_display( $prepend = '', $post_id = '', $title = '', $isodate = '' ) {
-
 	// only show if modified date is entered
-	$dm = get_post_meta($post_id, '_smartest_lastupdate', true);
+	$dm = get_post_meta( $post_id, '_smartest_lastupdate', true );
 
 	if ( ! $dm ) {
 		return;
@@ -27,17 +26,10 @@ function eddspecs_display( $prepend = '', $post_id = '', $title = '', $isodate =
 	
 	/* compat with EDD Software Licensing plugin. If it's active and its version is entered, use its version instead of ours */
 	
-	$eddchangelog_version = get_post_meta( $post_id, '_edd_sl_version', TRUE );
+	$eddchangelog_version = get_post_meta( $post_id, '_edd_sl_version', true );
+	$version_key = empty( $eddchangelog_version ) ? '_smartest_currentversion' : '_edd_sl_version';
 
-	if ( empty( $eddchangelog_version ) ) {
-		// get my own specs version
-		$vKey = '_smartest_currentversion';
-	} else {
-		// get EDD Software Licensing's version
-		$vKey = '_edd_sl_version';
-	}
-	
-	$sVersion = get_post_meta($post_id, $vKey, true);
+	$version = get_post_meta($post_id, $version_key, true);
 	$appt = get_post_meta($post_id, '_smartest_apptype', true);
 	$filt = get_post_meta($post_id, '_smartest_filetype', true);
 	$fils = get_post_meta($post_id, '_smartest_filesize', true);
@@ -60,16 +52,16 @@ function eddspecs_display( $prepend = '', $post_id = '', $title = '', $isodate =
 	$out .= '</caption><tr>
 					<td>'. __( 'Release date:', 'easy-digital-downloads-software-specs' ). '</td>
 					<td>
-					<meta itemprop="datePublished" content="'. $post_date_iso . '">' . $post_date .
+					<meta itemprop="datePublished" content="'. esc_attr( $post_date_iso ) . '">' . esc_html( $post_date ) .
 
-					'</td></tr><tr><td>'. __( 'Last updated:', 'easy-digital-downloads-software-specs' ). '</td><td><meta itemprop="dateModified" content="' . $modified_date_iso . '">' . $modified_date . '</td>
+					'</td></tr><tr><td>'. __( 'Last updated:', 'easy-digital-downloads-software-specs' ). '</td><td><meta itemprop="dateModified" content="' . esc_attr( $modified_date_iso ) . '">' . esc_html( $modified_date ) . '</td>
 								</tr>';
 
-	if($sVersion) {
+	if($version) {
 
 			$out .= '<tr>
 						<td>' . __( 'Current version:', 'easy-digital-downloads-software-specs' ) . '</td>
-										<td itemprop="softwareVersion">' . $sVersion . '</td>
+										<td itemprop="softwareVersion">' . esc_html( $version ) . '</td>
 					</tr>';
 
 	}
@@ -78,14 +70,14 @@ function eddspecs_display( $prepend = '', $post_id = '', $title = '', $isodate =
 			$out .= '<tr>
 						<td>'. __( 'Software application type:', 'easy-digital-downloads-software-specs' ) .'</td>
 		
-							<td itemprop="applicationCategory">'. $appt . '</td>
+							<td itemprop="applicationCategory">'. esc_html( $appt ) . '</td>
 						</tr>';
 	}
 
 	if($filt) {			
 			$out .= '<tr>
 										<td>'. __( 'File format:', 'easy-digital-downloads-software-specs' ). '</td>
-										<td itemprop="fileFormat">'. $filt .'</td>
+										<td itemprop="fileFormat">'. esc_html( $filt ) .'</td>
 									</tr>';
 
 	}
@@ -94,24 +86,24 @@ function eddspecs_display( $prepend = '', $post_id = '', $title = '', $isodate =
 	
 		$out .= '<tr>
 										<td>'. __( 'File size:', 'easy-digital-downloads-software-specs' ) . '</td>
-										<td itemprop="fileSize">' . $fils . '</td>
+										<td itemprop="fileSize">' . esc_html( $fils ) . '</td>
 									</tr>';
 
 	}
 
-	if($reqs) {			
+	if ( $reqs ) {			
 
 			$out .= '<tr>
 										<td>' . __( 'Requirements:', 'easy-digital-downloads-software-specs' ) . '</td>
-										<td itemprop="requirements">' . $reqs . '</td>
+										<td itemprop="requirements">' . esc_html( $reqs ) . '</td>
 									</tr>';
 	}
 
-	if($pric && $isa_curr) {
+	if ( $pric && $isa_curr ) {
 		$out .= '<tr itemprop="offers" itemscope itemtype="http://schema.org/Offer">
 						<td>' . __( 'Price:', 'easy-digital-downloads-software-specs' ) . '</td>
-						<td><span>'. $pric . ' </span>
-					<span itemprop="priceCurrency">' . $isa_curr . '</span>			</td></tr>';
+						<td><span>'. wp_kses_post( $pric ) . ' </span>
+					<span itemprop="priceCurrency">' . esc_html( $isa_curr ) . '</span>	</td></tr>';
 	}
 
 	// Add custom rows, if any
@@ -123,7 +115,7 @@ function eddspecs_display( $prepend = '', $post_id = '', $title = '', $isodate =
 			$val = get_post_meta($post_id, '_smartest_' . $field['id'], true);
 
 			if ( $val ) {
-				$out .= '<tr><td>' . $field['name'] . '</td><td>' . $val . '</td></tr>';
+				$out .= '<tr><td>' . esc_html( $field['name'] ) . '</td><td>' . esc_html( $val ) . '</td></tr>';
 	    	}
 		}
 	}
@@ -142,7 +134,6 @@ function eddspecs_display( $prepend = '', $post_id = '', $title = '', $isodate =
  * @return      string
  */	
 function eddspecs_price( $download_id ) {
-
 	if ( edd_has_variable_prices( $download_id ) ) {
 		$price = apply_filters( 'edd_download_price', edd_get_lowest_price_option( $download_id ), $download_id );
 
@@ -182,4 +173,3 @@ function eddss_custom_specs_fields( $fields, $prefix ) {
 	return $fields;
 }
 add_filter( 'eddss_specs_fields', 'eddss_custom_specs_fields', 10, 2 );
-

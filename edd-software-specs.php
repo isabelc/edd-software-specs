@@ -27,7 +27,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 if ( ! class_exists('EDD_Software_Specs' ) ) {
 class EDD_Software_Specs{
-
 	private static $instance = null;
 	public static function get_instance() {
 		if ( null == self::$instance ) {
