@@ -74,12 +74,8 @@ msgstr ""
 msgid "Text to display. For example, WordPress plugin, or Game"
 msgstr ""
 
-#: edd-software-specs.php:304
-msgid "Software Application Type - For Microdata"
-msgstr ""
-
-#: edd-software-specs.php:306
-msgid "Select the Microdata type that fits your product best."
+#: edd-software-specs.php:102
+msgid "Product Type"
 msgstr ""
 
 #: edd-software-specs.php:309

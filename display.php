@@ -1,109 +1,79 @@
 <?php
 /**
-* The HTML to display the Specs.
+* The HTML to display the Specs. @todo do not need 1st param.
 */
-function eddspecs_display( $prepend = '', $post_id = '', $title = '', $isodate = '' ) {
+function eddspecs_display( $post_id = '', $title = '', $isodate = '' ) {
+	$out = '';
 	// only show if modified date is entered
-	$dm = get_post_meta( $post_id, '_smartest_lastupdate', true );
+	$mod_date = get_post_meta( $post_id, '_smartest_lastupdate', true );
 
-	if ( ! $dm ) {
+	if ( ! $mod_date ) {
 		return;
 	}
 
-	$post_date = get_post_time('F j, Y', false, $post_id, true);
-	$modified_date = ($dm) ? date('F j, Y', $dm) : '';
+	$post_date = get_post_time( 'F j, Y', false, $post_id, true );
+	$modified_date = ( $mod_date ) ? date( 'F j, Y', $mod_date ) : '';
 
-	$post_date_iso = get_post_time('Y-m-d', false, $post_id);
-	$modified_date_iso = ($dm) ? date('Y-m-d', $dm) : '';		
-
-	if($isodate == true) {
-		$post_date = $post_date_iso;
-		$modified_date = $modified_date_iso;
+	if ( true == $isodate ) {
+		$post_date = get_post_time( 'Y-m-d', false, $post_id) ;
+		$modified_date = $mod_date ? date('Y-m-d', $mod_date ) : '';
 	}
-
-	$pc = get_post_meta($post_id, '_smartest_pricecurrency', true);
-	$isa_curr = $pc ? $pc : '';
 	
-	/* compat with EDD Software Licensing plugin. If it's active and its version is entered, use its version instead of ours */
+	/* compatibility with EDD Software Licensing plugin. If it's active and its version is entered, use its version instead of ours */
 	
 	$eddchangelog_version = get_post_meta( $post_id, '_edd_sl_version', true );
 	$version_key = empty( $eddchangelog_version ) ? '_smartest_currentversion' : '_edd_sl_version';
 
-	$version = get_post_meta($post_id, $version_key, true);
-	$appt = get_post_meta($post_id, '_smartest_apptype', true);
-	$filt = get_post_meta($post_id, '_smartest_filetype', true);
-	$fils = get_post_meta($post_id, '_smartest_filesize', true);
-	$reqs = get_post_meta($post_id, '_smartest_requirements', true);
-	$pric = eddspecs_price( $post_id );
-
-	$out = '';
-
-	if ( $prepend ) {
-
-		// 1st close the featureList div element and open new div to pair up with closing div inserted by featureList_wrap()
-
-		$out .= '</div><div>';
-	}
+	$version = get_post_meta( $post_id, $version_key, true );
+	$type = get_post_meta( $post_id, '_smartest_apptype', true );
+	$file_format = get_post_meta( $post_id, '_smartest_filetype', true );
+	$filesize = get_post_meta( $post_id, '_smartest_filesize', true );
+	$reqs = get_post_meta( $post_id, '_smartest_requirements', true );
+	$currency = get_post_meta( $post_id, '_smartest_pricecurrency', true );
+	$price = edd_has_variable_prices( $post_id ) ? edd_price_range( $post_id ) : edd_price( $post_id, false );
 
 	$out .= '<table id="isa-edd-specs"><caption>';
-
 	$out .= $title ? $title : __( 'Specs', 'easy-digital-downloads-software-specs' );
-
 	$out .= '</caption><tr>
-					<td>'. __( 'Release date:', 'easy-digital-downloads-software-specs' ). '</td>
-					<td>
-					<meta itemprop="datePublished" content="'. esc_attr( $post_date_iso ) . '">' . esc_html( $post_date ) .
+			<td>'. __( 'Release date:', 'easy-digital-downloads-software-specs' ) .
+			'</td><td>' .
+			esc_html( $post_date ) . '</td></tr><tr><td>' .
+			__( 'Last updated:', 'easy-digital-downloads-software-specs' ) .
+			'</td><td>' . esc_html( $modified_date ) . '</td></tr>';
 
-					'</td></tr><tr><td>'. __( 'Last updated:', 'easy-digital-downloads-software-specs' ). '</td><td><meta itemprop="dateModified" content="' . esc_attr( $modified_date_iso ) . '">' . esc_html( $modified_date ) . '</td>
-								</tr>';
-
-	if($version) {
-
-			$out .= '<tr>
-						<td>' . __( 'Current version:', 'easy-digital-downloads-software-specs' ) . '</td>
-										<td itemprop="softwareVersion">' . esc_html( $version ) . '</td>
-					</tr>';
-
+	if ( $version ) {
+		$out .= '<tr><td>' .
+				__( 'Current version:', 'easy-digital-downloads-software-specs' ) .
+				'</td><td>' . esc_html( $version ) . '</td></tr>';
 	}
 
-	if($appt) {
-			$out .= '<tr>
-						<td>'. __( 'Software application type:', 'easy-digital-downloads-software-specs' ) .'</td>
-		
-							<td itemprop="applicationCategory">'. esc_html( $appt ) . '</td>
-						</tr>';
+	if ( $type ) {
+		$out .= '<tr><td>'.
+				__( 'Product type:', 'easy-digital-downloads-software-specs' ) .
+				'</td><td>'. esc_html( $type ) . '</td></tr>';
 	}
 
-	if($filt) {			
-			$out .= '<tr>
-										<td>'. __( 'File format:', 'easy-digital-downloads-software-specs' ). '</td>
-										<td itemprop="fileFormat">'. esc_html( $filt ) .'</td>
-									</tr>';
-
+	if ( $file_format ) {
+		$out .= '<tr><td>' .
+				__( 'File format:', 'easy-digital-downloads-software-specs' ) .
+				'</td><td>'. esc_html( $file_format ) .'</td></tr>';
 	}
 
-	if($fils) {			
-	
-		$out .= '<tr>
-										<td>'. __( 'File size:', 'easy-digital-downloads-software-specs' ) . '</td>
-										<td itemprop="fileSize">' . esc_html( $fils ) . '</td>
-									</tr>';
-
+	if ( $filesize ) {
+		$out .= '<tr><td>'. __( 'File size:', 'easy-digital-downloads-software-specs' ) .
+				'</td><td>' . esc_html( $filesize ) . '</td></tr>';
 	}
 
 	if ( $reqs ) {			
-
-			$out .= '<tr>
-										<td>' . __( 'Requirements:', 'easy-digital-downloads-software-specs' ) . '</td>
-										<td itemprop="requirements">' . esc_html( $reqs ) . '</td>
-									</tr>';
+		$out .= '<tr><td>' . __( 'Requirements:', 'easy-digital-downloads-software-specs' ) .
+				'</td><td>' . esc_html( $reqs ) . '</td></tr>';
 	}
 
-	if ( $pric && $isa_curr ) {
-		$out .= '<tr itemprop="offers" itemscope itemtype="http://schema.org/Offer">
-						<td>' . __( 'Price:', 'easy-digital-downloads-software-specs' ) . '</td>
-						<td><span>'. wp_kses_post( $pric ) . ' </span>
-					<span itemprop="priceCurrency">' . esc_html( $isa_curr ) . '</span>	</td></tr>';
+	if ( $price && $currency ) {
+		$out .= '<tr><td>' .
+				__( 'Price:', 'easy-digital-downloads-software-specs' ) .
+				'</td><td><span>'. wp_kses_post( $price ) . ' </span><span>' .
+				esc_html( $currency ) . '</span>	</td></tr>';
 	}
 
 	// Add custom rows, if any
@@ -123,29 +93,6 @@ function eddspecs_display( $prepend = '', $post_id = '', $title = '', $isodate =
 	$out .= '</table>';
 
 	return $out;
-}
-
-/**
- * Basically same as edd_price, but has itemprop="price" on it
- *
- * Returns a formatted price for a download.
- *
- * @param       int $download_id The ID of the download price to show
- * @return      string
- */	
-function eddspecs_price( $download_id ) {
-	if ( edd_has_variable_prices( $download_id ) ) {
-		$price = apply_filters( 'edd_download_price', edd_get_lowest_price_option( $download_id ), $download_id );
-
-		$price = sprintf( __( 'From %s', 'easy-digital-downloads-software-specs' ), $price );
-
-	} else {
-		$price = apply_filters( 'edd_download_price', edd_get_download_price( $download_id ), $download_id );
-	}
-	
-	$price = '<span class="edd_price" id="edd_price_' . $download_id . '" itemprop="price">' . $price . '</span>';
-	
-	return $price;
 }
 
 /**

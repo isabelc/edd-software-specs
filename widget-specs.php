@@ -1,17 +1,17 @@
 <?php
 /**
- * Adds EDD Software Specs widget
+ * Adds EDD Specs widget
  *
  * @author	Isabel Castillo
- * @package 	EDD Software Specs
- * @extends 	WP_Widget
+ * @package EDD Specs
+ * @extends WP_Widget
  */
 class edd_software_specs_widget extends WP_Widget {
 	public function __construct() {
 		parent::__construct(
 	 		'edd_software_specs_widget',
-			__('EDD Software Specs', 'easy-digital-downloads-software-specs'),
-			array( 'description' => __( 'Display the Software Specs table.', 'easy-digital-downloads-software-specs' ), 'customize_selective_refresh' => true, )
+			__('EDD Specs', 'easy-digital-downloads-software-specs'),
+			array( 'description' => __( 'Display the Specs table.', 'easy-digital-downloads-software-specs' ), 'customize_selective_refresh' => true, )
 		);
 	}
 	/**
@@ -38,7 +38,7 @@ class edd_software_specs_widget extends WP_Widget {
 		
 		wp_enqueue_style('edd-software-specs');
 		echo $args['before_widget'];
-		echo eddspecs_display( false, $download_id, $title, $isodate );
+		echo eddspecs_display( $download_id, $title, $isodate );
 		echo $args['after_widget'];
 	}
 

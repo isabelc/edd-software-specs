@@ -2,7 +2,7 @@
 /*
 Plugin Name: Easy Digital Downloads - Software Specs
 Plugin URI: https://isabelcastillo.com/docs/about-edd-software-specs
-Description: Add software specs and Software Application Microdata to your downloads when using Easy Digital Downloads plugin.
+Description: Add specs to your downloads when using Easy Digital Downloads plugin.
 Version: 2.0.alpha3
 Author: Isabel Castillo
 Author URI: https://isabelcastillo.com
@@ -37,12 +37,8 @@ class EDD_Software_Specs{
 	
 	private function __construct() {
 		add_action( 'init', array( $this, 'metabox_fields') );
-		add_filter( 'edd_add_schema_microdata', array( $this, 'remove_microdata') );
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue' ) );
 		add_action( 'init', array( $this, 'load_textdomain' ) );
-		add_filter( 'the_content', array( $this, 'featureList_wrap' ), 20 );
-		add_action( 'loop_start', array( $this, 'microdata_open' ), 10 );
-		add_action( 'loop_end', array( $this, 'microdata_close' ), 10 );
 		add_action( 'edd_after_download_content', array( $this, 'specs' ), 30 );
 		add_action( 'edd_receipt_files', array( $this, 'receipt' ), 10, 5 );
 		add_filter('plugin_row_meta', array( $this, 'rate_link' ), 10, 2);
@@ -68,27 +64,8 @@ class EDD_Software_Specs{
 		load_plugin_textdomain( 'easy-digital-downloads-software-specs', false, dirname( plugin_basename( __FILE__ ) ) . '/lang/' );
 	}
 
-	/**
-	 * Add description Microdata to downloads content
-	 * 
-	 * @since 0.1
-	 */
-	
-	public function featureList_wrap( $content ) {
-		global $post;
-		$dm = get_post_meta($post->ID, '_smartest_lastupdate', true);
-
-		// add to conditions - only if last updated date is entered
-		if ( ($post->post_type == 'download') && is_singular() && is_main_query() && $dm ) {
-			$content = '<div itemprop="description">' . $content . '</div>';
-		}
-		return $content;
-	}
-	
 	public function specs() {
-	
 		global $post;
-
 		// only show if not surpressed by widget, and if shortcode is not present
 		$surpress = '';
 		if ( has_shortcode( $post->post_content, 'edd-software-specs') ) {
@@ -98,7 +75,7 @@ class EDD_Software_Specs{
 			$surpress = true;
 		}
 		if ( ! $surpress ) {
-			echo eddspecs_display( true, $post->ID );
+			echo eddspecs_display( $post->ID );
 		}
 	}
 	
@@ -122,9 +99,9 @@ class EDD_Software_Specs{
 				),
 
 				array(
-					'name' => __( 'Software Application Type', 'easy-digital-downloads-software-specs' ),
+					'name' => __( 'Product Type', 'easy-digital-downloads-software-specs' ),
 					'id'   => $prefix . 'apptype',
-					'desc' => __( 'Text to display (also used for microdata). For example, WordPress plugin, or Game', 'easy-digital-downloads-software-specs' ),
+					'desc' => __( 'For example, WordPress plugin, or Game', 'easy-digital-downloads-software-specs' ),
 					'type'    => 'text',
 				),
 				array(
@@ -152,7 +129,7 @@ class EDD_Software_Specs{
 									),
 					'type' => 'text_small',
 					
-				),
+				)
 		);
 		
 		$box = new EDDSPECS_Metabox( array(
@@ -162,36 +139,13 @@ class EDD_Software_Specs{
 	}
 
 	/**
-	 * remove EDD's itemtype product
-	 * @param bool $ret the default return value
-	 * @since 1.4
-	 */
-
-	public function remove_microdata( $ret ) {
-		global $post;
-
-		if ( ! is_object( $post ) ) {
-			return $ret;
-		}
-
-		if ( get_post_meta($post->ID, '_smartest_lastupdate', true) ) {
-			return false;				
-		} else {
-			return $ret;
-		}
-
-	}
-
-	/**
 	 * Add version to each download on edd_receipt.
 	 *
 	 * @since 1.5
 	 */
-
-	function receipt( $filekey, $file, $item_ID, $payment_ID, $meta ) {
+	public function receipt( $filekey, $file, $item_ID, $payment_ID, $meta ) {
 		// If EDD Software Licensing plugin or EDD Changelog is present, don't add Software Specs version to receipt.
 		$eddchangelog_version = get_post_meta( $item_ID, '_edd_sl_version', TRUE );
-
 		if ( empty( $eddchangelog_version ) ) {
 			$eddsspecs_ver = get_post_meta( $item_ID, '_smartest_currentversion', true );
 			if ( ! empty( $eddsspecs_ver ) )
@@ -223,7 +177,7 @@ class EDD_Software_Specs{
 	 * Shortcode to insert specs widget anywhere
 	 * @since 1.5.9
 	 */
-	public function edd_software_specs_shortcode($atts) {
+	public function edd_specs_shortcode($atts) {
 		extract( shortcode_atts( 
 			array(	'title' => __( 'Specs', 'easy-digital-downloads-software-specs' ),
 					'isodate' => false,
@@ -236,56 +190,15 @@ class EDD_Software_Specs{
 		the_widget( 'edd_software_specs_widget', $atts ); 
 		$output = ob_get_clean();
 		return $output;
-
 	}
 
-	/**
-	* Add SoftwareApplication Microdata to single downloads
-	*
-	* @since 1.8
-	* @return void
-	*/
-	public function microdata_open() {
-		global $post;
-		static $microdata_open = NULL;
-		if( true === $microdata_open || ! is_object( $post ) ) {
-			return;
-		}
-		if ( $post && $post->post_type == 'download' && is_singular( 'download' ) && is_main_query() ) {
-			// only add microdata if last updated date is entered
-			if( get_post_meta($post->ID, '_smartest_lastupdate', true) ) {
-				$microdata_open = true;
-				echo '<span itemscope itemtype="http://schema.org/SoftwareApplication">';
-			}
-		}
-	}
-	/**
-	* Close the SoftwareApplication Microdata wrapper on single downloads
-	*
-	* @since 1.8
-	* @return void
-	*/
-	public function microdata_close() {
-		global $post;
-		static $microdata_close = NULL;
-		if( true === $microdata_close || ! is_object( $post ) ) {
-			return;
-		}
-		if ( $post && $post->post_type == 'download' && is_singular( 'download' ) && is_main_query() ) {
-			// only add microdata if last updated date is entered
-			if( get_post_meta($post->ID, '_smartest_lastupdate', true) ) {
-				$microdata_close = true;
-				echo '</span>';
-			}
-		}
-	}
 	/**
 	 * For cleanup, remove old option.
 	 * @since 1.9
+	 * @todo at some future point, remove this and delete eddspecs_cleanup_one option on uninstall
 	 */
 	public function cleanup_old_options() {
 		// Run this cleanup only once
-		// @todo remove this block in version 2.0, and del eddspecs_cleanup_one on uninstall
 		if ( get_option( 'eddspecs_cleanup_one' ) != 'completed' ) {
 			delete_option( 'remove_specs_content_filter' );
 			update_option( 'eddspecs_cleanup_one', 'completed' );
@@ -294,7 +207,7 @@ class EDD_Software_Specs{
 }
 }
 $EDD_Software_Specs = EDD_Software_Specs::get_instance();
-add_shortcode( 'edd-software-specs', array( $EDD_Software_Specs, 'edd_software_specs_shortcode' ) );
+add_shortcode( 'edd-software-specs', array( $EDD_Software_Specs, 'edd_specs_shortcode' ) );
 require_once EDDSPECS_PLUGIN_DIR . 'widget-specs.php';
 require_once EDDSPECS_PLUGIN_DIR . 'display.php';
 require_once EDDSPECS_PLUGIN_DIR . 'class-eddspecs-metabox.php';

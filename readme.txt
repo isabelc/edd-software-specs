@@ -1,22 +1,18 @@
 === Easy Digital Downloads - Software Specs ===
 Contributors: isabel104
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=me%40isabelcastillo%2ecom
-Tags: software, specs, SoftwareApplication, application, microdata, schema, schema.org, easy digital downloads, edd specs
+Tags: software, specs, edd, easy digital downloads, edd specs, custom fields
 Requires at least: 3.8
 Tested up to: 4.6
 Stable tag: 1.9
 License: GNU Version 2 or Any Later Version
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Add software specs and Software Application microdata to your downloads when using Easy Digital Downloads plugin.
+Add specs to your downloads when using Easy Digital Downloads plugin.
 
 == Description ==
 
-= New Since Version 1.5.9 =
 
-* Use it as a shortcode instead: 
-
-`[edd-software-specs download_id="###"]`
 
 
 = Description =
@@ -42,25 +38,7 @@ This is an extension for Easy Digital Downloads that does several things if you 
 
  In addition to leaving fields blank, you can add code to add more rows to the table (see FAQs).
 
-* It replaces EDD's default microdata itemptype `Product` with `SoftwareApplication`.
-
-* It moves the microdata itemtype declaration up to the body element so as to nest the `name` property within the itemscope. *
-
-* It adds `offers`, `price`, and `currency` microdata in order to generate Google rich snippets for Software Applications.
-
-* In addition, it adds these microdata properties of `SoftwareApplication`:
-
-`description
-datepublished
-datemodified
-softwareversion
-applicationcategory
-fileformat
-filesize
-requirements`
-
-
-* It adds the "Current Version" of the download to the purchase receipt "Products" list (on EDD's `edd_receipt shortcode` shortcode). This is only if EDD Software Licensing plugin or EDD Changelog plugin is not active.
+* It adds the "Current Version" of the download to the purchase receipt "Products" list (on EDD's `edd_receipt` shortcode). This is only if EDD Software Licensing plugin or EDD Changelog plugin is not active because those plugins will add their own version.
 
 * It lets you enable the Specs table only for downloads that need it. See FAQ for details.
 
@@ -69,8 +47,7 @@ requirements`
 2. Click to install and then Activate the plugin.
 
 **After Activating the Plugin**
-Go to the Downloads editor and enter specs for your existing digital products. Then "View Download" to see the specs table.
-
+Go to the Downloads editor and enter specs for your existing digital products. Then "View Download" to see the specs table. @todo
 
 == Frequently Asked Questions ==
 
