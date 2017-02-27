@@ -1,6 +1,6 @@
 <?php
 /*
-Plugin Name: Easy Digital Downloads - Software Specs
+Plugin Name: Easy Digital Downloads - Specs
 Plugin URI: https://isabelcastillo.com/docs/about-edd-software-specs
 Description: Add specs to your downloads when using Easy Digital Downloads plugin.
 Version: 2.0.alpha3
@@ -54,9 +54,9 @@ class EDD_Software_Specs{
 	}
 
 	public function enqueue() {
-		wp_register_style('edd-software-specs', EDDSPECS_PLUGIN_URL . 'assets/edd-software-specs.css' );
+		wp_register_style( 'edd-specs', EDDSPECS_PLUGIN_URL . 'assets/edd-specs.css' );
 		if ( is_singular( 'download' ) ) {
-				wp_enqueue_style('edd-software-specs');
+				wp_enqueue_style( 'edd-specs' );
 		}
 	}
 
@@ -144,7 +144,7 @@ class EDD_Software_Specs{
 	 * @since 1.5
 	 */
 	public function receipt( $filekey, $file, $item_ID, $payment_ID, $meta ) {
-		// If EDD Software Licensing plugin or EDD Changelog is present, don't add Software Specs version to receipt.
+		// If EDD Software Licensing plugin or EDD Changelog is present, don't add our version to receipt.
 		$eddchangelog_version = get_post_meta( $item_ID, '_edd_sl_version', TRUE );
 		if ( empty( $eddchangelog_version ) ) {
 			$eddsspecs_ver = get_post_meta( $item_ID, '_smartest_currentversion', true );

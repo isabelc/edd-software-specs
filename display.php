@@ -96,7 +96,7 @@ function eddspecs_display( $post_id = '', $title = '', $isodate = '' ) {
 }
 
 /**
- * Add custom fields to EDD Software Specs metabox in backend
+ * Add custom fields to EDD Specs metabox in backend
 */
 function eddss_custom_specs_fields( $fields, $prefix ) {
 

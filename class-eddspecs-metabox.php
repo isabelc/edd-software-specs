@@ -25,7 +25,7 @@ class EDDSPECS_Metabox {
 		global $post;
 
 		wp_enqueue_script( 'edd-specs' );
-		wp_enqueue_style( 'edd-software-specs-admin' );
+		wp_enqueue_style( 'edd-specs-admin' );
 
 		// Use nonce for verification
 		echo '<input type="hidden" name="wp_meta_box_nonce" value="', wp_create_nonce( basename(__FILE__) ), '" />';
@@ -109,6 +109,6 @@ class EDDSPECS_Metabox {
 function isamb_scripts( $hook ) {
 	wp_register_script( 'edd-specs', EDDSPECS_PLUGIN_URL . 'assets/edd-specs.js', array( 'jquery-ui-core', 'jquery-ui-datepicker' ) );
 		
-	wp_register_style( 'edd-software-specs-admin', EDDSPECS_PLUGIN_URL . 'assets/edd-software-specs-admin.css' );
+	wp_register_style( 'edd-specs-admin', EDDSPECS_PLUGIN_URL . 'assets/edd-specs-admin.css' );
 }
 add_action( 'admin_enqueue_scripts', 'isamb_scripts' );

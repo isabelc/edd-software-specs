@@ -220,11 +220,11 @@ msgid "Rate It"
 msgstr ""
 
 #: widget-specs.php:13
-msgid "EDD Software Specs"
+msgid "EDD Specs"
 msgstr ""
 
 #: widget-specs.php:14
-msgid "Display the Software Specs table."
+msgid "Display the EDD Specs table."
 msgstr ""
 
 #: widget-specs.php:176

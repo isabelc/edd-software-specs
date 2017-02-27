@@ -1,4 +1,4 @@
-=== Easy Digital Downloads - Software Specs ===
+=== Easy Digital Downloads - Specs ===
 Contributors: isabel104
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=me%40isabelcastillo%2ecom
 Tags: specs, edd, easy digital downloads, edd specs, custom fields
@@ -12,9 +12,7 @@ Add specs to show extra details about your downloadable product when using the E
 
 == Description ==
 
-This is an extension for Easy Digital Downloads that does several things if you enable it for a download: 
-
-* It adds a Specs table below your single download content (option to use it instead as a widget, and/or as a shortcode). The Specs table has these fields by default:
+This is an extension for Easy Digital Downloads that adds a Specs table table below your single download content (option to use it instead as a widget, and/or as a shortcode). The Specs table has these fields by default:
 
 
   * Release date
@@ -30,7 +28,7 @@ This is an extension for Easy Digital Downloads that does several things if you 
 
 You can leave a field blank to omit that row from the table. There are 2 exceptions to this. 
 1.  The `Last updated date` field, since leaving that field blank will disable the entire table.
-2.  The `Version` field. This plugin is compatible with **EDD Software Licensing plugin** and with **EDD Changelog Plugin**. If EDD Software Licensing plugin is present, and you have enabled it for a download, that version will override this version in the Specs table on the downloads page. In that case, if you leave the Specs version field blank, the Specs table on the site will still show the version from EDD Software Licensing. So, EDD Software Specs plugin gives priority to the version entered in **EDD Software Licensing plugin**, then **EDD Changelog Plugin**, in that order.
+2.  The `Version` field. This plugin is compatible with **EDD Software Licensing plugin** and with **EDD Changelog Plugin**. If EDD Software Licensing plugin is present, and you have enabled it for a download, that version will override this version in the Specs table on the downloads page. In that case, if you leave the Specs version field blank, the Specs table on the site will still show the version from EDD Software Licensing. So, EDD Specs plugin gives priority to the version entered in **EDD Software Licensing plugin**, then **EDD Changelog Plugin**, in that order.
 
 In addition to leaving fields blank, you can add code to add more rows to the table (see FAQs).
 
