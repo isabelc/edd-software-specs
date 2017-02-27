@@ -58,7 +58,7 @@ class EDD_Software_Specs{
 	}
 
 	public function enqueue() {
-		wp_register_style('edd-software-specs', EDDSPECS_PLUGIN_URL . 'edd-software-specs.css' );
+		wp_register_style('edd-software-specs', EDDSPECS_PLUGIN_URL . 'assets/edd-software-specs.css' );
 		if ( is_singular( 'download' ) ) {
 				wp_enqueue_style('edd-software-specs');
 		}
@@ -107,7 +107,6 @@ class EDD_Software_Specs{
 	 * @since 2.0
 	 */
 	public function metabox_fields() {
-
 		$prefix = '_smartest_';
 		$fields = array(
 				array(
