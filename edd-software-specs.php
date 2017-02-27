@@ -148,7 +148,7 @@ class EDD_Software_Specs{
 					'name' => __( 'Price Currency', 'easy-digital-downloads-software-specs' ),
 					'id'   => $prefix . 'pricecurrency',
 					'desc' => sprintf(__( 'The type of currency that the price refers to. Use 3-letter %1$s. For US Dollar, use USD.', 'easy-digital-downloads-software-specs' ), 
-											'<a href="http://en.wikipedia.org/wiki/ISO_4217" title="ISO 4217 currency codes" target="_blank">ISO 4217 format</a>.'
+											'<a href="https://en.wikipedia.org/wiki/ISO_4217#Active_codes" title="ISO 4217 currency codes" target="_blank">ISO 4217 format</a>.'
 									),
 					'type' => 'text_small',
 					
