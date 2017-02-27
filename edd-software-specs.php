@@ -3,7 +3,7 @@
 Plugin Name: Easy Digital Downloads - Software Specs
 Plugin URI: https://isabelcastillo.com/docs/about-edd-software-specs
 Description: Add software specs and Software Application Microdata to your downloads when using Easy Digital Downloads plugin.
-Version: 1.9.1.alpha2
+Version: 2.0.alpha3
 Author: Isabel Castillo
 Author URI: https://isabelcastillo.com
 License: GPL2
@@ -37,8 +37,7 @@ class EDD_Software_Specs{
 	}
 	
 	private function __construct() {
-		add_filter( 'isa_meta_boxes', array( $this, 'specs_metabox' ) );
-		add_action( 'init', array( $this, 'init'), 9999 );
+		add_action( 'init', array( $this, 'metabox_fields') );
 		add_filter( 'edd_add_schema_microdata', array( $this, 'remove_microdata') );
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue' ) );
 		add_action( 'init', array( $this, 'load_textdomain' ) );
@@ -105,12 +104,12 @@ class EDD_Software_Specs{
 	}
 	
 	/**
-	 * adds specs metabox to downloads
+	 * Add the specs metabox fields
+	 * @since 2.0
 	 */
-	
-	public function specs_metabox( $ic_meta_boxes ) {
-		$prefix = '_smartest_';
+	public function metabox_fields() {
 
+		$prefix = '_smartest_';
 		$fields = array(
 				array(
 					'name' => __( 'Date of Last Update', 'easy-digital-downloads-software-specs' ),
@@ -157,38 +156,12 @@ class EDD_Software_Specs{
 					
 				),
 		);
-
-		$ic_meta_boxes[] = array(
-			// 'id'         => 'download_specs_meta_box',
-			// 'title'      => __( 'Specs', 'easy-digital-downloads-software-specs' ),
-			// 'pages'      => array( 'download'), // Post type
-			// 'context'    => 'normal',
-			// @test remove 'priority'   => 'high',
-			// 'show_names' => true,
-			'fields'     => apply_filters( 'eddss_specs_fields', $fields, $prefix )
-		);
-
-	return $ic_meta_boxes;
-	} // end specs_metabox
-
-	public function init() {
-		if ( ! class_exists( 'isabelc_Meta_Box' ) ) {
-			require_once EDDSPECS_PLUGIN_DIR . 'lib/metabox/init.php';
-		}
-
-
-
-		/************************************************************
-		*
-		* @todo what about use edd's own metaboxes
-		*
-		************************************************************/
 		
-
-
+		$box = new EDDSPECS_Metabox( array(
+			'fields' => apply_filters( 'eddss_specs_fields', $fields, $prefix )
+		) );
 
 	}
-
 
 	/**
 	 * remove EDD's itemtype product
@@ -218,8 +191,6 @@ class EDD_Software_Specs{
 	 */
 
 	function receipt( $filekey, $file, $item_ID, $payment_ID, $meta ) {
-
-		
 		// If EDD Software Licensing plugin or EDD Changelog is present, don't add Software Specs version to receipt.
 		$eddchangelog_version = get_post_meta( $item_ID, '_edd_sl_version', TRUE );
 
@@ -328,3 +299,4 @@ $EDD_Software_Specs = EDD_Software_Specs::get_instance();
 add_shortcode( 'edd-software-specs', array( $EDD_Software_Specs, 'edd_software_specs_shortcode' ) );
 require_once EDDSPECS_PLUGIN_DIR . 'widget-specs.php';
 require_once EDDSPECS_PLUGIN_DIR . 'display.php';
+require_once EDDSPECS_PLUGIN_DIR . 'class-eddspecs-metabox.php';
