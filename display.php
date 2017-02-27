@@ -1,6 +1,6 @@
 <?php
 /**
-* The HTML to display the Specs. @todo do not need 1st param.
+* The HTML to display the Specs.
 */
 function eddspecs_display( $post_id = '', $title = '', $isodate = '' ) {
 	$out = '';
