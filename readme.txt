@@ -21,7 +21,7 @@ Add software specs and Software Application microdata to your downloads when usi
 
 = Description =
 
-This is an extension for [Easy Digital Downloads](http://wordpress.org/plugins/easy-digital-downloads/) that does several things if you enable it for a download: 
+This is an extension for Easy Digital Downloads that does several things if you enable it for a download: 
 
 * It adds a Specs table below your single download content (option to use it instead as a widget, and/or as a shortcode). The Specs table displays these fields:
 
@@ -64,11 +64,6 @@ requirements`
 
 * It lets you enable the Specs table only for downloads that need it. See FAQ for details.
 
-
-For more info, [see the FAQ](http://wordpress.org/plugins/easy-digital-downloads-software-specs/faq/), and the [Installation Instructions](http://wordpress.org/plugins/easy-digital-downloads-software-specs/installation/). Or see the [plugin's web page](http://isabelcastillo.com/docs/category/easy-digital-downloads-software-specs-plugin), or [GitHub](https://github.com/isabelc/edd-software-specs).
-
-
-
 == Installation ==
 1. In your WordPress dashboard, go to "Plugins -> Add New", and search for "Easy Digital Downloads - Software Specs".
 2. Click to install and then Activate the plugin.
@@ -81,7 +76,7 @@ Go to the Downloads editor and enter specs for your existing digital products. T
 
 = How do I add a custom field to the Specs? =
 
-See [How do I add a custom field to the Specs?](http://isabelcastillo.com/docs/how-do-i-add-a-row-to-the-specs-display-table)
+See [How do I add a custom field to the Specs?](https://isabelcastillo.com/docs/about-edd-software-specs#docs-customfield)
 
 = How do I add Specs to the sidebar instead of below the content? =
 
@@ -106,9 +101,13 @@ Leave the `Date of Last Update` field empty. If that field is blank, no Specs ta
 You have to select a Software Application Type for the download. "OtherApplication" doesn't qualify for rich snippets, unless, outside of this plugin, you've added either "aggregateRating" or "operatingSystems" for the particular download. Go to the download's Specs meta box to select the Software Application Type.
 
 
+= Does this plugin have more documentation? =
+
+See the [full documentation](https://isabelcastillo.com/docs/about-edd-software-specs).
+
 = How can I give back? =
 
-Please [rate the plugin](http://wordpress.org/support/view/plugin-reviews/easy-digital-downloads-software-specs). Thank you.
+Please [rate the plugin](https://wordpress.org/support/view/plugin-reviews/easy-digital-downloads-software-specs). Thank you.
 
 
 == Screenshots ==
@@ -118,7 +117,7 @@ Please [rate the plugin](http://wordpress.org/support/view/plugin-reviews/easy-d
 == Changelog ==
 
 = 1.9 =
-* BREAKING CHANGE - Removed the eddss_add_specs_table_row hook in favor of an easier way to add custom fields to the specs box. See http://isabelcastillo.com/docs/how-do-i-add-a-row-to-the-specs-display-table
+* BREAKING CHANGE - Removed the eddss_add_specs_table_row hook in favor of an easier way to add custom fields to the specs box. See https://isabelcastillo.com/docs/about-edd-software-specs#docs-customfield
 * Fix - Only show the sidebar widget on single downloads.
 * Tweak - Synced the duplicate HTML into one external function.
 

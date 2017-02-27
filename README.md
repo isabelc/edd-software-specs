@@ -1,9 +1,9 @@
 EDD Software Specs
 ==================
 
-Add software specs and Software Application microdata to your downloads when using Easy Digital Downloads plugin.
+Add software specs and Software Application microdata to your downloads when using the Easy Digital Downloads WordPress plugin.
 
-This is an extension for [Easy Digital Downloads](http://wordpress.org/plugins/easy-digital-downloads/) that does several things if you enable it for a download: 
+This is an extension for Easy Digital Downloads that does several things if you enable it for a download: 
 
 * It adds a Specs table below your single download content. The Specs table displays these:
 

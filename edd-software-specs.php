@@ -1,11 +1,11 @@
 <?php
 /*
 Plugin Name: Easy Digital Downloads - Software Specs
-Plugin URI: http://isabelcastillo.com/docs/category/easy-digital-downloads-software-specs-plugin
+Plugin URI: https://isabelcastillo.com/docs/about-edd-software-specs
 Description: Add software specs and Software Application Microdata to your downloads when using Easy Digital Downloads plugin.
 Version: 1.9.1.alpha1
 Author: Isabel Castillo
-Author URI: http://isabelcastillo.com
+Author URI: https://isabelcastillo.com
 License: GPL2
 Text Domain: easy-digital-downloads-software-specs
 Domain Path: lang
@@ -229,7 +229,7 @@ class EDD_Software_Specs{
 	// rate link on manage plugin page, since 1.4
 	public function rate_link($links, $file) {
 		if ($file == plugin_basename(__FILE__)) {
-			$rate_link = '<a href="http://wordpress.org/support/view/plugin-reviews/easy-digital-downloads-software-specs">' . __('Rate It', 'easy-digital-downloads-software-specs') . '</a>';
+			$rate_link = '<a href="https://wordpress.org/support/view/plugin-reviews/easy-digital-downloads-software-specs">' . __('Rate It', 'easy-digital-downloads-software-specs') . '</a>';
 			$links[] = $rate_link;
 		}
 		return $links;
