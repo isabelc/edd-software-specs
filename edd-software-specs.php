@@ -54,10 +54,13 @@ class EDD_Software_Specs{
 		if( ! defined( 'EDDSPECS_PLUGIN_DIR' ) ) {
 			define( 'EDDSPECS_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 		}
+		if ( ! defined( 'EDDSPECS_PLUGIN_URL' ) ) {
+			define( 'EDDSPECS_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
+		}
 	}
 
 	public function enqueue() {
-		wp_register_style('edd-software-specs', plugins_url('/edd-software-specs.css', __FILE__));
+		wp_register_style('edd-software-specs', EDDSPECS_PLUGIN_URL . 'edd-software-specs.css' );
 		if ( is_singular( 'download' ) ) {
 				wp_enqueue_style('edd-software-specs');
 		}
@@ -156,12 +159,12 @@ class EDD_Software_Specs{
 		);
 
 		$ic_meta_boxes[] = array(
-			'id'         => 'download_specs_meta_box',
-			'title'      => __( 'Specs', 'easy-digital-downloads-software-specs' ),
-			'pages'      => array( 'download'), // Post type
-			'context'    => 'normal',
-			'priority'   => 'high',
-			'show_names' => true,
+			// 'id'         => 'download_specs_meta_box',
+			// 'title'      => __( 'Specs', 'easy-digital-downloads-software-specs' ),
+			// 'pages'      => array( 'download'), // Post type
+			// 'context'    => 'normal',
+			// @test remove 'priority'   => 'high',
+			// 'show_names' => true,
 			'fields'     => apply_filters( 'eddss_specs_fields', $fields, $prefix )
 		);
 
@@ -169,8 +172,21 @@ class EDD_Software_Specs{
 	} // end specs_metabox
 
 	public function init() {
-		if ( ! class_exists( 'isabelc_Meta_Box' ) ) 
+		if ( ! class_exists( 'isabelc_Meta_Box' ) ) {
 			require_once EDDSPECS_PLUGIN_DIR . 'lib/metabox/init.php';
+		}
+
+
+
+		/************************************************************
+		*
+		* @todo what about use edd's own metaboxes
+		*
+		************************************************************/
+		
+
+
+
 	}
 
 
