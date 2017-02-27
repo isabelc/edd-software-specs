@@ -167,7 +167,7 @@ class EDD_Software_Specs{
 
 	// rate link on manage plugin page, since 1.4
 	public function rate_link($links, $file) {
-		if ($file == plugin_basename(__FILE__)) {
+		if ( $file == plugin_basename( __FILE__ ) ) {
 			$rate_link = '<a href="https://wordpress.org/support/view/plugin-reviews/easy-digital-downloads-software-specs">' . __('Rate It', 'easy-digital-downloads-software-specs') . '</a>';
 			$links[] = $rate_link;
 		}
@@ -185,7 +185,7 @@ class EDD_Software_Specs{
 			$atts
 		));
 		
-		$atts['title'] = empty($atts['title']) ? __( 'Specs', 'easy-digital-downloads-software-specs' ) : $atts['title'];
+		$atts['title'] = empty( $atts['title'] ) ? __( 'Specs', 'easy-digital-downloads-software-specs' ) : $atts['title'];
 		ob_start();
 		the_widget( 'edd_software_specs_widget', $atts ); 
 		$output = ob_get_clean();

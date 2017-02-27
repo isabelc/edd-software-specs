@@ -17,7 +17,7 @@ class EDDSPECS_Metabox {
 
 	// Add the metabox
 	function add() {
-		add_meta_box( 'download_specs_meta_box', __( 'Specs', 'easy-digital-downloads-software-specs' ), array(&$this, 'show'), 'download', 'normal', 'high' ) ;
+		add_meta_box( 'download_specs_meta_box', __( 'Specs', 'easy-digital-downloads-software-specs' ), array( &$this, 'show' ), 'download', 'normal', 'high' ) ;
 	}
 	
 	// Show fields

@@ -80,7 +80,6 @@ Please [rate the plugin](https://wordpress.org/support/view/plugin-reviews/easy-
 == Screenshots ==
 
 1. Front-end: Specs table as shown on single download page
-2. Back-end: Specs meta box on single download editor
 == Changelog ==
 
 = 1.9 =
