@@ -3,12 +3,12 @@ Contributors: isabel104
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=me%40isabelcastillo%2ecom
 Tags: specs, edd, easy digital downloads, edd specs, custom fields
 Requires at least: 3.8
-Tested up to: 4.6
-Stable tag: 1.9
+Tested up to: 4.8-alpha-40127
+Stable tag: 2.0
 License: GNU Version 2 or Any Later Version
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Add specs to show extra details about your downloadable product when using the Easy Digital Downloads WordPress plugin.
+Add specs to show extra details about your product when using Easy Digital Downloads.
 
 == Description ==
 
@@ -81,6 +81,23 @@ Please [rate the plugin](https://wordpress.org/support/view/plugin-reviews/easy-
 
 1. Front-end: Specs table as shown on single download page
 == Changelog ==
+
+= 2.0 =
+* New - Removed SoftwareApplication schema microdata. This plugin will no longer output any structured data. Originally, when this extension was first created, EDD's core Product microdata was broken because it had the "name" property outside of the Product itemscope. So, I added my own desired microdata schema, which was for the `SoftwareApplication` type. At some point since then, EDD has fixed the microdata markup for Products. It is now valid. And, based on user comments and reviews, people are using this extension to display the Specs and not actually for the purpose of replacing the Product schema. So, this plugin has discontinued all microdata in favor of using EDDs core Product microdata.
+* New - In light of the change described above, the plugin has been renamed to Easy Digital Downloads - Specs, to remove the "Software" from the plugin name.
+* Fix - Variable-priced product will now show correct price range in the Specs table.
+* Code refactoring - Some script handles have been renamed. 
+
+
+	* If you have custom code that is targeting the script with the handle `isamb-scripts`, it must be renamed to `edd-specs`. This was/is only ever loaded on the admin side, on the Edit Download page.
+	* If you have custom code that is targeting the style sheet with the handle `isamb-styles`, it must be renamed to `edd-specs-admin`. This was/is only ever loaded on the admin side, on the Edit Download page.
+	* If you have custom code that is targeting the style sheet with the handle `edd-software-specs`, it must be renamed to `edd-specs`.
+	* The `isabelc_Meta_Box` PHP class is renamed to `EDDSPECS_Metabox`;
+
+
+* Tweak - The plugin textdomain should be loaded on the init action rather than the plugins_loaded action.
+* Tweak - Updated links to plugin URI and plugin documentation.
+* Code refactoring - Simplified the metabox class.
 
 = 1.9 =
 * BREAKING CHANGE - Removed the eddss_add_specs_table_row hook in favor of an easier way to add custom fields to the specs box. See https://isabelcastillo.com/docs/about-edd-software-specs#docs-customfield
