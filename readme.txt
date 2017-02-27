@@ -1,53 +1,50 @@
 === Easy Digital Downloads - Software Specs ===
 Contributors: isabel104
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=me%40isabelcastillo%2ecom
-Tags: software, specs, edd, easy digital downloads, edd specs, custom fields
+Tags: specs, edd, easy digital downloads, edd specs, custom fields
 Requires at least: 3.8
 Tested up to: 4.6
 Stable tag: 1.9
 License: GNU Version 2 or Any Later Version
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Add specs to your downloads when using Easy Digital Downloads plugin.
+Add specs to show extra details about your downloadable product when using the Easy Digital Downloads WordPress plugin.
 
 == Description ==
 
-
-
-
-= Description =
-
 This is an extension for Easy Digital Downloads that does several things if you enable it for a download: 
 
-* It adds a Specs table below your single download content (option to use it instead as a widget, and/or as a shortcode). The Specs table displays these fields:
+* It adds a Specs table below your single download content (option to use it instead as a widget, and/or as a shortcode). The Specs table has these fields by default:
 
 
   * Release date
   * Last updated date
   * Current version (compatible with EDD Software Licensing plugin)
-  * Software application type
+  * Product type
   * File format
   * File size
   * Requirements
   * Price
   * Currency code
 
- You can leave a field blank to omit that row from the table. There are 2 exceptions to this. 
+
+You can leave a field blank to omit that row from the table. There are 2 exceptions to this. 
 1.  The `Last updated date` field, since leaving that field blank will disable the entire table.
 2.  The `Version` field. This plugin is compatible with **EDD Software Licensing plugin** and with **EDD Changelog Plugin**. If EDD Software Licensing plugin is present, and you have enabled it for a download, that version will override this version in the Specs table on the downloads page. In that case, if you leave the Specs version field blank, the Specs table on the site will still show the version from EDD Software Licensing. So, EDD Software Specs plugin gives priority to the version entered in **EDD Software Licensing plugin**, then **EDD Changelog Plugin**, in that order.
 
- In addition to leaving fields blank, you can add code to add more rows to the table (see FAQs).
+In addition to leaving fields blank, you can add code to add more rows to the table (see FAQs).
 
 * It adds the "Current Version" of the download to the purchase receipt "Products" list (on EDD's `edd_receipt` shortcode). This is only if EDD Software Licensing plugin or EDD Changelog plugin is not active because those plugins will add their own version.
 
 * It lets you enable the Specs table only for downloads that need it. See FAQ for details.
 
 == Installation ==
-1. In your WordPress dashboard, go to "Plugins -> Add New", and search for "Easy Digital Downloads - Software Specs".
+1. In your WordPress dashboard, go to "Plugins -> Add New", and search for "Easy Digital Downloads - Specs".
 2. Click to install and then Activate the plugin.
 
 **After Activating the Plugin**
-Go to the Downloads editor and enter specs for your existing digital products. Then "View Download" to see the specs table. @todo
+
+When you are adding or editing a Download, you’ll see a box for “Specs.” Enter your specs for the product. Then, you’ll see the specs when you view the download on the front of your site.
 
 == Frequently Asked Questions ==
 
@@ -70,12 +67,7 @@ in which the ### is the **post ID** of the download item. If you are using EDD's
 
 = How To Disable Specs For a Specific Download =
 
-Leave the `Date of Last Update` field empty. If that field is blank, no Specs table will show up for that download, and Microdata will not be altered for that download.
-
-
-= Why am I not getting rich snippets in Google's Structured Data Testing Tool? =
-
-You have to select a Software Application Type for the download. "OtherApplication" doesn't qualify for rich snippets, unless, outside of this plugin, you've added either "aggregateRating" or "operatingSystems" for the particular download. Go to the download's Specs meta box to select the Software Application Type.
+Leave the `Date of Last Update` field empty. If that field is blank, no Specs table will show up for that download.
 
 
 = Does this plugin have more documentation? =
