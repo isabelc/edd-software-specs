@@ -1,10 +1,10 @@
 === Easy Digital Downloads - Specs ===
 Contributors: isabel104
-Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=me%40isabelcastillo%2ecom
+Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=R7BHLMCQ437SS
 Tags: specs, edd, easy digital downloads, edd specs, custom fields
 Requires at least: 3.8
-Tested up to: 4.8-alpha-40127
-Stable tag: 2.0
+Tested up to: 4.8-alpha-40397
+Stable tag: 2.1
 License: GNU Version 2 or Any Later Version
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -37,6 +37,7 @@ In addition to leaving fields blank, you can add code to add more rows to the ta
 * It lets you enable the Specs table only for downloads that need it. See FAQ for details.
 
 == Installation ==
+
 1. In your WordPress dashboard, go to "Plugins -> Add New", and search for "Easy Digital Downloads - Specs".
 2. Click to install and then Activate the plugin.
 
@@ -81,6 +82,9 @@ Please [rate the plugin](https://wordpress.org/support/view/plugin-reviews/easy-
 
 1. Front-end: Specs table as shown on single download page
 == Changelog ==
+
+= 2.1 =
+* Fix: Shortcode was not working on pages.
 
 = 2.0 =
 * New - Removed SoftwareApplication schema microdata. This plugin will no longer output any structured data. Originally, when this extension was first created, EDD's core Product microdata was broken because it had the "name" property outside of the Product itemscope. So, I added my own desired microdata schema, which was for the `SoftwareApplication` type. At some point since then, EDD has fixed the microdata markup for Products. It is now valid. And, based on user comments and reviews, people are using this extension to display the Specs and not actually for the purpose of replacing the Product schema. So, this plugin has discontinued all microdata in favor of using EDDs core Product microdata.
@@ -186,6 +190,9 @@ Please [rate the plugin](https://wordpress.org/support/view/plugin-reviews/easy-
 * Initial release.
 
 == Upgrade Notice ==
+
+= 2.1 =
+Fix: Shortcode was not working on pages.
 
 = 1.8 =
 Fix: Removing Product microdata now required use of new EDD filter.

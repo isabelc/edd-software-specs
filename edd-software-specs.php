@@ -3,7 +3,7 @@
 Plugin Name: Easy Digital Downloads - Specs
 Plugin URI: https://isabelcastillo.com/docs/about-edd-software-specs
 Description: Add specs to show extra details about your product when using Easy Digital Downloads.
-Version: 2.1.alpha.1
+Version: 2.1
 Author: Isabel Castillo
 Author URI: https://isabelcastillo.com
 License: GPL2
