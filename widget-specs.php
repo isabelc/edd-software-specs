@@ -18,20 +18,19 @@ class edd_software_specs_widget extends WP_Widget {
 	 * Front-end display of widget.
 	 */
 	public function widget( $args, $instance ) {
-
-		if ( ! is_singular( 'download' ) ) {
-			return;
-		}
-
 		$title = apply_filters( 'widget_title', empty( $instance['title'] ) ?
 				__( 'Specs', 'easy-digital-downloads-software-specs' ) :
 				$instance['title'], $instance, $this->id_base );
 		$isodate = isset( $instance['isodate'] ) ? $instance['isodate'] : false;
 		$download_id = isset( $instance['download_id'] ) ? $instance['download_id'] : false;
 
-		if(! $download_id) {
-			global $post;
-			$download_id = $post->ID;
+		if ( ! $download_id ) {
+			if ( is_singular( 'download' ) ) {
+				global $post;
+				$download_id = $post->ID;
+			} else {
+				return;
+			}
 		}
 
 		if ( ! get_post_meta( $download_id, '_smartest_lastupdate', true ) ) {
